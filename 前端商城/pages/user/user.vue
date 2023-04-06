@@ -71,8 +71,8 @@
 				<view class="order-item" @click="jump_toorder(4)" hover-class="common-hover" :hover-stay-time="50">
 					<text class="yticon icon-shouhoutuikuan"></text>
 					<text>退款/售后</text>
-				</view> 
-				<view class="bangding" v-if="is_mobile">  
+				</view>
+				<view class="bangding" v-if="is_mobile">
 					<view class="bd-l">找不到订单和优惠券？绑定手机试试</view>
 					<!-- <view class="bd-r" @click="bind">立即绑定</view> -->
 					<!-- #ifdef MP-WEIXIN -->
@@ -81,11 +81,11 @@
 					<!-- #ifdef H5 -->
 					<button class="bd-r" size="mini" @click="bind">绑定手机</button>
 					<!-- #endif -->
-					
+
 				</view>
 			</view>
-			
-			 
+
+
 			<!-- 浏览历史 -->
 			<view class="history-section icon">
 				<view @click="jump_toaddress">
@@ -96,7 +96,7 @@
 				</view>
 				<view @click="jump_tomycoupon">
 					<list-cell icon="icon-tuijian" iconColor="#54b4ef" title="我的优惠券"></list-cell>
-				</view> 
+				</view>
 				<!-- 演示 -->
 				<view @click="jump_tocms">
 					<list-cell icon="icon-shoucang_xuanzhongzhuangtai" iconColor="#54b4ef" title="演示后台"></list-cell>
@@ -107,7 +107,7 @@
 			</view>
 			<view class="cpy">
 				<view>{{shop_name}}</view>
-				<view>Copyright@2020</view> 
+				<view>Copyright@2020</view>
 			</view>
 		</view>
 
@@ -143,8 +143,8 @@
 		},
 		data() {
 			return {
-				sys_switch:'',
-				shop_name:this.shop_name,
+				sys_switch: '',
+				shop_name: this.shop_name,
 				is_mobile: true,
 				is_num: false,
 				gl: 1,
@@ -168,7 +168,7 @@
 			}
 		},
 		async onLoad() {
-			_self=this;
+			_self = this;
 			await _self.prmSwitch()
 			// _self.switch_list = _self.sys_switch
 			_self.check_switch()
@@ -183,43 +183,44 @@
 				return
 			}
 			this.get_my()
-			const t=cache_user.reset_storage()
+			const t = cache_user.reset_storage()
 			that.get_number()
 			that.check_mobile()
 		},
 		computed: {
-			
+
 		},
 		methods: {
-			async prmSwitch(){
-				this.sys_switch=await this.promise_switch.then(res=>{
+			async prmSwitch() {
+				this.sys_switch = await this.promise_switch.then(res => {
 					return res;
 				})
-				console.log("-----",this.sys_switch)
+				console.log("-----", this.sys_switch)
 				_self.switch_list = _self.sys_switch
-				console.log("++++",_self.switch_list)
+				console.log("++++", _self.switch_list)
 			},
-			get_my(){
+			get_my() {
 				const that = this
 				const my = cache_user.info_wait()
 				my.then(res => {
-					if (res && res.headpic && res.nickname ) {
+					if (res && res.headpic && res.nickname) {
 						that.userinfo = {
 							avatarUrl: res.headpic,
 							nickName: res.nickname,
-							web_auth:res.web_auth
+							web_auth: res.web_auth
 						}
+						that.check_mobile()
 					} else {
 						//auth传到组件，组件监听auth是否有变动
 						that.auth.is_name = !that.auth.is_name
 					}
 				})
 			},
-			check_mobile(){
+			check_mobile() {
 				let my = uni.getStorageSync('my')
-				if(my && my.data.mobile){
+				if (my && my.data.mobile) {
 					_self.is_mobile = false
-				}else{
+				} else {
 					_self.is_mobile = true
 				}
 			},
@@ -246,7 +247,7 @@
 			},
 			check_switch() {
 				const that = _self
-				console.log("check",_self.switch_list.fx_status)
+				console.log("check", _self.switch_list.fx_status)
 				that.fx_switch = _self.switch_list.fx_status
 			},
 			bind(e) {
@@ -264,8 +265,8 @@
 						_self.is_num = true
 						_self.is_mobile = false
 						uni.showToast({
-						    title: '绑定成功',
-						    duration: 2000
+							title: '绑定成功',
+							duration: 2000
 						});
 					}
 				})
@@ -273,7 +274,7 @@
 				// #ifdef H5
 				console.log('跳转手机绑定')
 				uni.navigateTo({
-					url:'./bind_phone/bind_phone'
+					url: './bind_phone/bind_phone'
 				})
 				// #endif
 			},
@@ -353,7 +354,7 @@
 					url: '/pages/user/mycoupon/mycoupon'
 				})
 			},
-		
+
 			jump_tocms() {
 				if (!Check.a()) {
 					return
