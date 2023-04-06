@@ -1,8 +1,8 @@
 <template>
 	<view class="content">
 		<view class="navbar">
-			<view v-for="(item, index) in navList" :key="index" class="nav-item" :class="{current: tabCurrentIndex === index}"
-			 @click="tabClick(index)">
+			<view v-for="(item, index) in navList" :key="index" class="nav-item"
+				:class="{current: tabCurrentIndex === index}" @click="tabClick(index)">
 				{{item.text}}
 			</view>
 		</view>
@@ -15,24 +15,30 @@
 					<None v-if="list_empty"></None>
 					<!-- 订单列表 -->
 					<view v-else>
-						<view v-for="(item,index) in order_list" :key="index" class="order-item" v-if="tabCurrentIndex==0 || (item.payment_state==now_pay && item.shipment_state==now_drive && item.state==now_state) ">
+						<view v-for="(item,index) in order_list" :key="index" class="order-item"
+							v-if="tabCurrentIndex==0 || (item.payment_state==now_pay && item.shipment_state==now_drive && item.state==now_state) ">
 							<view class="i-top b-b">
 								<text class="time">{{item.order_num}}</text>
-								<text class="state" :style="{color: item.stateTipColor}" style="margin-right: 20px;">{{item.stateTip}}</text>
+								<text class="state" :style="{color: item.stateTipColor}"
+									style="margin-right: 20px;">{{item.stateTip}}</text>
 								<text class="state">{{item.create_time}}</text>
-								<text v-if="item.payment_state == 0" class="del-btn yticon icon-iconfontshanchu1" @click="deleteOrder(item.order_id)"></text>
+								<text v-if="item.payment_state == 0" class="del-btn yticon icon-iconfontshanchu1"
+									@click="deleteOrder(item.order_id)"></text>
 							</view>
 							<scroll-view v-if="item.order_goods.length > 1" class="goods-box" scroll-x>
-								<view v-for="(goodsItem, goodsIndex) in item.order_goods" :key="goodsIndex" class="goods-item" @click="jumo_tomyorder(item.order_id)">
+								<view v-for="(goodsItem, goodsIndex) in item.order_goods" :key="goodsIndex"
+									class="goods-item" @click="jumo_tomyorder(item.order_id)">
 									<image class="goods-img" :src="getimg+goodsItem.imgs.url" mode="aspectFill"></image>
 								</view>
 							</scroll-view>
-							<view v-if="item.order_goods.length === 1" class="goods-box-single" v-for="(goodsItem, goodsIndex) in item.order_goods"
-							 :key="goodsIndex">
-								<image class="goods-img" :src="getimg+goodsItem.imgs.url" mode="aspectFill" @click="jumo_tomyorder(item.order_id)"></image>
+							<view v-if="item.order_goods.length === 1" class="goods-box-single"
+								v-for="(goodsItem, goodsIndex) in item.order_goods" :key="goodsIndex">
+								<image class="goods-img" :src="getimg+goodsItem.imgs.url" mode="aspectFill"
+									@click="jumo_tomyorder(item.order_id)"></image>
 								<view class="right" @click="jumo_tomyorder(item.order_id)">
 									<text class="title clamp">{{goodsItem.goods_name}}</text>
-									<text class="attr-box">{{goodsItem.sku_name?goodsItem.sku_name:''}} x {{goodsItem.num}}</text>
+									<text class="attr-box">{{goodsItem.sku_name?goodsItem.sku_name:''}} x
+										{{goodsItem.num}}</text>
 									<text class="price">{{item.order_money}}</text>
 								</view>
 							</view>
@@ -45,7 +51,8 @@
 							</view>
 							<view class="action-box b-t" v-if="item.payment_state == 0 && item.state != -3">
 								<button class="action-btn" @click="deleteOrder(item.order_id)">取消订单</button>
-								<button class="action-btn recom" @click="pay_again(item.order_id)" v-if="item.payment_state == 0">立即支付</button>
+								<button class="action-btn recom" @click="pay_again(item.order_id)"
+									v-if="item.payment_state == 0">立即支付</button>
 							</view>
 						</view>
 					</view>
@@ -78,7 +85,7 @@
 				now_state: '',
 				getimg: this.$getimg,
 				tabCurrentIndex: 0,
-				order_list: '',
+				order_list: [],
 				navList: [{
 						state: 0,
 						text: '全部',
@@ -142,8 +149,8 @@
 					stateTip: '',
 					stateTipColor: ''
 				}
-				const that = this 
-				orderModel.postOrderAll().then(res=>{
+				const that = this
+				orderModel.postOrderAll().then(res => {
 					if (res.data == '') {
 						this.list_empty = true
 					} else {
@@ -167,33 +174,38 @@
 							v.stateTip = obj.stateTip
 							v.stateTipColor = obj.stateTipColor
 						}
-						this.order_list = res.data
+						this.order_list = res.data.map(item => {
+							if ('OrderGoods' in item) {
+								item.order_goods = item.OrderGoods || [];
+							}
+							return item;
+						});
 					}
 				})
 			},
 			//支付
-			async pay_again(id) { 
-				
+			async pay_again(id) {
+
 				//#ifdef MP-WEIXIN 
-					 const pay_data=await orderModel.postOrderWxPay(id).then(res=>{
-						return res
-					});
-					await this.pay(pay_data);
+				const pay_data = await orderModel.postOrderWxPay(id).then(res => {
+					return res
+				});
+				await this.pay(pay_data);
 				//#endif
-				
+
 				//#ifdef APP-PLUS  
-					const app_data=await orderModel.postOrderAppPay(id).then(res=>{
-						return res
-					});
-					await this.app_pay(app_data);
+				const app_data = await orderModel.postOrderAppPay(id).then(res => {
+					return res
+				});
+				await this.app_pay(app_data);
 				//#endif
-				
-				
+
+
 				//#ifdef H5 
-					const wx_data=await orderModel.postOrderH5Pay(id).then(res=>{
-						return res
-					});					
-					this.wxPay(wx_data);
+				const wx_data = await orderModel.postOrderH5Pay(id).then(res => {
+					return res
+				});
+				this.wxPay(wx_data);
 				//#endif
 			},
 			//支付
@@ -233,7 +245,7 @@
 				WeixinJSBridge.invoke("getBrandWCPayRequest", json, function(res) {
 					WeixinJSBridge.log('a:', res.err_msg);
 					if (res.err_msg == "get_brand_wcpay_request:ok") {
-						that.$api.msg("支付成功!"); 
+						that.$api.msg("支付成功!");
 					} else if (res.err_msg == "get_brand_wcpay_request:cancel") {
 						that.$api.msg("取消支付");
 					} else {
@@ -242,7 +254,7 @@
 					if (this.is_kai == 1) {
 						uni.navigateTo({
 							url: '../invite/invite?id=' + that.pid
-						}) 
+						})
 						return
 					}
 					setTimeout(() => {
@@ -252,7 +264,7 @@
 					}, 1000);
 				});
 			},
-			
+
 			//获取订单列表
 			loadData(source) {},
 
@@ -294,7 +306,7 @@
 					success: function(res) {
 						if (res.confirm) {
 							console.log('用户点击确定');
-							orderModel.putOrderdel(id).then(res=>{
+							orderModel.putOrderdel(id).then(res => {
 								uni.showToast({
 									title: '删除成功',
 									duration: 2000
