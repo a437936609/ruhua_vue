@@ -7,12 +7,15 @@
 		<view class='yzm'>
 			<view class="name_r"><input type="number" v-model="code" placeholder="请输入验证码" /></view>
 			<view class="yzm_r" @click="get_code" v-if="is_code">获取验证码</view>
-			<view style="color: #6D6D72;font-size: 15px; padding-top: 15px;margin-right: 20px;" v-if="!is_code">{{btn_name}}</view>
+			<view style="color: #6D6D72;font-size: 15px; padding-top: 15px;margin-right: 20px;" v-if="!is_code">
+				{{btn_name}}</view>
 		</view>
 		<view class='btn' @click="login">立即登录</view>
 		<view class='wj'>
 			<checkbox-group @change="read">
-				<checkbox value="1" style="transform:scale(0.7)" />已阅读并同意<span @click="jump(1)">《用户协议》</span>和<span @click="jump(2)">《用户隐私政策》</span></checkbox-group>
+				<checkbox value="1" style="transform:scale(0.7)" />已阅读并同意<span @click="jump(1)">《用户协议》</span>和<span
+					@click="jump(2)">《用户隐私政策》</span>
+			</checkbox-group>
 		</view>
 	</view>
 </template>
@@ -47,9 +50,9 @@
 					this.cutdown--
 					this.btn_name = '(' + this.cutdown + ')'
 				}
-				setTimeout(()=>{
+				setTimeout(() => {
 					this.settime()
-				},1000)
+				}, 1000)
 			},
 			read(e) {
 				this.is_read = e.detail.value[0]
@@ -66,7 +69,7 @@
 					this.$api.msg('请输入正确的手机号码')
 					return
 				}
-				
+
 				this.$api.http.post('auth/get_login_code', {
 					mobile: this.phone_number
 				}).then(res => {
@@ -97,7 +100,7 @@
 						this.$api.msg(res.msg)
 						return;
 					}
-					let token = res.msg
+					let token = res.data.token;
 					uni.setStorageSync('token', token)
 					this.$api.msg('登录成功')
 					setTimeout(() => {
