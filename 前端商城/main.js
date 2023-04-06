@@ -2,7 +2,8 @@ import Vue from 'vue'
 import App from './App'
 import http from './common/axios.js'
 import {
-	Api_url
+	Api_url,
+	Img_url
 } from './common/config'
 import Switch from 'common/switch.js'
 import * as filters from 'common/filters/filters.js'
@@ -34,7 +35,7 @@ Vue.prototype.$api = {
 	http,
 	prePage
 };
-Vue.prototype.$getimg = Api_url
+Vue.prototype.$getimg = Img_url
 Vue.prototype.shop_name = "资泓优品"
 
 Vue.prototype.version = "shops2" //首页,个人中心
