@@ -205,7 +205,7 @@
 				const wx_data = await orderModel.postOrderH5Pay(id).then(res => {
 					return res
 				});
-				this.wxPay(wx_data);
+				this.h5WxPay(wx_data);
 				//#endif
 			},
 			//支付
@@ -226,6 +226,16 @@
 						console.log('fail:' + JSON.stringify(err));
 					}
 				});
+			},
+			// h5网页支付
+			h5WxPay(json) {
+				if (json.status != 200) {
+					return
+				}
+				if ('urls' in json.data) {
+					console.log('url:' + json.data.urls);
+					window.location.href = json.data.urls;
+				}
 			},
 			//公众号支付
 			wxPay(json) {
