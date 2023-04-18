@@ -78,10 +78,6 @@
 					<!-- #ifdef MP-WEIXIN -->
 					<button class="bd-r" size="mini" open-type="getPhoneNumber" @getphonenumber="bind">绑定手机</button>
 					<!-- #endif -->
-					<!-- #ifdef H5 -->
-					<button class="bd-r" size="mini" @click="bind">绑定手机</button>
-					<!-- #endif -->
-
 				</view>
 			</view>
 
@@ -110,8 +106,9 @@
 				<view>Copyright@2020</view>
 			</view>
 		</view>
-
+		<!-- #ifndef H5 -->
 		<XcxAuth :auth="auth" @userinfo="get_userinfo"></XcxAuth>
+		<!-- #endif -->
 	</view>
 </template>
 <script>

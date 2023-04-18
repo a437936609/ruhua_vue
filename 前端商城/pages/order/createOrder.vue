@@ -31,7 +31,8 @@
 		<view class="H10"></view>
 		<view class="uni-list">
 			<radio-group @change="radioChange">
-				<label class="uni-list-cell uni-list-cell-pd" v-if="switch_list.drive_type==1 || switch_list.drive_type==2 || switch_list.drive_type==3">
+				<label class="uni-list-cell uni-list-cell-pd"
+					v-if="switch_list.drive_type==1 || switch_list.drive_type==2 || switch_list.drive_type==3">
 					<view class="tuanzhang">
 						<view class="tz-l">
 							<radio value="1" style="transform:scale(0.7)" />
@@ -40,7 +41,8 @@
 						<view class="tz-r"></view>
 					</view>
 				</label>
-				<label class="uni-list-cell uni-list-cell-pd" v-if="switch_list.drive_type==2 || switch_list.drive_type==3">
+				<label class="uni-list-cell uni-list-cell-pd"
+					v-if="switch_list.drive_type==2 || switch_list.drive_type==3">
 					<view class="tuanzhang">
 						<view class="tz-l">
 							<radio value="2" style="transform:scale(0.7)" />
@@ -49,7 +51,8 @@
 						<view class="tz-r"></view>
 					</view>
 				</label>
-				<label class="uni-list-cell uni-list-cell-pd" v-if="switch_list.drive_type==1 || switch_list.drive_type==3">
+				<label class="uni-list-cell uni-list-cell-pd"
+					v-if="switch_list.drive_type==1 || switch_list.drive_type==3">
 					<view class="tuanzhang">
 						<view class="tz-l">
 							<radio value="3" style="transform:scale(0.7)" />
@@ -75,7 +78,8 @@
 					<text class="title clamp">{{item.goods_name}}</text>
 					<text class="spec">{{item.sku_name?item.sku_name:''}}</text>
 					<view class="price-box">
-						<text class="price" v-if="item.vip_price && !item.discount">￥{{item.price - item.vip_price}}</text>
+						<text class="price"
+							v-if="item.vip_price && !item.discount">￥{{item.price - item.vip_price}}</text>
 						<text class="price" v-if="item.vip_price && item.discount">￥{{item.price}}</text>
 						<text class="price" v-if="!item.vip_price && !item.discount">￥{{item.price}}</text>
 						<!-- <text class="price" v-if="!item.vip_price || !item.discount">￥{{item.price}}</text> -->
@@ -117,7 +121,8 @@
 						<img :src="head.avatarUrl"></img>
 						<view class="zhicheng">待支付</view>
 					</view>
-					<view class="img_01 img_01_borderx" v-for="(item,index) of buy_data[0].pt.pt.user_num-1" :key="index">
+					<view class="img_01 img_01_borderx" v-for="(item,index) of buy_data[0].pt.pt.user_num-1"
+						:key="index">
 						?
 					</view>
 				</view>
@@ -176,7 +181,8 @@
 
 			<view class="yt-list-cell desc-cell">
 				<text class="cell-tit clamp">备注</text>
-				<input class="desc" type="text" v-model="obj.msg" placeholder="请填写备注信息" placeholder-class="placeholder" />
+				<input class="desc" type="text" v-model="obj.msg" placeholder="请填写备注信息"
+					placeholder-class="placeholder" />
 			</view>
 		</view>
 
@@ -214,7 +220,8 @@
 							</view>
 							<view class="use" style="display: flex;justify-content: space-between;">
 								<text class="tips">有效期至{{item.end_time}}</text>
-								<view class="tips2" v-if="item.full*1 <= goods_money*1" @click="to_use(index)">去使用</view>
+								<view class="tips2" v-if="item.full*1 <= goods_money*1" @click="to_use(index)">去使用
+								</view>
 								<view class="tips3" v-else>不可用</view>
 							</view>
 						</block>
@@ -250,7 +257,6 @@
 </template>
 
 <script>
-	
 	import Formt from '@/components/form_data/form_data.vue'
 	import {
 		CUser
@@ -261,7 +267,7 @@
 	export default {
 		data() {
 			return {
-				address_show:false,
+				address_show: false,
 				form_switch: '',
 				kuaidi: 0,
 				kg: 0,
@@ -327,13 +333,13 @@
 				//判断商品实虚  是否显示地址
 				for (let k in buy_data) {
 					let v = buy_data[k]
-					if(v.style == 0){
+					if (v.style == 0) {
 						this.address_show = true
-						console.log('实物商品',this.address_show)
+						console.log('实物商品', this.address_show)
 						break
 					}
 				}
-				console.log('虚拟商品',this.address_show)
+				console.log('虚拟商品', this.address_show)
 			}
 			if (option.state == 'car') {
 				let buy_data = uni.getStorageSync('cart')
@@ -355,14 +361,14 @@
 				//判断商品实虚  是否显示地址
 				for (let k in buy_data) {
 					let v = buy_data[k]
-					if(v.style == 0){
+					if (v.style == 0) {
 						this.address_show = true
-						console.log('实物商品',this.address_show)
+						console.log('实物商品', this.address_show)
 						break
 					}
 				}
-				console.log('虚拟商品',this.address_show)
-				
+				console.log('虚拟商品', this.address_show)
+
 			}
 			// if(this.buy_data[0].goods_name=="商城商业版-授权"){				
 			// 	this.$api.http.get('index/get_file?type=3').then(res => {
@@ -387,7 +393,7 @@
 			this._load()
 			this.js_goods_money()
 			this.$api.http.get('address/get_default_address').then(res => {
-			// orderModel.getAddressDefault().then(res=>{
+				// orderModel.getAddressDefault().then(res=>{
 				this.address = res.data
 			})
 			//商品数据s
@@ -396,7 +402,7 @@
 		},
 		onShow() {
 			this.$api.http.get('address/get_default_address').then(res => {
-			// orderModel.getAddressDefault().then(res=>{
+				// orderModel.getAddressDefault().then(res=>{
 				this.address = res.data
 				console.log("请求地址", res.data)
 			})
@@ -413,8 +419,8 @@
 
 		},
 		methods: {
-			async prmSwitch(){
-				this.switch_list=await this.promise_switch.then(res=>{
+			async prmSwitch() {
+				this.switch_list = await this.promise_switch.then(res => {
 					return res;
 				})
 				return this.switch_list
@@ -481,7 +487,7 @@
 			_load() {
 				console.log('load')
 				this.$api.http.get('coupon/user/get_coupon').then(res => {
-				// orderModel.getOrderUserCoupon().then(res=>{
+					// orderModel.getOrderUserCoupon().then(res=>{
 					this.couponList = res.data
 				})
 				this.get_yunfei()
@@ -495,7 +501,7 @@
 				// this.$api.http.get('pt/get_one_item', {
 				// 	id: id
 				// }).then(res => {
-				orderModel.getPtItem(id).then(res=>{
+				orderModel.getPtItem(id).then(res => {
 					this.pt_data = res.data
 					uni.removeStorageSync('pid');
 				})
@@ -528,7 +534,7 @@
 				}
 				console.log('get_obj', obj)
 				this.$api.http.post('product/get_shipment_price', obj).then(res => {
-				// productModel.postProductSimPrice(obj).then(res=>{
+					// productModel.postProductSimPrice(obj).then(res=>{
 					this.yunfei_money = res.data
 				})
 			},
@@ -585,16 +591,16 @@
 				obj.price = this.buy_data[0].price * this.buy_data[0].num
 				obj.num = this.buy_data[0].num
 				obj.order_from = 0
-				
-				
+
+
 				// #ifdef H5
 				obj.payment_type = 'wx'
 				// #endif
 				// #ifdef MP-WEIXIN
 				obj.payment_type = 'xcx'
 				// #endif
-				
-				
+
+
 				if (this.get_user_vip_status()) {
 					obj.price = (this.buy_data[0].price - this.buy_data[0].vip_price) * obj.num
 
@@ -672,17 +678,17 @@
 			//创建订单
 			async submit() {
 				//万能表单，不知道写的什么
-				if(this.form_switch){
+				if (this.form_switch) {
 					if (this.kg == 0) {
-					this.wnlist = this.get_data()
-					this.kg = 1
-					return
+						this.wnlist = this.get_data()
+						this.kg = 1
+						return
+					}
+					if (this.kg == 1) {
+						this.kg = 0
+					}
 				}
-				if (this.kg == 1) {
-					this.kg = 0
-				}
-				}
-				
+
 
 
 				let is_pin = uni.getStorageSync('is_item')
@@ -711,7 +717,7 @@
 					// order_json = await this.$api.http.post('pt/create_pt_item', obj).then(res => {
 					// 	return res
 					// })
-					order_json=await orderModel.postPtCreateItem(obj).then(res=>{
+					order_json = await orderModel.postPtCreateItem(obj).then(res => {
 						return res
 					})
 				} else if (is_pin == 1) {
@@ -721,7 +727,7 @@
 					// order_json = await this.$api.http.post('pt/create_pt', obj).then(res => {
 					// 	return res
 					// })
-					order_json=await orderModel.postPtCreateItems(obj).then(res=>{
+					order_json = await orderModel.postPtCreateItems(obj).then(res => {
 						return res
 					})
 				} else {
@@ -756,7 +762,7 @@
 				// const pay_data = await this.$api.http.post('order/pay/pre_order', {
 				// 	id: order_id
 				// }).then(res => {
-				const pay_data=await orderModel.postOrderWxPay(order_id).then(res=>{
+				const pay_data = await orderModel.postOrderWxPay(order_id).then(res => {
 					console.log('pay:', res)
 
 					return res
@@ -769,7 +775,7 @@
 				// const app_data = await this.$api.http.post('order/pay/pre_app', {
 				// 	id: order_id
 				// }).then(res => {
-				const app_data=await orderModel.postOrderAppPay(order_id).then(res=>{
+				const app_data = await orderModel.postOrderAppPay(order_id).then(res => {
 					console.log('app-pay:', res)
 					return res
 				})
@@ -779,29 +785,23 @@
 
 
 				//#ifdef H5
-
-				let ua = window.navigator.userAgent.toLowerCase()
-				if (ua.match(/MicroMessenger/i) == 'micromessenger') {
-					/* const pay = await this.$api.http.post('order/second_pay', {
-						id: this.order_id
-					}).then(res => {
-						console.log('pay:', res)
-						return res
-					}) */
-					console.log("进入公众号id")
-					this.wxPay(this.order_id)
-
-
-
-				} else {
-
-					uni.reLaunch({
-						url: 'pay?order_num=' + this.order_id
-					})
-
-				}
+				const h5_pay_data = await orderModel.postOrderH5Pay(order_id).then(res => {
+					console.log('pay:', res)
+					return res
+				})
+				this.h5WxPay(h5_pay_data);
 
 				//#endif
+			},
+			// h5网页支付
+			h5WxPay(json) {
+				if (json.status != 200) {
+					return
+				}
+				if ('urls' in json.data) {
+					console.log('url:' + json.data.urls);
+					window.location.href = json.data.urls;
+				}
 			},
 			//公众号支付
 			wxPay(json) {
