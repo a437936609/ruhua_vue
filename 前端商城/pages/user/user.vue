@@ -94,9 +94,9 @@
 					<list-cell icon="icon-tuijian" iconColor="#54b4ef" title="我的优惠券"></list-cell>
 				</view>
 				<!-- 演示 -->
-				<view @click="jump_tocms">
+				<!-- <view @click="jump_tocms">
 					<list-cell icon="icon-shoucang_xuanzhongzhuangtai" iconColor="#54b4ef" title="演示后台"></list-cell>
-				</view>
+				</view> -->
 				<view @click="jump_tohelp">
 					<list-cell icon="icon-bangzhu" iconColor="#FF0000" title="关于我们"></list-cell>
 				</view>
