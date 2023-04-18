@@ -1,14 +1,15 @@
 <template>
 	<view class="content b-t">
-		<None v-if="list_empty"></None>
+		<None v-if="addressList.length <= 0"></None>
 		<view class="list b-b" v-for="(item, index) in addressList" :key="index" v-else>
 			<view class="wrapper">
 				<view class="address-box">
 					<text v-if="item.is_default" class="tag">默认</text>
 					<text v-if="!item.is_default" class="tag" @click="set_default(item.id)">设默认</text>
-					<text class="address" @click="checkAddress(item.id)" >{{item.province}} {{item.city}}{{item.county}}</text>
+					<text class="address" @click="checkAddress(item.id)">{{item.province}}
+						{{item.city}}{{item.county}}</text>
 				</view>
-				<view class="u-box" @click="checkAddress(item.id)" >
+				<view class="u-box" @click="checkAddress(item.id)">
 					<text class="name">{{item.name}}</text>
 					<text class="mobile">{{item.mobile}}</text>
 				</view>
@@ -31,11 +32,12 @@
 
 <script>
 	import None from "@/components/qy/none.vue"
-	import {common} from '../../common/mixin.js'
+	import {
+		common
+	} from '../../common/mixin.js'
 	export default {
 		data() {
 			return {
-				list_empty: false,
 				form: {
 					name: '',
 					mobile: '',
@@ -44,7 +46,7 @@
 					province: '',
 					county: '',
 					detail: '',
-					areacode:''
+					areacode: ''
 				},
 				wx_address: '',
 				source: 0,
@@ -52,8 +54,8 @@
 				type_add: 'add'
 			}
 		},
-		mixins:[common],
-		components:{
+		mixins: [common],
+		components: {
 			None
 		},
 		onLoad(option) {
@@ -75,7 +77,7 @@
 				})
 				console.log(address)
 			},
-			sub_address(res){
+			sub_address(res) {
 				this.form.name = res.userName
 				this.form.mobile = res.telNumber
 				this.form.city = res.cityName
@@ -83,24 +85,20 @@
 				this.form.detail = res.detailInfo
 				this.form.province = res.provinceName
 				this.form.areacode = res.postalCode
-				this.$api.http.post('address/add_address', this.form).then(res => { 
-					if(res.status==200){
+				this.$api.http.post('address/add_address', this.form).then(res => {
+					if (res.status == 200) {
 						this.$api.msg('添加成功!');
 						setTimeout(() => {
 							uni.navigateBack()
 						}, 1000)
-					}else{
+					} else {
 						this.$api.msg(res.msg);
-					} 
+					}
 				})
 			},
 			_load() {
 				this.$api.http.get('address/get_all_address').then(res => {
-					if (res.data=='') {
-						this.list_empty = true
-					} else {
-						this.addressList = res.data
-					}
+					this.addressList = res.data
 				})
 			},
 			//设置默认地址
@@ -113,10 +111,10 @@
 				})
 			},
 			//选择地址
-			checkAddress(id) { 
+			checkAddress(id) {
 				this.$api.http.post('address/set_default_address', {
 					id: id
-				}).then(res => { 
+				}).then(res => {
 					this._load()
 					uni.navigateBack()
 				})
@@ -178,7 +176,7 @@
 
 		.tag {
 			font-size: 24upx;
-			width:100upx;
+			width: 100upx;
 			color: $base-color;
 			margin-right: 10upx;
 			background: #fffafb;
