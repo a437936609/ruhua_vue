@@ -121,7 +121,7 @@
     },
     "h5" : {
         "router" : {
-            "base" : "/h5/",
+            "base" : "/",
             "mode" : "hash"
         },
         "domain" : "api.aku.pub",
