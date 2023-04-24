@@ -170,4 +170,9 @@ class Pay extends BaseController
         return $order_num;
     }
 
+    public function icbc_test()
+    {
+        $payService=new PayService('0');
+        return $payService->icbc_test();
+    }
 }

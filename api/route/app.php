@@ -72,6 +72,7 @@ Route::group('task', function () {
     Route::get('check_order_task', 'common.Task/checkLoopTask');  //查看系统自动关闭订单运行状态
     Route::get('loop_task', 'common.Task/getLoopTask');  //循环任务，关闭未支付订单、拼团失败订单
     Route::get('paytest', 'common.Pay/pay_test');  //循环任务，关闭未支付订单、拼团失败订单
+    Route::get('icbc_test', 'common.Pay/icbc_test');  //循环任务，关闭未支付订单、拼团失败订单
 });
 
 //微信授权获取token

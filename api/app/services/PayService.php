@@ -16,6 +16,7 @@ use WxPay\WxPayConfig;
 use WxPay\WxPayData;
 use WxPay\WxPayJsApiPay;
 use WxPay\WxPayUnifiedOrder;
+use Icbc\IcbcApi;
 
 
 class PayService
@@ -322,4 +323,8 @@ class PayService
         return $response;
     }
 
+    public function icbc_test()
+    {
+        IcbcApi::getUserInfo();
+    }
 }
