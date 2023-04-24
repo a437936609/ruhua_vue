@@ -155,10 +155,10 @@ class Pay extends BaseController
         return $Notyci->NotifyEditOrder($order_num);
     }
 
-    public function wx_h5_pay($order_id)
+    public function wx_h5_pay($id)
     {
-        $payService=new PayService($order_id);
-        return $payService->wx_h5_pay($order_id);
+        $payService=new PayService($id);
+        return $payService->wx_h5_pay($id);
 
     }
     //检测订单是否符合要求

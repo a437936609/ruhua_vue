@@ -51,6 +51,9 @@ Vue.prototype.promise_switch = Switch.set_storage()
 
 App.mpType = 'app'
 
+import eruda from 'eruda/eruda.js'
+eruda.init()
+
 const app = new Vue({
 	...App
 })

@@ -8,7 +8,8 @@
 			<view class="name_r"><input type="number" v-model="code" placeholder="请输入验证码" /></view>
 			<view class="yzm_r" @click="get_code" v-if="is_code">获取验证码</view>
 			<view style="color: #6D6D72;font-size: 15px; padding-top: 15px;margin-right: 20px;" v-if="!is_code">
-				{{btn_name}}</view>
+				{{btn_name}}
+			</view>
 		</view>
 		<view class='btn' @click="login">立即登录</view>
 		<view class='wj'>
@@ -36,8 +37,13 @@
 			};
 		},
 		components: {},
-		onLoad() {
-
+		onLoad(options) {
+			console.log('登录参数:', options);
+			if (options.is_login != '1') {
+				window.location.href =
+					`https://mmall.dccnet.com.cn/mobile/member/checkAuthorizationNew.jhtml?targetUrl=${encodeURIComponent('https://mall.aku.pub/#/pages/login/loginB/loginB?is_login=1')}&outerName=00`
+				return;
+			}
 		},
 		methods: {
 			settime() {

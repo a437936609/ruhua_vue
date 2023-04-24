@@ -555,7 +555,7 @@ Route::group('order', function () {
         Route::post('/create', 'common.Order/CreateXcxOrder'); //小程序商品下单
         Route::post('/create_cart', 'common.Order/CreateCartOrder');//公众号下单
 
-        Route::post('/second_pay', 'common.Pay/gzhPaySecond');   //公众号第二次支付
+        Route::post('/second_pay', 'common.Pay/wx_h5_pay');   //公众号第二次支付
         Route::post('/vipsecond_pay', 'common.Pay/gzhVipPaySecond');   //公众号第二次支付开通会员
         Route::post('/back', 'common.Pay/gzh_back'); //公众号支付回调
         Route::post('/vipback', 'common.Pay/gzh_vipback'); //公众号vip支付回调

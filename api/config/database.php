@@ -25,11 +25,11 @@ return [
             // 服务器地址
             'hostname'          => Env::get('database.hostname', '127.0.0.1'),
             // 数据库名
-            'database'          => Env::get('database.database', 'adminruhua'),
+            'database'          => Env::get('database.database', 'api_aku_pub'),
             // 用户名
-            'username'          => Env::get('database.username', 'root'),
+            'username'          => Env::get('database.username', 'api_aku_pub'),
             // 密码
-            'password'          => Env::get('database.password', ''),
+            'password'          => Env::get('database.password', 'WFj7W4we3Rt5xbGN'),
             // 端口
             'hostport'          => Env::get('database.hostport', '3306'),
             // 数据库连接参数
