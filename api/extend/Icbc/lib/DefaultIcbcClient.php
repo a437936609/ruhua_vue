@@ -84,7 +84,7 @@ class DefaultIcbcClient{
         
         $params = array();
 
-        if($request["extraParams"] != null){
+        if(isset($request["extraParams"]) && $request["extraParams"] != null){
         	$params = array_merge($params,$request["extraParams"]);
         }
 

@@ -22,7 +22,7 @@ class IcbcSignature{
 	}
 
 
-	public static function verify($strToSign, $signType, $publicKey, $charset,$signedStr,$password){
+	public static function verify($strToSign, $signType, $publicKey, $charset,$signedStr,$password = ''){
 
 		if (IcbcConstants::$SIGN_TYPE_CA == $signType){
 
