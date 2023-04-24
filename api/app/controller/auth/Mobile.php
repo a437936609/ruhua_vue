@@ -12,6 +12,7 @@ use ruhua\exceptions\BaseException;
 use think\facade\Cache;
 use think\facade\Log;
 use app\model\MsgLog as MsgLogModel;
+use Icbc\IcbcApi;
 
 class Mobile extends BaseController
 {
@@ -113,5 +114,41 @@ class Mobile extends BaseController
     }
 
 
+    public function login_by_icbc_key()
+    {
+        $userInfoKey        =       input('post.userInfoKey');
+        if(!$userInfoKey){
+            throw new BaseException(['msg'=>'未获取到userInfoKey']);
+        }
+        // 解密工行userInfoKey
+        $icbc_config                                =   [];
+        $icbc_config['icbc_server_url']             =   SysConfig::get('icbc_server_url');
+        $icbc_config['icbc_appid']                  =   SysConfig::get('icbc_appid');
+        $icbc_config['icbc_mer_private_key']        =   SysConfig::get('icbc_mer_private_key');
+        $icbc_config['icbc_platform_public_key']    =   SysConfig::get('icbc_platform_public_key');
+        $resp           =           IcbcApi::getUserInfo($icbc_config, $userInfoKey);
+        $user           =           UserModel::where('mobile', $resp['mobile'])->find();
+        if(!$user){
+            UserModel::create(['mobile'=>$resp['mobile']]);
+        }
+        $user           =           UserModel::where('mobile', $resp['mobile'])->find();
+        if(!$user){
+            $user       =           UserModel::create(['mobile'=>$resp['mobile']]);
+        }
+        if(!$user){
+            throw new BaseException(['msg'=>'创建用户失败,请重试']);
+        }
+        $data['icbc_user_id']       =       $resp['userId'];
+        $user->save($data);
+
+        $cache['uid']               =       $user['id'];
+        $cache['scope']             =       9;  // 推荐用枚举
+        $cache['mobile']            =       $user['mobile'];
+        $cache['state']             =       $user['state'];
+        $cache['login_mode']        =       SysConfig::get('login_mode');
+        $token = (new Token())->saveCache($cache);
+        $data=['state' => true, 'token' => $token];
+        return app('json')->go($data);
+    }
 
 }

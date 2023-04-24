@@ -104,6 +104,7 @@ Route::group('auth', function () {
     Route::post('user_mobile', 'user.User/mobileAdduser');   //用户注册电话号码
     Route::get('get_is_state', 'user.User/get_is_state');   //获取用户审核状态
     Route::post('mobile_login_code', 'auth.Mobile/mobile_login_code');   //手机号码注册登录
+    Route::post('login_by_icbc', 'auth.Mobile/login_by_icbc_key');   //工行userInfoKey登录
 });
 
 

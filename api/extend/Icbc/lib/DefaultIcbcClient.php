@@ -73,7 +73,7 @@ class DefaultIcbcClient{
 			$respBizContentStr = IcbcEncrypt::decryptContent(substr($respBizContentStr, 1 , strlen($respBizContentStr)-2), $this->encryptType, $this->encryptKey, $this->charset);
 		}
 		//返回解析结果
-		return $respBizContentStr;
+		return json_decode($respBizContentStr, true);
 	}
 
 
