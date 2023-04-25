@@ -83,7 +83,7 @@
 							<view class="tui-pro-tit">{{item.goods_name}}</view>
 							<view>
 								<view class="tui-pro-price">
-									<text class="tui-sale-price"><text>￥</text>{{parseFloat(item.price)}} </text>
+									<text class="tui-sale-price"><price-to-integral :price="item.price"></price-to-integral></text>
 									<!-- <text class="tui-factory-price">￥{{item.market_price}}</text> -->
 									<xianshi v-if="!is_fx && item.discount && item.discount.reduce_price" title="限时" :price="item.price-item.discount.reduce_price*1"></xianshi>
 									<xianshi v-if="!is_fx && item.pt && item.pt.price" title="拼团" :price="item.price-item.pt.price*1"></xianshi>
@@ -177,6 +177,7 @@
 	import tuiLoadmore from "@/components/loadmore/loadmore"
 	import tuiNomore from "@/components/nomore/nomore"
 	import tuiTopDropdown from "@/components/top-dropdown/top-dropdown"
+	import PriceToIntegral from "@/components/price-to-integral/price-to-integral"
 	import xianshi from "@/components/qy/xianshi"
 	import productModel from "@/model/product.js"
 	export default {
@@ -186,7 +187,8 @@
 			tuiLoadmore,
 			tuiNomore,
 			tuiTopDropdown,
-			xianshi
+			xianshi,
+			PriceToIntegral
 		},
 		data() {
 			return {

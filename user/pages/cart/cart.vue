@@ -11,7 +11,7 @@
 					<view class="item-right">
 						<text class="clamp title" @click="jump_detail(k)">{{item.goods_name}}</text>
 						<text class="attr">{{item.attr_val}}</text>
-						<text class="price">¥{{item.price}}</text>
+						<text class="price"><price-to-integral :price="item.price"></price-to-integral></text>
 						<view class="item-right-num">
 							<tui-numberbox :max="item.stock" :min="1" :value="item.num" @change="numberChange($event,k)"></tui-numberbox> 
 						</view>
@@ -30,7 +30,7 @@
 				</view>
 			</view>
 			<view class="total-box">
-				<text class="price">¥{{total}}</text>
+				<text class="price"><price-to-integral :price="total"></price-to-integral></text>
 				<!-- <text class="coupon">
 					已优惠
 					<text>1</text>
@@ -49,10 +49,12 @@
 	} from 'vuex';
 	//import uniNumberBox from '@/components/uni-number-box.vue'
 	import tuiNumberbox from "@/components/numberbox/numberbox"
+	import PriceToIntegral from "@/components/price-to-integral/price-to-integral"
 	export default {
 		components: {
 			//uniNumberBox,
-			tuiNumberbox
+			tuiNumberbox,
+			PriceToIntegral
 		},
 		data() {
 			return {

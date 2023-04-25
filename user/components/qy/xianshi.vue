@@ -1,14 +1,17 @@
 <template>
     <view class="xianshi"> 
-       <view class="xs_l">{{title}}</view>
-	   <view class="xs_r">￥{{parseFloat(price).toFixed(2)}}</view>
+      <view class="xs_l">{{title}}</view>
+	    <view class="xs_r">
+      <price-to-integral :price="price"></price-to-integral></view>
     </view>
 </template>
 
 <script>
+import priceToIntegral from '../price-to-integral/price-to-integral'
 export default {
   name: 'none', 
   props: ['title','price'],
+  components: { priceToIntegral },
   data() {
     return {
       

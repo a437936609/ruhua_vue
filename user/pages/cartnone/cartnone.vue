@@ -20,9 +20,9 @@
 								<view class="tui-pro-tit">{{item.goods_name}}</view>
 								<view>
 									<view class="tui-pro-price">
-										<text class="tui-sale-price" v-if="is_vip">vip {{item.price}}</text>
-										<text class="tui-sale-price" v-else>￥ {{item.price}}</text>
-										<text class="tui-factory-price" v-if="is_vip">￥{{item.market_price}}</text>
+										<text class="tui-sale-price" v-if="is_vip">vip <price-to-integral :price="item.price"></price-to-integral></text>
+										<text class="tui-sale-price" v-else><price-to-integral :price="item.price"></price-to-integral></text>
+										<text class="tui-factory-price" v-if="is_vip"><price-to-integral :price="item.market_price"></price-to-integral></text>
 									</view>
 									<view class="tui-pro-pay">{{item.sales}}人付款</view>
 								</view>
@@ -41,9 +41,9 @@
 								<view class="tui-pro-tit">{{item.goods_name}}</view>
 								<view>
 									<view class="tui-pro-price">
-										<text class="tui-sale-price" v-if="is_vip">vip {{item.price}}</text>
-										<text class="tui-sale-price" v-else>￥ {{item.price}}</text>
-										<text class="tui-factory-price" v-if="is_vip">￥{{item.market_price}}</text>
+										<text class="tui-sale-price" v-if="is_vip">vip <price-to-integral :price="item.price"></price-to-integral></text>
+										<text class="tui-sale-price" v-else><price-to-integral :price="item.price"></price-to-integral></text>
+										<text class="tui-factory-price" v-if="is_vip"><price-to-integral :price="item.market_price"></price-to-integral></text>
 									</view>
 									<view class="tui-pro-pay">{{item.sales}}人付款</view>
 								</view>
@@ -59,9 +59,11 @@
 </template>
 
 <script>
+	import PriceToIntegral from "@/components/price-to-integral/price-to-integral"
 	import productModel from '@/model/product.js'
 	
 	export default {
+		components: { PriceToIntegral },
 		data() {
 			return {
 				productList: [],

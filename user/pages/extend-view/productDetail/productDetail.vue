@@ -55,13 +55,13 @@
 						<view>
 							<view class="tui-pro-pricebox tui-padding red">
 								<view class="tui-pro-price">
-									<view>￥<text class="tui-price">{{price}}</text></view>
+									<view><text class="tui-price"><price-to-integral :price="price"></price-to-integral></text></view>
 									<!-- <view class="tag">新品</view> -->
 								</view>
 							</view>
 							<view class="tui-original-price tui-gray">
 								价格
-								<text class="tui-line-through">￥{{list.market_price}}</text>
+								<text class="tui-line-through"><price-to-integral :price="list.market_price"></price-to-integral></text>
 							</view>
 						</view>
 						<view class="time">
@@ -303,6 +303,7 @@
 	import tuiTopDropdown from "@/components/top-dropdown/top-dropdown"
 	// import hchPoster from '@/components/hch-poster/hch-poster.vue'
 	import uniCountdown from "../../../components/uni/uni-countdown/uni-countdown.vue"
+	import PriceToIntegral from "@/components/price-to-integral/price-to-integral"
 
 	import {
 		Api_url
@@ -338,6 +339,7 @@
 			//hchPoster
 			goodsShare,
 			goodsCanvas,
+			PriceToIntegral
 		},
 		data() {
 			return {

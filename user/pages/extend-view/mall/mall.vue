@@ -79,8 +79,12 @@
 					<view class="tui-title-box">
 						<view class="tui-new-title">{{item.name}}</view>
 						<view class="tui-new-price">
-							<text class="tui-new-present">￥{{item.present}}</text>
-							<text class="tui-new-original">￥{{item.original}}</text>
+							<text class="tui-new-present">
+								<price-to-integral :price="item.present"></price-to-integral>
+							</text>
+							<text class="tui-new-original">
+								<price-to-integral :price="item.original"></price-to-integral>
+							</text>
 						</view>
 					</view>
 					<image :src="'../../../static/images/mall/new/'+item.pic" class="tui-new-img"></image>
@@ -102,8 +106,8 @@
 								<view class="tui-pro-tit">{{item.name}}</view>
 								<view>
 									<view class="tui-pro-price">
-										<text class="tui-sale-price">￥{{item.sale}}</text>
-										<text class="tui-factory-price">￥{{item.factory}}</text>
+										<text class="tui-sale-price"><price-to-integral :price="item.sale"></price-to-integral></text>
+										<text class="tui-factory-price"><price-to-integral :price="item.factory"></price-to-integral></text>
 									</view>
 									<view class="tui-pro-pay">{{item.payNum}}人付款</view>
 								</view>
@@ -122,8 +126,8 @@
 								<view class="tui-pro-tit">{{item.name}}</view>
 								<view>
 									<view class="tui-pro-price">
-										<text class="tui-sale-price">￥{{item.sale}}</text>
-										<text class="tui-factory-price">￥{{item.factory}}</text>
+										<text class="tui-sale-price"><price-to-integral :price="item.sale"></price-to-integral></text>
+										<text class="tui-factory-price"><price-to-integral :price="item.factory"></price-to-integral></text>
 									</view>
 									<view class="tui-pro-pay">{{item.payNum}}人付款</view>
 								</view>
@@ -149,12 +153,14 @@
 	import tuiLoadmore from "@/components/loadmore/loadmore"
 	import tuiNomore from "@/components/nomore/nomore"
 	import Cache from "@/common/cache.js"
+	import PriceToIntegral from "@/components/price-to-integral/price-to-integral"
 	export default {
 		components: {
 			tuiIcon,
 			tuiTag,
 			tuiLoadmore,
-			tuiNomore
+			tuiNomore,
+			PriceToIntegral
 		},
 		data() {
 			return {

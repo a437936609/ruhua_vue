@@ -134,7 +134,9 @@
 					<view class="tui-title-box">
 						<view class="tui-new-title">{{item.goods_name}}</view>
 						<view class="tui-new-price">
-							<text class="tui-new-present">￥{{parseFloat(item.price)}}</text>
+							<text class="tui-new-present">
+								<price-to-integral :price="item.price"></price-to-integral>
+							</text>
 							<!-- <text class="tui-new-original">￥{{item.market_price}}</text> -->
 						</view>
 					</view>
@@ -167,9 +169,9 @@
 								<view class="tui-pro-tit">{{item.goods_name}}</view>
 								<view>
 									<view class="tui-pro-price">
-										<text class="tui-sale-price" v-if="is_vip">vip{{parseFloat(item.price)}}</text>
-										<text class="tui-sale-price" v-else>￥{{parseFloat(item.price)}}</text>
-										<text class="tui-factory-price" v-if="is_vip">￥{{parseFloat(item.market_price)}}</text>
+										<text class="tui-sale-price" v-if="is_vip">vip <price-to-integral :price="item.price"></price-to-integral></text>
+										<text class="tui-sale-price" v-else><price-to-integral :price="item.price"></price-to-integral></text>
+										<text class="tui-factory-price" v-if="is_vip"><price-to-integral :price="item.market_price"></price-to-integral></text>
 										<xianshi v-if="item.discount && item.discount.reduce_price" title="限时" :price="item.price-item.discount.reduce_price*1"></xianshi>
 										<xianshi v-if="item.pt && item.pt.price" title="拼团" :price="(item.price*100-item.pt.price*100)/100"></xianshi>
 									</view>
@@ -199,9 +201,9 @@
 								<view class="tui-pro-tit">{{item.goods_name}}</view>
 								<view>
 									<view class="tui-pro-price">
-										<text class="tui-sale-price" v-if="is_vip">vip {{parseFloat(item.price)}}</text>
-										<text class="tui-sale-price" v-else>￥{{parseFloat(item.price)}}</text>
-										<text class="tui-factory-price" v-if="is_vip">￥{{parseFloat(item.market_price)}}</text>
+										<text class="tui-sale-price" v-if="is_vip">vip <price-to-integral :price="item.price"></price-to-integral></text>
+										<text class="tui-sale-price" v-else><price-to-integral :price="item.price"></price-to-integral></text>
+										<text class="tui-factory-price" v-if="is_vip"><price-to-integral :price="item.market_price"></price-to-integral></text>
 										<xianshi v-if="item.discount && item.discount.reduce_price" title="限时" :price="item.price-item.discount.reduce_price*1"></xianshi>
 										<xianshi v-if="item.pt && item.pt.price" title="拼团" :price="item.price-item.pt.price*1"></xianshi>
 									</view>
@@ -237,6 +239,7 @@
 	import tuiTag from "@/components/tag/tag"
 	import tuiLoadmore from "@/components/loadmore/loadmore"
 	import tuiNomore from "@/components/nomore/nomore"
+	import PriceToIntegral from "@/components/price-to-integral/price-to-integral"
 	import Cache from "@/common/cache.js"
 	import xianshi from "@/components/qy/xianshi"
 	import productModel from '@/model/product.js'
@@ -249,7 +252,8 @@
 			Coupon,
 			xianshi,
 			Xieyi,
-			uniNoticeBar
+			uniNoticeBar,
+			PriceToIntegral
 		},
 		data() {
 			return {

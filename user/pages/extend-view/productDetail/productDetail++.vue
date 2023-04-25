@@ -62,13 +62,13 @@
 						<view>
 							<view class="tui-pro-pricebox tui-padding red">
 								<view class="tui-pro-price">
-									<view>￥<text class="tui-price">{{price}}</text></view>
+									<view><text class="tui-price"><price-to-integral :price="price"></price-to-integral></text></view>
 									<!-- <view class="tag">新品</view> -->
 								</view>
 							</view>
 							<view class="tui-original-price tui-gray">
 								价格
-								<text class="tui-line-through">￥{{list.market_price}}</text>
+								<text class="tui-line-through"><price-to-integral :price="list.market_price"></price-to-integral></text>
 							</view>
 						</view>
 						<view class="time">
@@ -87,8 +87,8 @@
 				<block v-if="pro_type == 'pt'">
 					<view class="tui-pro-pricebox tui-padding">
 						<view class="tui-pro-price">
-							<view>{{is_vip?'VIP':'¥'}}
-								<text class="tui-price">{{price}}</text>
+							<view>{{is_vip?'VIP':''}}
+								<text class="tui-price"><price-to-integral :price="price"></price-to-integral></text>
 							</view>
 							<!-- <tui-tag :plain="true" type="high-green" shape="circle">新品</tui-tag> -->
 						</view>
@@ -104,13 +104,13 @@
 				<block v-if="pro_type == 'pro' ">
 					<view class="tui-pro-pricebox tui-padding">
 						<view class="tui-pro-price">
-							<view>¥
-								<text class="tui-price">{{list.price}}</text>
+							<view>
+								<text class="tui-price"><price-to-integral :price="list.price"></price-to-integral></text>
 							</view>
 						</view>
 						<view class="tui-original-price tui-gray" style="font-weight: 100;flex-grow: 1;" v-if="is_vip">
 							价格
-							<text class="tui-line-through">￥{{list.market_price}}</text>
+							<text class="tui-line-through"><price-to-integral :price="list.market_price"></price-to-integral></text>
 						</view>
 					</view>
 					<view class="kait" v-if="vip_switch">
@@ -428,6 +428,7 @@
 	import tuiBottomPopup from "@/components/bottom-popup/bottom-popup"
 	import tuiNumberbox from "@/components/numberbox/numberbox"
 	import hchPoster from '@/components/hch-poster/hch-poster.vue'
+	import PriceToIntegral from "@/components/price-to-integral/price-to-integral"
 	import {
 		Api_url
 	} from '@/common/config.js'
@@ -448,7 +449,8 @@
 			tuiBottomPopup,
 			tuiNumberbox,
 			uniCountdown,
-			hchPoster
+			hchPoster,
+			PriceToIntegral
 		},
 		data() {
 			return {

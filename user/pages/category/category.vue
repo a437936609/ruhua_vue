@@ -28,7 +28,7 @@
 							{{titem.goods_name}}
 						</view>
 						<view class="pro_price">
-							￥{{parseFloat(titem.price)}}
+							<price-to-integral :price="titem.price"></price-to-integral>
 						</view>
 						
 					</view>
@@ -45,9 +45,11 @@
 </template>
 
 <script>
+	import PriceToIntegral from "@/components/price-to-integral/price-to-integral"
 	import categoryModel from '@/model/category.js'
 	
 	export default {
+		components: { PriceToIntegral },
 		data() {
 			return {
 				cate_pro_list:[],
