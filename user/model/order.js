@@ -25,10 +25,11 @@ export default{
 		})
 	},
 	// 支付 h5
-	postOrderH5Pay(index){  
-		uni.navigateTo({
-			url: '/pages/order/pay?order_id=' + index
-		});
+	postOrderH5Pay(order_id){  
+		window.location.href = this.api_url + 'order/second_pay?id=' + order_id;
+		// uni.navigateTo({
+		// 	url: '/pages/order/pay?order_id=' + index
+		// });
 		// let url='order/second_pay'
 		// return http.post(url,{id:index}).then(res=>{
 		// 	return res;
