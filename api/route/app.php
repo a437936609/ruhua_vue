@@ -556,8 +556,6 @@ Route::group('order', function () {
     Route::group('', function () {
         Route::post('/create', 'common.Order/CreateXcxOrder'); //小程序商品下单
         Route::post('/create_cart', 'common.Order/CreateCartOrder');//公众号下单
-
-        Route::post('/second_pay', 'common.Pay/wx_h5_pay');   //公众号第二次支付
         Route::post('/vipsecond_pay', 'common.Pay/gzhVipPaySecond');   //公众号第二次支付开通会员
         Route::post('/back', 'common.Pay/gzh_back'); //公众号支付回调
         Route::post('/vipback', 'common.Pay/gzh_vipback'); //公众号vip支付回调
@@ -578,6 +576,9 @@ Route::group('order', function () {
         Route::post('alinotify_order', 'ZfbPay/ordernotify');//支付宝订单支付回调
 
         Route::post('appvippay', 'ZfbPay/appvippay');//app支付宝会员支付回调
+
+        Route::post('/pay/notify', 'common.Pay/icbc_pay_notify');//小程序支付回调
+        Route::get('/second_pay', 'common.Pay/icbc_pay');   //公众号第二次支付
     });
 
     Route::group('user', function () {

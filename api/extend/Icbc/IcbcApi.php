@@ -12,6 +12,7 @@ use think\Exception;
 use think\facade\Log;
 use ruhua\exceptions\BaseException;
 use Icbc\lib\DefaultIcbcClient;
+use Icbc\lib\UiIcbcClient;
 use Icbc\lib\IcbcConstants;
 
 class IcbcApi
@@ -41,6 +42,52 @@ class IcbcApi
             if($resp['return_code'] != 0){
                 throw new BaseException(['msg' => isset($resp['return_msg']) ? $resp['return_msg'] : '查询用户信息失败']);
             }
+            return $resp;
+        }catch(Exception $e){
+            var_dump($e);
+            //捕获异常
+            throw new BaseException(['msg' => $e->getMessage()]);
+        }
+    }
+
+    public static function createOrder($icbc_config, $order_info){
+        $request = array(
+            "serviceUrl" => $icbc_config['icbc_server_url'] . '/ui/mall/b2C/page/order/create/V1',
+            "method" => 'POST',
+            "isNeedEncrypt" => false,
+            "biz_content" => array(
+                "orderProdType"=> '19',
+                "appId"=> $icbc_config['icbc_appid'],
+                "orderMerchantMemo"=> $order_info['orderMerchantMemo'],
+                "outUserId"=> $order_info['outUserId'],
+                "thirdPartyOrderId"=> $order_info['thirdPartyOrderId'],
+                "orderPrice"=> $order_info['orderPrice'],
+                "orderPayAmout"=> $order_info['orderPayAmout'],
+                "orderInvalidTime"=> $order_info['orderInvalidTime'],
+                "payUse"=> '0',
+                "noticeUrl"=> $order_info['noticeUrl'],
+                "payBackUrl"=> $order_info['payBackUrl'],
+                "payFailUrl"=> $order_info['payFailUrl'],
+                "mercId"=> $order_info['mercId'],
+                "storeId"=> $order_info['storeId'],
+                "storeName"=> $order_info['storeName'],
+                "prodId"=> $order_info['prodId'],
+                "prodName"=> $order_info['prodName'],
+                "skuId"=> $order_info['skuId'],
+            )
+        );
+        $client = new UiIcbcClient($icbc_config['icbc_appid'],
+            $icbc_config['icbc_mer_private_key'],
+            IcbcConstants::$SIGN_TYPE_RSA2,
+            IcbcConstants::$CHARSET_UTF8,
+            IcbcConstants::$FORMAT_JSON,
+            $icbc_config['icbc_platform_public_key'],
+            '',
+            '',
+            '',
+            '');
+        try{
+            $resp = $client->buildPostForm($request, time() . '', ''); //执行调用
             return $resp;
         }catch(Exception $e){
             var_dump($e);

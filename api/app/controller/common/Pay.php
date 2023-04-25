@@ -170,6 +170,19 @@ class Pay extends BaseController
         return $order_num;
     }
 
+    public function icbc_pay($id)
+    {
+        $payService=new PayService($id);
+        $html       =       '<html><head><meta http-equiv="Content-Type" content="text/html; charset="utf-8"></head><body>' . $payService->icbc_pay($id) . '</body></html>';
+        return $html;
+    }
+
+    //小程序支付回调:订单+vip
+    public function icbc_pay_notify()
+    {
+        Log::error("工行支付回调:".file_get_contents("php://input"));
+    }
+
     public function icbc_test()
     {
         $payService=new PayService('0');

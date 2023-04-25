@@ -26,10 +26,13 @@ export default{
 	},
 	// 支付 h5
 	postOrderH5Pay(index){  
-		let url='order/second_pay'
-		return http.post(url,{id:index}).then(res=>{
-			return res;
-		})
+		uni.navigateTo({
+			url: '/pages/order/pay?order_id=' + index
+		});
+		// let url='order/second_pay'
+		// return http.post(url,{id:index}).then(res=>{
+		// 	return res;
+		// })
 	},
 	
 	// 删除订单

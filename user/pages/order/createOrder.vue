@@ -797,11 +797,14 @@
 
 
 				//#ifdef H5
-				const h5_pay_data = await orderModel.postOrderH5Pay(order_id).then(res => {
-					console.log('pay:', res)
-					return res
-				})
-				this.h5WxPay(h5_pay_data);
+				uni.navigateTo({
+					url: '/pages/order/pay?order_id=' + order_id
+				});
+				// const h5_pay_data = await orderModel.postOrderH5Pay(order_id).then(res => {
+				// 	console.log('pay:', res)
+				// 	return res
+				// })
+				// this.h5WxPay(h5_pay_data);
 
 				//#endif
 			},

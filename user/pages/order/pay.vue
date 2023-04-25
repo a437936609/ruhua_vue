@@ -13,9 +13,7 @@
 			}
 		},
 		onLoad(option) {
-	
-			this.url="http://192.168.1.118:8081/order/ali_order?order_id="+option.order_num
-		
+			this.url="https://api.aku.pub/order/second_pay?id=" + option.order_id
 		},
 		methods: {
 			

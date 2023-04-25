@@ -6,6 +6,7 @@ namespace app\services;
 
 use app\model\Order as OrderModel;
 use app\model\VipOrder as VipOrderModel;
+use app\model\User as UserModel;
 use app\model\SysConfig;
 use ruhua\enum\OrderEnum;
 use ruhua\exceptions\BaseException;
@@ -321,6 +322,54 @@ class PayService
         }
         curl_close($ci);
         return $response;
+    }
+
+    public function icbc_pay($order_id)
+    {
+        $order_inf=OrderModel::where('order_id', $order_id)->find();
+        if(!$order_inf){
+            throw new BaseException(['msg'=>'订单不存在']);
+        }
+        $user = UserModel::where('id', $order_inf['user_id'])->find();
+        if(!$user){
+            throw new BaseException(['msg'=>'用户不存在']);
+        }
+        if(empty($user['icbc_user_id'])){
+            throw new BaseException(['msg'=>'工行用户id不存在']);
+        }
+        $order                                      =   $order_inf['order_num'];
+        $money                                      =   $order_inf['order_money'];
+        $out_trade_no                               =   $order;//平台内部订单号
+        $body                                       =   '商品购买';//付款内容
+        $api_url                                    =   SysConfig::get('api_url');
+        //回调地址
+        $notify_url                                 =   SysConfig::get('icbc_notify_url');
+
+        $icbc_config                                =   [];
+        $icbc_config['icbc_server_url']             =   SysConfig::get('icbc_server_url');
+        $icbc_config['icbc_appid']                  =   SysConfig::get('icbc_appid');
+        $icbc_config['icbc_mer_private_key']        =   SysConfig::get('icbc_mer_private_key');
+        $icbc_config['icbc_platform_public_key']    =   SysConfig::get('icbc_platform_public_key');
+
+
+        $order_info                                 =   [];
+        $order_info['orderMerchantMemo']            =   '商品购买';
+        $order_info['outUserId']                    =   $user['icbc_user_id'];
+        $order_info['thirdPartyOrderId']            =   $out_trade_no;
+        $order_info['orderPrice']                   =   $money;
+        $order_info['orderPayAmout']                =   $money;
+        $order_info['orderInvalidTime']             =   '15';
+        $order_info['noticeUrl']                    =   $notify_url;
+        $order_info['payBackUrl']                   =   $api_url . '/#/pages/order/pay';
+        $order_info['payFailUrl']                   =   $api_url . '/#/pages/order/pay';
+        $order_info['mercId']                       =   '19213615';
+        $order_info['storeId']                      =   '907319';
+        $order_info['storeName']                    =   '数币旗舰店';
+        $order_info['prodId']                       =   '9100002843';
+        $order_info['prodName']                     =   '一分钱商品数币';
+        $order_info['skuId']                        =   '90000000000100004519';
+
+        return IcbcApi::createOrder($icbc_config, $order_info);;
     }
 
     public function icbc_test()

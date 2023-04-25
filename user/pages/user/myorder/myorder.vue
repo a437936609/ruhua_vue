@@ -248,12 +248,15 @@
 				//#endif 
 
 				//#ifdef H5 
-				const wx_data = await this.$api.http.post('order/second_pay', {
-					id: id
-				}).then(res => {
-					return res
-				})
-				this.h5WxPay(wx_data)
+				uni.navigateTo({
+					url: '/pages/order/pay?order_id=' + id
+				});
+				// const wx_data = await this.$api.http.post('order/second_pay', {
+				// 	id: id
+				// }).then(res => {
+				// 	return res
+				// })
+				// this.h5WxPay(wx_data)
 				//#endif
 			},
 			// h5网页支付
