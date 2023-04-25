@@ -36,6 +36,7 @@ Vue.prototype.$api = {
 	prePage,
 	json
 };
+Vue.prototype.$api_url = Api_url
 Vue.prototype.$getimg = ''
 Vue.prototype.shop_name = "遇见商城"
 

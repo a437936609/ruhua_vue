@@ -797,9 +797,11 @@
 
 
 				//#ifdef H5
-				uni.navigateTo({
-					url: '/pages/order/pay?order_id=' + order_id
-				});
+				
+				window.location.href = this.api_url + 'order/second_pay?id=' + order_id;
+				// uni.navigateTo({
+				// 	url: '/pages/order/pay?order_id=' + order_id
+				// });
 				// const h5_pay_data = await orderModel.postOrderH5Pay(order_id).then(res => {
 				// 	console.log('pay:', res)
 				// 	return res
