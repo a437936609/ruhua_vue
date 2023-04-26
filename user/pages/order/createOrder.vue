@@ -797,8 +797,8 @@
 
 
 				//#ifdef H5
-				
-				window.location.href = this.api_url + 'order/second_pay?id=' + order_id;
+
+				window.location.href = this.$api_url + 'order/second_pay?id=' + order_id;
 				// uni.navigateTo({
 				// 	url: '/pages/order/pay?order_id=' + order_id
 				// });
