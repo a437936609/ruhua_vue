@@ -51,29 +51,44 @@ class IcbcApi
     }
 
     public static function createOrder($icbc_config, $order_info){
+        $thirdPartySubmitRequestOrders          =       [];
+        $prods                                  =       [];
+        $prods[]                                =       array(
+            "prodId"                    =>      $order_info['prodId'],
+            "prodName"                  =>      $order_info['prodName'],
+            "skuId"                     =>      $order_info['skuId'],
+        );
+        $thirdPartySubmitRequestOrders[]        =       array(
+            "orderProdType"             =>      '19',
+            "appId"                     =>      $icbc_config['icbc_appid'],
+            "platformId"                =>      '019',
+            "remark1"                   =>      null,
+            "remark2"                   =>      null,
+            "remark3"                   =>      null,
+            "orderMerchantMemo"         =>      $order_info['orderMerchantMemo'],
+            "outUserId"                 =>      $order_info['outUserId'],
+            "thirdPartyOrderId"         =>      $order_info['thirdPartyOrderId'],
+            "orderPrice"                =>      $order_info['orderPrice'],
+            "orderPayAmout"             =>      $order_info['orderPayAmout'],
+            "orderInvalidTime"          =>      $order_info['orderInvalidTime'],
+            "payUse"                    =>      '0',
+            "noticeUrl"                 =>      $order_info['noticeUrl'],
+            "payBackUrl"                =>      $order_info['payBackUrl'],
+            "payFailUrl"                =>      $order_info['payFailUrl'],
+            "storeVO"                   =>      array(
+                "mercId"                =>      $order_info['mercId'],
+                "storeId"               =>      $order_info['storeId'],
+                "storeName"             =>      $order_info['storeName'],
+                "prods"                 =>      $prods
+            ),
+            "orderProdName"             =>      '测试商品'
+        );
         $request = array(
             "serviceUrl" => $icbc_config['icbc_server_url'] . '/ui/mall/b2C/page/order/create/V1',
             "method" => 'POST',
             "isNeedEncrypt" => false,
             "biz_content" => array(
-                "orderProdType"=> '19',
-                "appId"=> $icbc_config['icbc_appid'],
-                "orderMerchantMemo"=> $order_info['orderMerchantMemo'],
-                "outUserId"=> $order_info['outUserId'],
-                "thirdPartyOrderId"=> $order_info['thirdPartyOrderId'],
-                "orderPrice"=> $order_info['orderPrice'],
-                "orderPayAmout"=> $order_info['orderPayAmout'],
-                "orderInvalidTime"=> $order_info['orderInvalidTime'],
-                "payUse"=> '0',
-                "noticeUrl"=> $order_info['noticeUrl'],
-                "payBackUrl"=> $order_info['payBackUrl'],
-                "payFailUrl"=> $order_info['payFailUrl'],
-                "mercId"=> $order_info['mercId'],
-                "storeId"=> $order_info['storeId'],
-                "storeName"=> $order_info['storeName'],
-                "prodId"=> $order_info['prodId'],
-                "prodName"=> $order_info['prodName'],
-                "skuId"=> $order_info['skuId'],
+                "thirdPartySubmitRequestOrders"     =>  $thirdPartySubmitRequestOrders
             )
         );
         $client = new UiIcbcClient($icbc_config['icbc_appid'],
