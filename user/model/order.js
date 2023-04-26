@@ -1,5 +1,8 @@
 //  订单请求
 import http from '../common/axios.js'
+import {
+	Api_url
+} from '../common/config'
 
 export default {
 	// 
@@ -30,7 +33,7 @@ export default {
 	},
 	// 支付 h5
 	postOrderH5Pay(order_id) {
-		window.location.href = this.$api_url + 'order/second_pay?id=' + order_id;
+		window.location.href = Api_url + 'order/second_pay?id=' + order_id;
 		// uni.navigateTo({
 		// 	url: '/pages/order/pay?order_id=' + index
 		// });
