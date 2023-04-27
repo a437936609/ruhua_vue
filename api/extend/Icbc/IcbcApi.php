@@ -167,7 +167,7 @@ class IcbcApi
         }
     }
 
-    public static function refund_pay($icbc_config, $refund_info){
+    public static function refundPay($icbc_config, $refund_info){
         $request = array(
             "serviceUrl" => $icbc_config['icbc_server_url'] . '/api/mall/b2C/order/refund/V1',
             "method" => 'POST',

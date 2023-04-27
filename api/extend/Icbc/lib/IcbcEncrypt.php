@@ -1,5 +1,6 @@
 <?php
 namespace Icbc\lib;
+use think\Exception;
 
 class IcbcEncrypt{
 	public static function encryptContent($content, $encryptType, $encryptKey, $charset){

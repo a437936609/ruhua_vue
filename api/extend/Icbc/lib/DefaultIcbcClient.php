@@ -1,5 +1,6 @@
 <?php
 namespace Icbc\lib;
+use think\Exception;
 
 class DefaultIcbcClient{
 	public $appId;

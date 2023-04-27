@@ -1,5 +1,6 @@
 <?php
 namespace Icbc\lib;
+use think\Exception;
 
 class UiIcbcClient extends DefaultIcbcClient{
 	function __construct($appId,$privateKey,$signType,$charset,$format,$icbcPulicKey,

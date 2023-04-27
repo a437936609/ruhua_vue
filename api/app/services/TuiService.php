@@ -17,6 +17,8 @@ use app\model\UserCoupon;
 use Icbc\IcbcApi;
 use app\model\SysConfig;
 use app\model\User as UserModel;
+use think\Exception;
+use ruhua\exceptions\BaseException;
 
 class TuiService
 {
@@ -174,11 +176,11 @@ class TuiService
         $refund_info['thirdOrderId']                =   $order_sn;
         $refund_info['thirdRefundId']               =   $refund_no;
         $refund_info['userId']                      =   $user['icbc_user_id'];
-        $refund_info['refundAmt']                   =   $refund_fee;
-        $refund_info['remark']                      =   $aid;
+        $refund_info['refundAmt']                   =   $tui['money'] . '';
+        $refund_info['remark']                      =   $aid . '';
 
-        $resp = IcbcApi::refund_pay($icbc_config, $refund_info)
-        
+        $resp = IcbcApi::refundPay($icbc_config, $refund_info);
+        var_dump($resp);exit;
         if (isset($resp['refund_id'])) {
             $res = $tui->save(['status' => 1, 'wx_id' => $resp['refund_id']]);
             if($tui['goods_id']==0){
