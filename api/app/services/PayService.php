@@ -342,7 +342,6 @@ class PayService
         $out_trade_no                               =   $order;//平台内部订单号
         $body                                       =   '商品购买';//付款内容
         $api_url                                    =   SysConfig::get('api_url');
-        if(last)
         //回调地址
         $notify_url                                 =   SysConfig::get('icbc_notify_url');
 
