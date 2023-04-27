@@ -41,7 +41,7 @@ class TuiManage extends BaseController
     {
         $data = input('post.');
         (new IDPostiveInt())->goCheck();
-        return (new TuiService())->pay($id);
+        return (new TuiService())->icbc_pay($id);
     }
 
     /**

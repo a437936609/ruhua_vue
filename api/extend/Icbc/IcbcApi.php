@@ -107,7 +107,7 @@ class IcbcApi
         }
     }
 
-     public static function replyNotify($icbc_config, $order_num){
+    public static function replyNotify($icbc_config, $order_num){
         $request = array(
             "serviceUrl" => '/order/pay/notify',
             "response_biz_content" => array(
@@ -134,7 +134,7 @@ class IcbcApi
         }
      }
      
-     public static function queryOrderInfo($icbc_config, $userId, $thirdOrderId){
+    public static function queryOrderInfo($icbc_config, $userId, $thirdOrderId){
         $request = array(
             "serviceUrl" => $icbc_config['icbc_server_url'] . '/api/mall/b2C/order/payment/query/V1',
             "method" => 'POST',
@@ -159,6 +159,44 @@ class IcbcApi
             $resp = $client->execute($request, time() . '', ''); //执行调用
             if($resp['return_code'] != 0){
                 throw new BaseException(['msg' => isset($resp['return_msg']) ? $resp['return_msg'] : '查询订单信息失败']);
+            }
+            return $resp;
+        }catch(Exception $e){
+            //捕获异常
+            throw new BaseException(['msg' => $e->getMessage()]);
+        }
+    }
+
+    public static function refund_pay($icbc_config, $refund_info){
+        $request = array(
+            "serviceUrl" => $icbc_config['icbc_server_url'] . '/api/mall/b2C/order/refund/V1',
+            "method" => 'POST',
+            "isNeedEncrypt" => false,
+            "biz_content" => array(
+                "appId"=> $icbc_config['icbc_appid'],
+                "orderId"=> $refund_info['orderId'],
+                "refundUrl"=> $refund_info['refundUrl'],
+                "thirdOrderId"=> $refund_info['thirdOrderId'],
+                "thirdRefundId"=> $refund_info['thirdRefundId'],
+                "userId"=> $refund_info['userId'],
+                "refundAmt"=> $refund_info['refundAmt'],
+                "remark" => $refund_info['remark'],
+            )
+        );
+        $client = new DefaultIcbcClient($icbc_config['icbc_appid'],
+            $icbc_config['icbc_mer_private_key'],
+            IcbcConstants::$SIGN_TYPE_RSA2,
+            IcbcConstants::$CHARSET_UTF8,
+            IcbcConstants::$FORMAT_JSON,
+            $icbc_config['icbc_platform_public_key'],
+            '',
+            '',
+            '',
+            '');
+        try{
+            $resp = $client->execute($request, time() . '', ''); //执行调用
+            if($resp['return_code'] != 0){
+                throw new BaseException(['msg' => isset($resp['return_msg']) ? $resp['return_msg'] : '请求退款失败']);
             }
             return $resp;
         }catch(Exception $e){

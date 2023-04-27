@@ -79,7 +79,8 @@ class IcbcNotifyService
             Log::error("交易状态!=04:". json_encode($resp));
             return json(IcbcApi::replyNotify($icbc_config, $orderNo));
         }
-
+        // 记录融易购订单号,便于退款使用
+        $prepay_id      =       $resp['order_id'];   
         $isprinter=SysConfigModel::where('key','is_printer')->value('value');
         if($isprinter){
             $res=Printer::order_printer($orderNo);
@@ -91,7 +92,7 @@ class IcbcNotifyService
 
             if ($order&&$order['payment_state'] == 0 && $order['state'] == 0) {
 
-                OrderModel::where('order_id', $order['order_id'])->update(['payment_state' => 1, 'pay_time' => time()]);//更新订单状态为已支付
+                OrderModel::where('order_id', $order['order_id'])->update(['payment_state' => 1, 'pay_time' => time(), 'prepay_id' => $prepay_id]);//更新订单状态为已支付
 
                 if($order['invite_code']){
 
