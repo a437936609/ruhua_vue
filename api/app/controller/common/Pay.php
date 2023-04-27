@@ -20,10 +20,12 @@ use app\model\VipOrder as VipOrderModel;
 use GzhPay\JsApi;
 use GzhPay\WxPayConfig;
 use think\facade\Log;
+use app\services\IcbcNotifyService;
+
 
 class Pay extends BaseController
 {
-	 private $orderID;
+     private $orderID;
     //公众号-我的订单页面中进行支付
     public function gzhPaySecond($id)
     {
@@ -66,9 +68,9 @@ class Pay extends BaseController
     //公众号购买vip的支付回调
     public function gzh_vipback()
     {
-    	Log::error("公众号vip支付回调");
-    	
-    	$config = new WxPayConfig();
+        Log::error("公众号vip支付回调");
+        
+        $config = new WxPayConfig();
         $notify = new GzhVipNoticefyService();
         $notify->Handle($config, false);
         
@@ -180,12 +182,17 @@ class Pay extends BaseController
     //小程序支付回调:订单+vip
     public function icbc_pay_notify()
     {
-        Log::error("工行支付回调:".file_get_contents("php://input"));
-    }
-
-    public function icbc_test()
-    {
-        $payService=new PayService('0');
-        return $payService->icbc_test();
+        if(!input('?post.biz_content')){
+            return '';
+        }
+        $biz_content = input('biz_content');
+        Log::error("工行支付回调:". json_encode($biz_content));
+        $biz_content = json_decode($biz_content, true);
+        $order_num      =   $biz_content['third_order_id'];
+        Log::error("工行支付回调订单号:". $order_num);
+        echo 1;
+        exit;
+        $notify = new IcbcNotifyService(); 
+        return $notify->NotifyEditOrder($order_num);
     }
 }

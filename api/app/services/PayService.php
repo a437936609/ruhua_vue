@@ -369,7 +369,7 @@ class PayService
         $order_info['prodName']                     =   '一分钱商品数币';
         $order_info['skuId']                        =   '90000000000100004519';
 
-        return IcbcApi::createOrder($icbc_config, $order_info);;
+        return IcbcApi::createOrder($icbc_config, $order_info);
     }
 
     public function icbc_test()
