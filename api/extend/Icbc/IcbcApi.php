@@ -201,6 +201,7 @@ class IcbcApi
             return $resp;
         }catch(Exception $e){
             //捕获异常
+            
             throw new BaseException(['msg' => $e->getMessage()]);
         }
     }
