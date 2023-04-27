@@ -1,23 +1,21 @@
 <template> 
-	<view class="content content-category">
+	<view class="content">
 		<scroll-view scroll-y class="left-aside">
 			<view v-for="item in flist" :key="item.category_id" class="f-item b-b" :class="{active: item.category_id === currentId}"
 			 @click="tabtap(item)">
-				<span>{{item.category_name}}</span>
+				{{item.category_name}}
 			</view>
 		</scroll-view>
 
-		<scroll-view scroll-with-animation scroll-y class="right-aside" :scroll-top="tabScrollTop" @scrolltolower="scrolltolower">
+		<scroll-view scroll-with-animation scroll-y class="right-aside" @scroll="asideScroll" :scroll-top="tabScrollTop">
 			<view class="s-list" v-if="cate_type == 1">
 				<view class="nav-title" @click="navToList(0)">——— {{currentName}} ———</view>
 				<view class="t-list">
-					<template v-for="titem in slist">
-						<view  :key="titem.category_id" v-if="titem.pid == currentId" @click="navToList(titem.category_id)"
-						class="t-item">
-							<image :src="getimg+titem.imgs"></image>
-							<text>{{titem.category_name}}</text>
-						</view>
-					</template>
+					<view v-for="titem in slist" :key="titem.category_id" v-if="titem.pid == currentId" @click="navToList(titem.category_id)"
+					 class="t-item">
+						<image :src="getimg+titem.imgs"></image>
+						<text>{{titem.category_name}}</text>
+					</view>
 				</view>
 			</view>
 			<view class="s-list-0" v-else>
@@ -75,18 +73,18 @@
 			this.loadPrmSwitch()
 			this.loadData()
 		},
-		// onReachBottom() {
-		// 	this.page_num++
-		// 	if(this.is_page_data){
-		// 		this.get_cate_pro(this.cate_id)
-		// 	}else{
-		// 		uni.showToast({
-		// 			title:'没有更多商品了',
-		// 			icon:'none'
-		// 		})
-		// 	}
+		onReachBottom() {
+			this.page_num++
+			if(this.is_page_data){
+				this.get_cate_pro(this.cate_id)
+			}else{
+				uni.showToast({
+					title:'没有更多商品了',
+					icon:'none'
+				})
+			}
 			
-		// },
+		},
 		methods: {
 			navToPro(id){
 				uni.navigateTo({
@@ -171,18 +169,6 @@
 					this.currentId = tabs[0].pid;
 				}
 			},
-			// 滚动到底部
-			scrolltolower (e) {
-				this.page_num++
-				if(this.is_page_data){
-					this.get_cate_pro(this.cate_id)
-				}else{
-					uni.showToast({
-						title:'没有更多商品了',
-						icon:'none'
-					})
-				}
-			},
 			//计算右侧栏每个tab的高度等信息
 			calcSize() {
 				let h = 0;
@@ -191,9 +177,6 @@
 					view.fields({
 						size: true
 					}, data => {
-						if (!data) {
-							return
-						}
 						item.top = h;
 						
 						h += data.height;
@@ -232,13 +215,7 @@
 </script>
 
 <style lang='scss'>
-	.content-category
-	{
-		position: relative;
-		height: calc(100vh - 44px - env(safe-area-inset-top) - 50px - env(safe-area-inset-bottom));
-		background-color: #f8f8f8;
-		overflow: hidden;
-	}
+	.content{min-height: 100vh;}
 	/* #ifdef MP-WEIXIN */
 	.btn1{
 	  width: 60rpx;
@@ -266,6 +243,10 @@
 
 	/* #endif */
 
+	.content {
+		height: 100%;
+		background-color: #f8f8f8;
+	}
 
 	
 
@@ -284,19 +265,11 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		padding: 0px 4px;
 		width: 100%;
 		height: 100upx;
 		font-size: 28upx;
 		color: $font-color-base;
 		position: relative;
-		span
-		{
-			display: block;
-			white-space: nowrap;
-			text-overflow: ellipsis;
-			overflow: hidden;
-		}
 
 		&.active {
 			color: $base-color;
