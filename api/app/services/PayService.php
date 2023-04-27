@@ -342,6 +342,7 @@ class PayService
         $out_trade_no                               =   $order;//平台内部订单号
         $body                                       =   '商品购买';//付款内容
         $api_url                                    =   SysConfig::get('api_url');
+        if(last)
         //回调地址
         $notify_url                                 =   SysConfig::get('icbc_notify_url');
 
@@ -360,8 +361,8 @@ class PayService
         $order_info['orderPayAmout']                =   $money;
         $order_info['orderInvalidTime']             =   '15';
         $order_info['noticeUrl']                    =   $notify_url;
-        $order_info['payBackUrl']                   =   $api_url . '/#/pages/order/pay';
-        $order_info['payFailUrl']                   =   $api_url . '/#/pages/order/pay';
+        $order_info['payBackUrl']                   =   $api_url . '#/pages/user/myorder/myorder?id=' . $order_id;
+        $order_info['payFailUrl']                   =   $api_url . '#/pages/user/myorder/myorder?id=' . $order_id;
         $order_info['mercId']                       =   '19213615';
         $order_info['storeId']                      =   '907319';
         $order_info['storeName']                    =   '数币旗舰店';
