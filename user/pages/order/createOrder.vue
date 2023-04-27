@@ -188,9 +188,9 @@
 		<view class="footer">
 			<view class="price-content">
 				<text>实付款</text>
-				<text class="price-tip">￥</text>
+				<!-- <text class="price-tip">￥</text> -->
 				<!-- <text class="price">{{pay_money.toFixed(2)}}</text> -->
-				<text class="price">{{pay_money | count_price()}}</text>
+				<text class="price"><price-to-integral :price="pay_money | count_price()"></price-to-integral></text>
 			</view>
 			<text class="submit" @click="submit">提交订单</text>
 		</view>
@@ -255,6 +255,7 @@
 </template>
 
 <script>
+	import PriceToIntegral from "@/components/price-to-integral/price-to-integral"
 	import Formt from '@/components/form_data/form_data.vue'
 	import {
 		CUser
@@ -316,7 +317,8 @@
 			}
 		},
 		components: {
-			Formt
+			Formt,
+			PriceToIntegral
 		},
 		async onLoad(option) {
 
@@ -1619,7 +1621,7 @@
 			color: $base-color;
 
 			&:before {
-				content: '￥';
+				// content: '￥';
 				font-size: 34upx;
 			}
 		}

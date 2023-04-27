@@ -183,7 +183,7 @@
 
 				context.setFillStyle('#e54d42')
 				context.setFontSize(20)
-				context.fillText(this.goodsInfo.price, priceLeft, 360)
+				context.fillText(this.$priceToIntegral(this.goodsInfo.price) , priceLeft, 360)
 				context.fill()
 
 				context.save()
