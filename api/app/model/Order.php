@@ -291,24 +291,27 @@ class Order extends BaseModel
         }
         Db::startTrans();
         try {
+            $courier        =       [];
             $courier['courier'] = $param['courier'];
             $courier['courier_num'] = $param['courier_num'];
             $courier['shipment_state'] = 1;
             self::where('order_id', $param['order_id'])->update($courier);
+            $save           =       [];
             $save['order_id'] = $param['order_id'];
             $save['type_name'] = '录入快递单号';
             $save['content'] = $param['courier'] . '，' . $param['courier_num'];
             OrderLogModel::create($save);
-
+            
             if($payment_type=='xcx'){
-                  (new XcxMessage())->send_order_massage($param['order_id']);
+                // (new XcxMessage())->send_order_massage($param['order_id']);
             }
             else{
-             (new GzhDeliveryMessage())->sendDeliveryMessage($order,6,$user_id);
+                // (new GzhDeliveryMessage())->sendDeliveryMessage($order,6,$user_id);
             }
             Db::commit();
             return app('json')->success();
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             Db::rollback();// 回滚事务
             throw new OrderException(['msg' => '快递信息录入失败']);
         }
