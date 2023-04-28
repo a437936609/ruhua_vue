@@ -71,7 +71,7 @@
 					<view class="yg" v-if="index<6" >
 						<view class="yg_01" @click="jump_zb(item.roomid)">
 							<view :class="index!=0?'yg_01_1':'kong'"></view>
-							<view class="yg_01_2">{{item.start_time | date_filter("M-D h-m")}}</view>
+							<view class="yg_01_2">{{item.start_time || date_filter("M-D h-m")}}</view>
 							<view class="yg_01_1"></view>
 						</view>
 						<view class="yg_02" >							

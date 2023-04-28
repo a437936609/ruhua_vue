@@ -77,7 +77,9 @@
 				<view class="right">
 					<text class="title clamp">{{item.goods_name}}</text>
 					<text class="spec">{{item.sku_name?item.sku_name:''}}</text>
-					<text class="spec">￥{{item.price}}</text>
+					<text class="spec">
+						<price-to-integral :price="item.price"></price-to-integral>
+					</text>
 					<view class="price-box">
 						<!-- <text class="price" v-if="item.vip_price && !item.discount">￥{{item.price - item.vip_price}}</text>
 						<text class="price" v-if="item.vip_price && item.discount">￥{{item.price}}</text>
@@ -153,7 +155,10 @@
 		<view class="yt-list">
 			<view class="yt-list-cell b-b">
 				<text class="cell-tit clamp">商品金额</text>
-				<text class="cell-tip">￥{{goods_money | count_price(goods_money)}}</text>
+				<text class="cell-tip">
+					￥{{goods_money || count_price(goods_money)}}
+					<price-to-integral :price="item.price"></price-to-integral>
+				</text>
 			</view>
 			<view class="yt-list-cell b-b" v-if="coupon_money>0">
 				<text class="cell-tit clamp">优惠金额</text>
@@ -190,7 +195,7 @@
 				<text>实付款</text>
 				<!-- <text class="price-tip">￥</text> -->
 				<!-- <text class="price">{{pay_money.toFixed(2)}}</text> -->
-				<text class="price"><price-to-integral :price="pay_money | count_price()"></price-to-integral></text>
+				<text class="price"><price-to-integral :price="pay_money || count_price()"></price-to-integral></text>
 			</view>
 			<text class="submit" @click="submit">提交订单</text>
 		</view>

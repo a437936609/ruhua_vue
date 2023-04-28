@@ -24,7 +24,7 @@
 				</view>
 			</view>
 			<!-- #endif -->
-			<view class="vip-card-box">
+			<!-- <view class="vip-card-box">
 				<navigator url="/pages/user/member/member">
 					<view class="b-btn" v-if="vip==0 && sys_switch.is_vip == 1">
 						立即开通
@@ -42,7 +42,7 @@
 
 				<text class="e-m">商城</text>
 				<text class="e-b">欢迎使用商城</text>
-			</view>
+			</view> -->
 		</view>
 
 		<view class="cover-container" :style="[{
@@ -126,18 +126,18 @@
 				<view @click="jump_tocms" v-if="userinfo.web_auth==1">
 					<list-cell icon="icon-shoucang_xuanzhongzhuangtai" iconColor="#54b4ef" title="后台"></list-cell>
 				</view>
-				<view @click="jump_toreseller" v-if="fx_switch">
+				<!-- <view @click="jump_toreseller" v-if="fx_switch">
 					<list-cell icon="icon-iconfontweixin" iconColor="#54b4ef" title="分销中心"></list-cell>
-				</view>
+				</view> -->
 
-				<view @click="jump_tohelp">
+				<!-- <view @click="jump_tohelp">
 					<list-cell icon="icon-bangzhu" iconColor="#FF0000" title="关于我们"></list-cell>
-				</view>
+				</view> -->
 			</view>
-			<view class="cpy">
+			<!-- <view class="cpy">
 				<view @click="clear_cache">{{shop_name}}</view>
 				<view>Copyright@2020</view>
-			</view>
+			</view> -->
 		</view>
 		<!-- #ifndef H5 -->
 		<XcxAuth :auth="auth" @userinfo="get_userinfo"></XcxAuth>
@@ -572,7 +572,7 @@
 	}
 
 	.user-section {
-		height: 520upx;
+		height: 280upx;
 		padding: 100upx 30upx 0;
 		position: relative;
 		/* background-color: #FB586A; */
