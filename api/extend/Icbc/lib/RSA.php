@@ -1,5 +1,6 @@
 <?php
 namespace Icbc\lib;
+use think\Exception;
 class RSA{
 	public static function sign($content,$privateKey,$algorithm){
 		if(IcbcConstants::$SIGN_SHA1RSA_ALGORITHMS == $algorithm){

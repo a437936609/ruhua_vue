@@ -13,10 +13,11 @@
 		},
 		computed: {
 			integral() {
-				if (!this.price || this.price < 0) {
-					return 0
-				}
-				return Math.ceil( this.price / 0.0015)
+				return this.$priceToIntegral(this.price)
+				// if (!this.price || this.price < 0) {
+				// 	return 0
+				// }
+				// return Math.ceil( this.price / 0.0015)
 			},
 		}
 	}

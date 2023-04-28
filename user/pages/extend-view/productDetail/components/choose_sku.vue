@@ -6,10 +6,10 @@
 					<img :src="getimg+list.imgs" class="tui-popup-img" />
 					<view class="tui-popup-price">
 						<template v-if="list.discount != '[]'">
-							<view class="tui-amount tui-bold">￥{{price}}</view>
+							<view class="tui-amount tui-bold"><price-to-integral :price="price"></price-to-integral></view>
 						</template>
 						<template v-else>
-							<view class="tui-amount tui-bold">￥{{price}}</view>
+							<view class="tui-amount tui-bold"><price-to-integral :price="price"></price-to-integral></view>
 						</template>
 		
 						<view class="tui-number"><text v-if="list.sku_name">{{list.sku_name}}</text> <text>库存：{{list.stock}}</text>
@@ -62,11 +62,13 @@
 	import tuiButton from "@/components/button/button"
 	import tuiNumberbox from "@/components/numberbox/numberbox"
 	import tuiBottomPopup from "@/components/bottom-popup/bottom-popup"
+	import PriceToIntegral from "@/components/price-to-integral/price-to-integral"
 	export default{
 		components:{
 			tuiBottomPopup,
 			tuiNumberbox,
-			tuiButton
+			tuiButton,
+			PriceToIntegral
 		},
 		data(){
 			return{

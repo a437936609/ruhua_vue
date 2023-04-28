@@ -1,5 +1,6 @@
 <?php
 namespace Icbc\lib;
+use think\Exception;
 
 class IcbcSignature{
 	public static function sign($strToSign, $signType, $privateKey, $charset,$password){

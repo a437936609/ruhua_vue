@@ -1,5 +1,6 @@
 <?php
 namespace Icbc\lib;
+use think\Exception;
 
 class DefaultIcbcClient{
 	public $appId;
@@ -116,7 +117,47 @@ class DefaultIcbcClient{
 		return $params;
 
 	}
+	
+	function prepareResponseParams($request, $msgId, $appAuthToken){
+		$bizContentStr = json_encode($request["response_biz_content"]);
 
+		$path = parse_url($request["serviceUrl"],PHP_URL_PATH);
+        
+        $params = array();
+
+        if(isset($request["extraParams"]) && $request["extraParams"] != null){
+        	$params = array_merge($params,$request["extraParams"]);
+        }
+
+        $params[IcbcConstants::$APP_ID] = $this->appId;
+        $params[IcbcConstants::$SIGN_TYPE] = $this->signType;
+        $params[IcbcConstants::$CHARSET] = $this->charset;
+        $params[IcbcConstants::$FORMAT] = $this->format;
+        $params[IcbcConstants::$CA] = $this->ca;
+        $params[IcbcConstants::$APP_AUTH_TOKEN] = $appAuthToken;
+        $params[IcbcConstants::$MSG_ID] = $msgId;
+
+        date_default_timezone_set(IcbcConstants::$DATE_TIMEZONE);
+        $params[IcbcConstants::$TIMESTAMP] = date(IcbcConstants::$DATE_TIME_FORMAT);
+
+		if ($request["isNeedEncrypt"]){
+			if ($bizContentStr != null) {
+				$params[IcbcConstants::$ENCRYPT_TYPE] = $this->encryptType;
+				$params[IcbcConstants::$BIZ_CONTENT_KEY] = IcbcEncrypt::encryptContent($bizContentStr, $this->encryptType, $this->encryptKey, $this->charset);
+			}
+		} else {
+			$params[IcbcConstants::$BIZ_CONTENT_KEY] = $bizContentStr;
+		}
+
+		$strToSign = WebUtils::buildOrderedSignStr($path, $params);
+
+		$signedStr = IcbcSignature::sign($strToSign, $this->signType, $this->privateKey, $this->charset, $this->password);
+
+        $params[IcbcConstants::$SIGN] = $signedStr;
+		return $params;
+
+	}
+	
 	function JSONTRANSLATE($array) {
 	    foreach ($array as $key => $value){
 	        $array[$key] = urlencode($value);

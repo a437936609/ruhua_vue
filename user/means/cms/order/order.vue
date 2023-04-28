@@ -407,7 +407,7 @@
 					color: $font-color-dark;
 
 					&:before {
-						content: '￥';
+						// content: '￥';
 						font-size: $font-sm;
 						margin: 0 2upx 0 8upx;
 					}
@@ -433,7 +433,7 @@
 				color: $font-color-dark;
 
 				&:before {
-					content: '￥';
+					// content: '￥';
 					font-size: $font-sm;
 					margin: 0 2upx 0 8upx;
 				}

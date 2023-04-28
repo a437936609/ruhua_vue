@@ -360,8 +360,8 @@ class PayService
         $order_info['orderPayAmout']                =   $money;
         $order_info['orderInvalidTime']             =   '15';
         $order_info['noticeUrl']                    =   $notify_url;
-        $order_info['payBackUrl']                   =   $api_url . '/#/pages/order/pay';
-        $order_info['payFailUrl']                   =   $api_url . '/#/pages/order/pay';
+        $order_info['payBackUrl']                   =   $api_url . '#/pages/user/myorder/myorder?id=' . $order_id;
+        $order_info['payFailUrl']                   =   $api_url . '#/pages/user/myorder/myorder?id=' . $order_id;
         $order_info['mercId']                       =   '19213615';
         $order_info['storeId']                      =   '907319';
         $order_info['storeName']                    =   '数币旗舰店';
@@ -369,7 +369,7 @@ class PayService
         $order_info['prodName']                     =   '一分钱商品数币';
         $order_info['skuId']                        =   '90000000000100004519';
 
-        return IcbcApi::createOrder($icbc_config, $order_info);;
+        return IcbcApi::createOrder($icbc_config, $order_info);
     }
 
     public function icbc_test()

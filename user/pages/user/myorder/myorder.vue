@@ -37,7 +37,7 @@
 					<text class="title clamp" @click="jump_pro(item.goods_id)">{{item.goods_name}}</text>
 					<text class="spec" v-if="item.sku_name">规格:{{item.sku_name}}</text>
 					<view class="price-box">
-						<text class="price">￥{{item.price}}</text>
+						<text class="price"><price-to-integral :price="item.price"></price-to-integral></text>
 						<text class="number">x {{item.num}}</text>
 						<!-- <view class="btn_2" v-if="my_order.state==1" @click="jump_tograde">评分</view> -->
 						<button v-if="my_order.state == 1 && item.state < 2"
@@ -80,11 +80,11 @@
 			</view>
 			<view class="yt-list-cell b-b">
 				<text class="cell-tit clamp">商品金额</text>
-				<text class="cell-tip">￥{{my_order.goods_money}}</text>
+				<text class="cell-tip"><price-to-integral :price="my_order.goods_money"></price-to-integral></text>
 			</view>
 			<view class="yt-list-cell b-b" v-if="my_order.coupon_money>0">
 				<text class="cell-tit clamp">优惠金额</text>
-				<text class="cell-tip red">-￥{{my_order.coupon_money}}</text>
+				<text class="cell-tip red">-<price-to-integral :price="my_order.coupon_money"></price-to-integral></text>
 			</view>
 			<view class="yt-list-cell b-b">
 				<text class="cell-tit clamp">运费</text>
@@ -128,6 +128,7 @@
 
 <script>
 	import uniIcons from "@/components/uni/uni-icons/uni-icons.vue"
+	import PriceToIntegral from "@/components/price-to-integral/price-to-integral"
 	export default {
 		data() {
 			return {
@@ -145,7 +146,7 @@
 			}
 		},
 		components: {
-			uniIcons
+			uniIcons, PriceToIntegral
 		},
 		onLoad(option) {
 			this.order_id = option.id
@@ -935,7 +936,7 @@
 			color: $base-color;
 
 			&:before {
-				content: '￥';
+				// content: '￥';
 				font-size: 34upx;
 			}
 		}

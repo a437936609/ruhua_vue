@@ -1787,7 +1787,7 @@
 			color: $base-color;
 
 			&:before {
-				content: '￥';
+				// content: '￥';
 				font-size: 34upx;
 			}
 		}

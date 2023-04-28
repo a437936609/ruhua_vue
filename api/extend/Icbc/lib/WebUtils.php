@@ -1,5 +1,6 @@
 <?php
 namespace Icbc\lib;
+use think\Exception;
 class WebUtils{
 	private static $version = "v2_20170324";
 

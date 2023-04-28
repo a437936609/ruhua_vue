@@ -95,7 +95,7 @@
 
 						<view class="tui-original-price tui-gray" style="font-weight: 100;flex-grow: 1;" v-if="is_vip">
 							价格
-							<text class="tui-line-through">￥{{list.market_price}}</text>
+							<text class="tui-line-through"><price-to-integral :price="list.market_price"></price-to-integral></text>
 						</view>
 					</view>
 				</block>
@@ -284,10 +284,10 @@
 					<img :src="getimg+list.imgs" class="tui-popup-img" />
 					<view class="tui-popup-price">
 						<template v-if="list.discount != '[]'">
-							<view class="tui-amount tui-bold">￥{{price}}</view>
+							<view class="tui-amount tui-bold"><price-to-integral :price="price"></price-to-integral></view>
 						</template>
 						<template v-else>
-							<view class="tui-amount tui-bold">￥{{price}}</view>
+							<view class="tui-amount tui-bold"><price-to-integral :price="price"></price-to-integral></view>
 						</template>
 
 						<view class="tui-number"><text v-if="list.sku_name">{{list.sku_name}}</text> <text>库存：{{list.stock}}</text>
@@ -1802,7 +1802,7 @@
 			color: $base-color;
 
 			&:before {
-				content: '￥';
+				// content: '￥';
 				font-size: 34upx;
 			}
 		}

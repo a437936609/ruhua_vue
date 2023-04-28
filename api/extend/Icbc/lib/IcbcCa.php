@@ -1,5 +1,6 @@
 <?php
 namespace Icbc\lib;
+use think\Exception;
 class IcbcCa{
 	public static function sign($content,$privatekey,$password){
 		if (!extension_loaded('infosec'))

@@ -12,9 +12,9 @@
 					<text class="title clamp">{{item.goods_name}}</text>
 					<text class="spec">{{item.sku_name?item.sku_name:''}}</text>
 					<view class="price-box">
-						<text class="price" v-if="item.vip_price">￥{{item.price - item.vip_price}}</text>
-						<text class="price" v-else>￥{{item.price}}</text>
-						<!-- <text class="price">￥{{item.price}}</text> -->
+						<text class="price" v-if="item.vip_price"><price-to-integral :price="item.price - item.vip_price"></price-to-integral></text>
+						<text class="price" v-else><price-to-integral :price="item.price"></price-to-integral></text>
+						<!-- <text class="price">{item.price}}</text> -->
 						<text class="number">x {{item.num}}</text>
 					</view>
 				</view>
@@ -25,7 +25,9 @@
 </template>
 
 <script>
+	import PriceToIntegral from "@/components/price-to-integral/price-to-integral"
 	export default{
+		components: { PriceToIntegral },
 		data(){
 			return{
 				getimg: this.$getimg,

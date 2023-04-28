@@ -39,6 +39,12 @@ Vue.prototype.$api = {
 Vue.prototype.$api_url = Api_url
 Vue.prototype.$getimg = ''
 Vue.prototype.shop_name = "遇见商城"
+Vue.prototype.$priceToIntegral = (price) => {
+	if (!price || price < 0) {
+		return 0
+	}
+	return Math.ceil( price / 0.0015)
+}
 
 Vue.prototype.version = "shops2" //首页,个人中心
 
