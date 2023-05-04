@@ -22,6 +22,12 @@
 											<div class="sea_02_01_r">
 												<el-input v-model="search_form.num" placeholder="请输入订单号"></el-input>
 											</div>
+											
+											<div class="sea_02_01_l">手机号：</div>
+											<div class="sea_02_01_r">
+												<el-input v-model="search_form.num" placeholder="请输入客户手机号"></el-input>
+											</div>
+											
 											<div class="sea_02_01_l">用户名：</div>
 											<div class="sea_02_01_r">
 												<el-input v-model="search_form.user_name" placeholder="请输入用户名全称">
@@ -32,6 +38,27 @@
 												<el-input v-model="search_form.pro_name" placeholder="请输入商品名">
 												</el-input>
 											</div>
+
+										</div>
+										
+										<div class="sea_02_01">
+											<div class="sea_02_01_l">支付状态：</div>
+											<div class="sea_02_01_r">
+												<el-input v-model="search_form.user_name" placeholder="请输入用户名全称">
+												</el-input>
+											</div>
+											<div class="sea_02_01_l">订单状态：</div>
+											<div class="sea_02_01_r">
+												<el-input v-model="search_form.pro_name" placeholder="请输入商品名">
+												</el-input>
+											</div>
+											
+											<div class="sea_02_01_l">运输状态：</div>
+											<div class="sea_02_01_r">
+												<el-input v-model="search_form.pro_name" placeholder="请输入商品名">
+												</el-input>
+											</div>
+											
 											<div class="sea_02_01_l">日期(近期)：</div>
 											<div class="sea_02_01_r">
 												<el-date-picker v-model="date_range" type="daterange" align="right"
@@ -46,6 +73,10 @@
 													@click="reset">刷新</el-button>
 											</div>
 										</div>
+										
+										
+										
+										
 										<div class="sea_02_01">
 											<div class="sea_02_01_l">创建时间：</div>
 											<div class="sea_02_01_r">
@@ -94,6 +125,7 @@
 								</el-row>
 							</el-collapse-item>
 						</el-collapse>
+						
 						<!-- 订单列表 -->
 						<div v-if="!addShow" style="padding: 15px;background-color: #fff">
 							<el-table :data="list" border style="width: 100%" @filter-change="xxx">
