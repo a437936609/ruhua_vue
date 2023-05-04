@@ -572,7 +572,7 @@
 	}
 
 	.user-section {
-		height: 280upx;
+		height: 520upx;
 		padding: 100upx 30upx 0;
 		position: relative;
 		/* background-color: #FB586A; */

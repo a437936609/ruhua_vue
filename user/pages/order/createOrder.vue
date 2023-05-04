@@ -157,7 +157,6 @@
 				<text class="cell-tit clamp">商品金额</text>
 				<text class="cell-tip">
 					￥{{goods_money || count_price(goods_money)}}
-					<price-to-integral :price="item.price"></price-to-integral>
 				</text>
 			</view>
 			<view class="yt-list-cell b-b" v-if="coupon_money>0">
