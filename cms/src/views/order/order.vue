@@ -166,8 +166,8 @@
 											查看
 										</el-button>
 
-										<el-button style="margin-left: 10px" type="danger" size="small" slot="reference"
-											@click="del(scope.row.order_id,scope.$index)">删除</el-button>
+										<!-- <el-button style="margin-left: 10px" type="danger" size="small" slot="reference"
+											@click="del(scope.row.order_id,scope.$index)">删除</el-button> -->
 
 										<el-button style="margin-left: 10px" type="success" size="small"
 											@click="print_order(scope.row.order_id)">打印</el-button>
@@ -850,26 +850,26 @@
 			},
 			sub() {},
 			//获取商品列表
-			//删除商品
+			//删除订单
 			del(id) {
-				var that = this;
-				this.$confirm('是否删除?', '提示', {
-					confirmButtonText: '确定',
-					cancelButtonText: '取消',
-					type: 'warning'
-				}).then(() => {
-					this.http.put_show('order/admin/del_order', {
-						id: id
-					}).then(() => {
-						that.$message({
-							showClose: true,
-							message: '删除成功',
-							type: 'success'
-						});
-						this.get_all_order()
-						// that.list.splice(index, 1);
-					});
-				})
+				// var that = this;
+				// this.$confirm('是否删除?', '提示', {
+				// 	confirmButtonText: '确定',
+				// 	cancelButtonText: '取消',
+				// 	type: 'warning'
+				// }).then(() => {
+				// 	this.http.put_show('order/admin/del_order', {
+				// 		id: id
+				// 	}).then(() => {
+				// 		that.$message({
+				// 			showClose: true,
+				// 			message: '删除成功',
+				// 			type: 'success'
+				// 		});
+				// 		this.get_all_order()
+				// 		// that.list.splice(index, 1);
+				// 	});
+				// })
 			},
 			close_fun(done) {
 				this.clear_data()

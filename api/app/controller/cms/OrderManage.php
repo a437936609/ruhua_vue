@@ -38,16 +38,17 @@ class OrderManage extends BaseController
      */
     public function deleteOrder($id = '')
     {
-        (new IDPostiveInt)->goCheck();
-        $result = OrderModel::where('order_id', $id)->find(); //这里是软删除
-        if (!$result) {
-            return app('json')->fail();
-        }
-        if (!$result->delete(config('setting.soft_del'))) {
-            return app('json')->fail();
-        }
-        return app('json')->success();
-//        return $result?1:0;
+//        (new IDPostiveInt)->goCheck();
+//        $result = OrderModel::where('order_id', $id)->find(); //这里是软删除
+//        if (!$result) {
+//            return app('json')->fail();
+//        }
+//        if (!$result->delete(config('setting.soft_del'))) {
+//            return app('json')->fail();
+//        }
+//        return app('json')->success();
+////        return $result?1:0;
+        return true;
     }
 
     /**
