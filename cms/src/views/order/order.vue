@@ -852,7 +852,7 @@
 				this.list = this.all.slice(start, end);
 			},
 			sub() {},
-			//获取商品列表
+			//获取订单列表
 			//删除订单
 			del(id) {
 				// var that = this;
