@@ -136,7 +136,7 @@
 								</el-table-column> -->
 								<el-table-column label="订单状态" width="100"
 									:filters="[{ text: '已退款', value: -2 }, { text: '退款中', value: -1 },{ text: '未完成', value: 0 },{ text: '已完成', value: 1 },{ text: '已评价', value: 2 },]"
-									filter-placement="bottom-end" :column-key="'dd'">
+									:filter-method="filter_status" filter-placement="bottom-end" :column-key="'dd'">
 									<template slot-scope="scope">
 										<p v-if="scope.row.state == -2">已退款</p>
 										<p v-if="scope.row.state == -1">退款中</p>
@@ -681,6 +681,9 @@
 				return row.shipment_state === value;
 			},
 			filterTag(value, row) {
+				return row.state === value;
+			},
+			filter_status(value, row) {
 				return row.state === value;
 			},
 
