@@ -92,6 +92,10 @@ class Goods extends BaseModel
         try {
             $post['img_id'] = $post['banner_imgs'][0];
             $post['banner_imgs'] = implode(',', $post['banner_imgs']);
+
+            //https://api.aku.pub 转换成 img.aku.pub
+            $post['content'] = str_replace(config('site.api_domain'), config('site.img_domain'), $post['content']);
+
             if (input('?post.sku')) {
                 $num =0;
                 $sku= input('post.sku');
@@ -140,6 +144,9 @@ class Goods extends BaseModel
             $post['banner_imgs'] = implode(',', $post['banner_imgs']);
             //删除未填写价格的规格参数行
             //如果用request()->param 数据对sku的操作会有问题
+
+            //https://api.aku.pub 转换成 img.aku.pub
+            $post['content'] = str_replace(config('site.api_domain'), config('site.img_domain'), $post['content']);
 
             /*
              * 修改思路

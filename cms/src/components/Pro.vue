@@ -398,6 +398,7 @@
 				}
 			},
 			upload_img(url) {
+
 				return this.http.post_show('index/upload/down_img', {
 					url: url
 				}).then(res => {
