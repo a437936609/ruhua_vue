@@ -25,7 +25,7 @@
 											
 											<div class="sea_02_01_l">手机号：</div>
 											<div class="sea_02_01_r">
-												<el-input v-model="search_form.num" placeholder="请输入客户手机号"></el-input>
+												<el-input v-model="search_form.mobile" placeholder="请输入客户手机号"></el-input>
 											</div>
 											
 											<div class="sea_02_01_l">用户名：</div>
@@ -44,28 +44,26 @@
 										<div class="sea_02_01">
 
 
-											<div class="sea_02_01_l">支付状态：</div>
-											<div class="sea_02_01_r">
-												<el-select v-model="search_form.filter_pay" placeholder="请选择">
-													<el-option v-for="item in payStatu" :key="item.value" :label="item.label" :value="item.value"></el-option>
-												</el-select>
-											</div>
 											<div class="sea_02_01_l">订单状态：</div>
 											<div class="sea_02_01_r">
 												<el-select v-model="search_form.filter_status" placeholder="请选择">
+													<el-option v-for="item in orderzt" :key="item.value" :label="item.label" :value="item.value"></el-option>
 												</el-select>
-													<el-option v-for="item in orderStatu" :key="item.value" :label="item.label" :value="item.value"></el-option>
+											</div>
+											
+											<div class="sea_02_01_l">支付状态：</div>
+											<div class="sea_02_01_r">
+												<el-select v-model="search_form.filter_pay" placeholder="请选择">
+													<el-option v-for="item in payzt" :key="item.value" :label="item.label" :value="item.value"></el-option>
 												</el-select>
 											</div>
 											
 											<div class="sea_02_01_l">运输状态：</div>
 											<div class="sea_02_01_r">
 												<el-select v-model="search_form.filter_send" placeholder="请选择">
-												</el-select>
-													<el-option v-for="item in returnStatu" :key="item.value" :label="item.label" :value="item.value"></el-option>
+													<el-option v-for="item in returnzt" :key="item.value" :label="item.label" :value="item.value"></el-option>
 												</el-select>
 											</div>
-
 
 											
 											<div class="sea_02_01_l">日期(近期)：</div>
@@ -82,9 +80,7 @@
 													@click="reset">刷新</el-button>
 											</div>
 										</div>
-										
-										
-										
+
 										
 										<div class="sea_02_01">
 											<div class="sea_02_01_l">创建时间：</div>
@@ -323,6 +319,10 @@
 					user_name: '',
 					pro_name: '',
 					num: '',
+					mobile:'',
+					filter_status:'',
+					filter_pay:'',
+					filter_send:'',
 					stat_time: '',
 					end_time: ''
 				},
@@ -336,39 +336,50 @@
 				ed: false,
 				activeNames: '1',
 				input: '',
-				payStatu: [{
-							"value": "1",
-							"label": "已支付",
-						},{
-							"value": "0",
-							"label": "未支付",
-						}],
-				returnStatu:[{
-							"value": "1",
-							"label": "已退货",
-						},{
-							"value": "0",
-							"label": "未退货",
-						}],
-				orderStatu:[{
-							"value": "-2",
-							"label": "已退款",
-							},{
-							"value": "-1",
-							"label": "退款中",
-							},{
-							"value": "0",
-							"label": "未完成",
-							},{
-							"value": "1",
-							"label": "已完成",
-							},{
-							"value": "2",
-							"label": "已评价",
-							},{
-							"value": "-3",
-							"label": "已关闭",
-							}],
+				orderzt: [{
+						"value": "",
+						"label": "请选择",
+					},{
+						"value": "-2",
+						"label": "已退款",
+					},{
+						"value": "-1",
+						"label": "退款中",
+					},{
+						"value": "0",
+						"label": "未完成",
+					},{
+						"value": "1",
+						"label": "已完成",
+					},{
+						"value": "2",
+						"label": "已评价",
+					},{
+						"value": "-3",
+						"label": "已关闭",
+					}
+				],
+				payzt: [{
+						"value": "",
+						"label": "请选择",
+					},{
+						"value": "1",
+						"label": "已支付",
+					},{
+						"value": "0",
+						"label": "未支付",
+					}],
+				returnzt:[{
+						"value": "",
+						"label": "请选择",
+					},{
+						"value": "1",
+						"label": "已退货",
+					},{
+						"value": "0",
+						"label": "未退货",
+						},
+					],
 				type: [{
 						"names": "普通订单",
 						"num": 879,
@@ -726,13 +737,13 @@
 				})
 			},
 			get_order_data() {
-				this.http.post('statistic/admin/cmsOrderDate').then(res => {
-					this.message[0].num = res.data.dai_order
-					this.message[2].num = res.data.stock
-					this.message[3].num = parseFloat(res.data.tx).toFixed(2);
-					this.message[4].num = res.data.yesterday_order
+				// this.http.post('statistic/admin/cmsOrderDate').then(res => {
+				// 	this.message[0].num = res.data.dai_order
+				// 	this.message[2].num = res.data.stock
+				// 	this.message[3].num = parseFloat(res.data.tx).toFixed(2);
+				// 	this.message[4].num = res.data.yesterday_order
 
-				})
+				// })
 			},
 			Conversiontime(timestamp) {
 				var date = new Date(timestamp);

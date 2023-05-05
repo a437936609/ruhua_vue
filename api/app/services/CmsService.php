@@ -69,7 +69,34 @@ class CmsService implements RoleInterface
             $name=base64_encode(trim($post['user_name']));
             $uid=User::where('nickname','like', $name)->value('id');
             $where[] = ['user_id','=',$uid];
-    }
+        }
+        //收货人手机
+        if(isset($post['mobile']) && !empty($post['mobile'])) {
+            $mobile=base64_encode(trim($post['mobile']));
+            $where[] = ['receiver_mobile','=',$mobile];
+        }
+
+        //订单状态 值里有空和负数
+        if(strlen($post['filter_status']) > 0)
+        {
+            $filter_status=$post['filter_status'];
+            $where[] = ['state','=',$filter_status];
+        }
+
+        //支付状态 值里有空和负数
+        if(strlen($post['payment_state']) > 0)
+        {
+            $filter_pay=$post['filter_pay'];
+            $where[] = ['payment_state','=',$filter_pay];
+        }
+
+        //发货状态 值里有空和负数
+        if(strlen($post['filter_send']) > 0)
+        {
+            $filter_send=$post['filter_send'];
+            $where[] = ['shipment_state','=',$filter_send];
+        }
+
         if(isset($post['pro_name']) && !empty($post['pro_name'])) {
             $order_list=OrderGoods::where('goods_name','like', '%' . trim($post['pro_name']) . '%')->column('order_id');
             $where[] = ['order_id', 'in', $order_list];
