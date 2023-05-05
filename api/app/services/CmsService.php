@@ -63,7 +63,7 @@ class CmsService implements RoleInterface
             $num=$post['num'];
         }
         if(isset($post['num']) && !empty($post['num'])) {
-            $where[] = ['order_num', 'like', '%' . trim($post['num']) . '%'];
+            $where[] = ['prepay_id', 'like', '%' . trim($post['num']) . '%'];
         }
         if(isset($post['user_name']) && !empty($post['user_name'])) {
             $name=base64_encode(trim($post['user_name']));
@@ -119,14 +119,14 @@ class CmsService implements RoleInterface
             $data = OrderModel::with(['ordergoods.imgs', 'users' => function ($query) {
                 $query->field('id,nickname,headpic');
             }])->where($where)->where('state', '<>', -3)
-                ->order('create_time desc')->field("$os order_id,order_num,user_id,item_id,pt_state,state,payment_state,shipment_state,
+                ->order('create_time desc')->field("$os order_id,order_num,prepay_id,user_id,item_id,pt_state,state,payment_state,shipment_state,
             delete_time,update_time,pay_time,shipping_money,order_money,user_ip,message,create_time", true)
                 ->limit(1000)->select();
         }else {
             $data = OrderModel::with(['ordergoods.imgs', 'users' => function ($query) {
                 $query->field('id,nickname,headpic');
             }])->where($where)
-                ->order('create_time desc')->field("$os order_id,order_num,user_id,item_id,pt_state,state,payment_state,shipment_state,
+                ->order('create_time desc')->field("$os order_id,order_num,prepay_id,user_id,item_id,pt_state,state,payment_state,shipment_state,
                 delete_time,update_time,pay_time,shipping_money,order_money,user_ip,message,create_time", true)
                 ->limit($page * $num, $num)->select();
         }
