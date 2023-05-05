@@ -196,20 +196,20 @@
 					initialFrameHeight: 500,
 					initialFrameWidth: "60%",
 					serverUrl: '/index.php/index/admin/ue_uploads',
-					UEDITOR_HOME_URL: this.$ue + '/static/UEditor/',
-					toolbars: [
-						[
-							"justifyleft",
-							"justifycenter",
-							"justifyright",
-							"justifyjustify",
-							"bold",
-							"forecolor",
-							"fontsize",
-							"source",
-							"insertimage"
-						]
-					]
+					UEDITOR_HOME_URL: this.$ue + '/static/UEditor/'
+					// toolbars: [
+					// 	[
+					// 		"justifyleft",
+					// 		"justifycenter",
+					// 		"justifyright",
+					// 		"justifyjustify",
+					// 		"bold",
+					// 		"forecolor",
+					// 		"fontsize",
+					// 		"source",
+					// 		"insertimage"
+					// 	]
+					// ]
 				},
 				category: [],
 				forms: {

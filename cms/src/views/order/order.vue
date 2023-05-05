@@ -12,7 +12,7 @@
 				<transition appear appear-active-class="animated fadeInLeft">
 					<el-main>
 						<el-collapse v-model="activeNames"
-							style="padding:25px;background-color: #fff;margin-bottom:15px;" v-if="!addShow">
+							style="padding:15px;background-color: #fff;margin-bottom:15px;" v-if="!addShow">
 							<el-collapse-item title="订单搜索" name="1">
 								<div class="search">
 									<div class="sea_02">
@@ -42,6 +42,8 @@
 										</div>
 										
 										<div class="sea_02_01">
+
+
 											<div class="sea_02_01_l">支付状态：</div>
 											<div class="sea_02_01_r">
 												<el-select v-model="search_form.filter_pay" placeholder="请选择">
@@ -63,6 +65,8 @@
 													<el-option v-for="item in returnStatu" :key="item.value" :label="item.label" :value="item.value"></el-option>
 												</el-select>
 											</div>
+
+
 											
 											<div class="sea_02_01_l">日期(近期)：</div>
 											<div class="sea_02_01_r">
@@ -78,6 +82,8 @@
 													@click="reset">刷新</el-button>
 											</div>
 										</div>
+										
+										
 										
 										
 										<div class="sea_02_01">
@@ -109,7 +115,6 @@
 										</div> -->
 									</div>
 								</div>
-								
 								<!-- <el-row :gutter="20" v-if="!addShow">
 									<template v-for="(item,index) of message">
 										<el-col :span="6">
@@ -127,7 +132,6 @@
 										</el-col>
 									</template>
 								</el-row> -->
-								
 							</el-collapse-item>
 						</el-collapse>
 						
@@ -320,10 +324,7 @@
 					pro_name: '',
 					num: '',
 					stat_time: '',
-					end_time: '',
-					filter_pay:'',
-					filter_send:'',
-					filter_status:''
+					end_time: ''
 				},
 				goods_list: [],
 				user_list: [],
@@ -336,41 +337,38 @@
 				activeNames: '1',
 				input: '',
 				payStatu: [{
-						"value": "1",
-						"label": "已支付",
-					},{
-						"value": "0",
-						"label": "未支付",
-					}
-				],
+							"value": "1",
+							"label": "已支付",
+						},{
+							"value": "0",
+							"label": "未支付",
+						}],
 				returnStatu:[{
-						"value": "1",
-						"label": "已退货",
-					},{
-						"value": "0",
-						"label": "未退货",
-					}
-				],
+							"value": "1",
+							"label": "已退货",
+						},{
+							"value": "0",
+							"label": "未退货",
+						}],
 				orderStatu:[{
-						"value": "-2",
-						"label": "已退款",
-						},{
-						"value": "-1",
-						"label": "退款中",
-						},{
-						"value": "0",
-						"label": "未完成",
-						},{
-						"value": "1",
-						"label": "已完成",
-						},{
-						"value": "2",
-						"label": "已评价",
-						},{
-						"value": "-3",
-						"label": "已关闭",
-					}
-				],
+							"value": "-2",
+							"label": "已退款",
+							},{
+							"value": "-1",
+							"label": "退款中",
+							},{
+							"value": "0",
+							"label": "未完成",
+							},{
+							"value": "1",
+							"label": "已完成",
+							},{
+							"value": "2",
+							"label": "已评价",
+							},{
+							"value": "-3",
+							"label": "已关闭",
+							}],
 				type: [{
 						"names": "普通订单",
 						"num": 879,
@@ -388,7 +386,7 @@
 						"names": "砍价订单",
 						"num": 879,
 						"state": 0
-					},
+					}
 				],
 				time: [{
 					"ti": "昨天",
@@ -876,6 +874,7 @@
 					this.search_form = {
 						pro_name: '',
 						user_name: '',
+						user_mobile: '',
 						num: ''
 					}
 					that.all = res.data
@@ -1118,9 +1117,12 @@
 
 <style lang="less">
 	.order {
-
+		
 		margin-top: 0;
-
+		
+		.el-collapse-item__content{
+			padding-bottom: 0px;
+		}
 		.list-head {
 			padding-bottom: 10px;
 			display: flex;
@@ -1192,7 +1194,6 @@
 
 		.search {
 			line-height: 20px;
-			margin-bottom: 15px;
 			background-color: #fff;
 			// text-align: left;
 			color: #6B6B6B;

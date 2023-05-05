@@ -60,6 +60,7 @@ class OrderManage extends BaseController
         $key = $this->request->param('keywords') ?: '';
         $order = (new QyFactory())->instance('CmsService');
         $order->set_param($key);
+
         $data = $order->get_order_list();
         return app('json')->success($data);
     }
