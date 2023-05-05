@@ -135,7 +135,7 @@
 						<div v-if="!addShow" style="padding: 15px;background-color: #fff">
 							<el-table :data="list" border style="width: 100%" @filter-change="xxx">
 								<el-table-column type="index" label="序号" width="50"></el-table-column>
-								<el-table-column prop="order_num" label="订单号" width="180"></el-table-column>
+								<el-table-column prop="prepay_id" label="订单号" width="180"></el-table-column>
 								<el-table-column label="商品名称" prop="goods_id" width="280" :filters="goods_list"
 									:filter-method="filterHandler">
 									<template slot-scope="scope">
@@ -882,12 +882,12 @@
 				this.search_form.end_time = this.date_range[1] / 1000
 				this.http.post('order/admin/get_order', this.search_form).then(res => {
 					console.log('搜索结果（订单号）：', res)
-					this.search_form = {
+/* 					this.search_form = {
 						pro_name: '',
 						user_name: '',
 						user_mobile: '',
 						num: ''
-					}
+					} */
 					that.all = res.data
 					that.list = res.data;
 					that.list = res.data.slice(0, that.size);
