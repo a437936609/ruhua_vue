@@ -22,7 +22,7 @@ Vue.use(ElementUI);
 Vue.use(VCharts)
 Vue.prototype.$getimg = ''//Api_url;
 Vue.prototype.shop_name = '商城';
-Vue.prototype.$ue = "/cms/";  //百度编辑器路径，与vue打包路径一致
+Vue.prototype.$ue = "/cms_adm/";  //百度编辑器路径，与vue打包路径一致
 
 
   
