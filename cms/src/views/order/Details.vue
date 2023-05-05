@@ -10,7 +10,7 @@
 					</div>
 					<div class="details-l-02">
 						<div class="details-l-02-l">订单编号 ：</div>
-						<div class="details-l-02-r">{{details.order_num}}</div>
+						<div class="details-l-02-r">{{details.prepay_id}}</div>
 					</div>
 
 					<div class="details-l-02">
@@ -37,7 +37,11 @@
 					<hr style="height:1px;border:none;border-top:1px dashed #f0f0f0;">
 					<div class="details-l-02">
 						<div class="details-l-02-l">收货信息 ：</div>
-						<div class="details-l-02-r">{{details.receiver_name}},{{details.receiver_mobile}},{{details.receiver_province}}{{details.receiver_city}}{{details.receiver_district}}{{details.receiver_address}}</div>
+						<div class="details-l-02-r">{{details.receiver_province}}{{details.receiver_city}}{{details.receiver_district}}{{details.receiver_address}}</div>
+						<div class="details-l-02-l">名称 ：</div>
+						<div class="details-l-02-r">{{details.receiver_name}}</div>
+						<div class="details-l-02-l">手机号 ：</div>
+						<div class="details-l-02-r">{{details.receiver_mobile}}</div>
 					</div>
 					<div class="details-l-02">
 						<div class="details-l-02-l">买家留言 ：</div>
@@ -294,6 +298,7 @@
 		}
 
 		.details-l-02 {
+			text-align: left;
 			font-size: 10px;
 			color: #000000;
 			line-height: 30px;
