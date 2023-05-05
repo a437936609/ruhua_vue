@@ -11,10 +11,17 @@
 				</el-header>
 				<transition appear appear-active-class="animated fadeInLeft">
 					<el-main style="background-color: #F3F3F3;">
-						<list-a :down="down"></list-a>
+						<list-a :down="down" @preview="handlePreview"></list-a>
 					</el-main>
 				</transition>
 			</el-container>
+			<el-dialog
+				title="商品预览"
+				custom-class="dialog-preview"
+				:visible.sync="dialogPreviewData.show"
+				width="400px">
+				<iframe :src="dialogPreviewData.url" frameborder="0"></iframe>
+			</el-dialog>
 		</el-container>  
 	</div>
 </template>
@@ -34,7 +41,11 @@
 				down: false,
 				eid: 0,
 				page: [],
-				drawer:false
+				drawer:false,
+				dialogPreviewData: {
+					show: false,
+					url: ''
+				}
 			}
 		},
 		components: {
@@ -46,6 +57,10 @@
 			emit_one() {
 				console.log(123)
 			},
+			handlePreview (url) {
+				this.dialogPreviewData.show = true
+				this.dialogPreviewData.url = url
+			}
 			
 		},
 		//vue生命函数
@@ -59,5 +74,20 @@
 	.pro-list {
 		line-height: 30px;
 		text-align: left;
+	}
+
+</style>
+<style lang="less">
+	.dialog-preview
+	{
+		.el-dialog__body
+		{
+			padding: 0px;
+			iframe
+			{
+				width: 100%;
+				height: 600px;
+			}
+		}
 	}
 </style>

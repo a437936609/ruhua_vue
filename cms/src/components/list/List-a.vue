@@ -81,8 +81,10 @@
 								</el-switch>
 							</template>
 						</el-table-column>
-						<el-table-column label="操作" width="200">
+						<el-table-column label="操作" width="220">
 							<template slot-scope="scope">
+								<el-button type="default" size="small" @click="on_preview(scope.row.goods_id)">预览
+								</el-button>
 								<el-button type="success" size="small" @click="on_edit(scope.row.goods_id)">编辑
 								</el-button>
 								<el-button style="margin-left: 10px" type="danger" size="small" slot="reference"
@@ -284,8 +286,8 @@
 						field: 'is_hot'
 					})
 					.then((res) => {
-						console.log(res);
-					});
+						console.log(res)
+					})
 			},
 			//是否新品
 			set_new(id) {
@@ -312,13 +314,18 @@
 							message: '成功',
 							type: 'success'
 						})
-						that.product.splice(index, 1);
+						that.product.splice(index, 1)
 					});
 			},
 			emit_tg_list() {
-				this.addShow = false;
-				this.eid = 0;
-				this.getProductList(); //获取商品 
+				this.addShow = false
+				this.eid = 0
+				this.getProductList() //获取商品 
+			},
+			on_preview (id) {
+				let url = `${process.env.VUE_APP_H5_PRODUCT_PREVIEW}${id}`
+				this.$emit('preview', url)
+				console.log(url)
 			}
 
 		},

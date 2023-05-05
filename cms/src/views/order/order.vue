@@ -87,7 +87,7 @@
 											<div class="sea_02_01_r">
 												<el-button type="primary" plain @click="reset">全部</el-button>
 												<template v-for="item of time">
-													<el-button type="primary" plain size="mini"
+													<el-button type="primary" plain size="mini" :key="item.value"
 														@click="choose_time(item.value)">{{item.ti}}</el-button>
 												</template>
 											</div>
@@ -139,7 +139,7 @@
 								<el-table-column label="商品名称" prop="goods_id" width="280" :filters="goods_list"
 									:filter-method="filterHandler">
 									<template slot-scope="scope">
-										<div v-for="(item,key) of scope.row.ordergoods">{{item.goods_name | ellipsis}}
+										<div v-for="(item, key) of scope.row.ordergoods" :key="key">{{item.goods_name | ellipsis}}
 										</div>
 									</template>
 								</el-table-column>
@@ -582,45 +582,45 @@
 			happenTimeFun(num){//时间戳数据处理
 					let date = new Date(num);
 					 //时间戳为10位需*1000，时间戳为13位的话不需乘1000
-			        let y = date.getFullYear();
-			        let MM = date.getMonth() + 1;
-			        MM = MM < 10 ? ('0' + MM) : MM;//月补0
-			        let d = date.getDate();
-			        d = d < 10 ? ('0' + d) : d;//天补0
-			        let h = date.getHours();
-			        h = h < 10 ? ('0' + h) : h;//小时补0
-			        let m = date.getMinutes();
-			        m = m < 10 ? ('0' + m) : m;//分钟补0
-			        let s = date.getSeconds();
-			        s = s < 10 ? ('0' + s) : s;//秒补0
-			        return y + '-' + MM + '-' + d 
+			        let y = date.getFullYear() 
+			        let MM = date.getMonth() + 1
+			        MM = MM < 10 ? ('0' + MM) : MM //月补0
+			        let d = date.getDate()
+			        d = d < 10 ? ('0' + d) : d // 天补0
+			        let h = date.getHours()
+			        h = h < 10 ? ('0' + h) : h // 小时补0
+			        let m = date.getMinutes()
+			        m = m < 10 ? ('0' + m) : m // 分钟补0
+			        let s = date.getSeconds()
+			        s = s < 10 ? ('0' + s) : s // 秒补0
+			        return y + '-' + MM + '-' + d
 			},
-			handleCheckAllChange() {
+			handleCheckAllChange () {
 				console.log(cityOptions)
 				this.checkedCities = this.checkAll ? this.val : [];
         		this.isIndeterminate = false;
 			},
-			handleCheckedCitiesChange() {
+			handleCheckedCitiesChange () {
 				let checkedCount = this.checkedCities.length;
         		this.checkAll = checkedCount === this.cities.length;
         		this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
 			},
-			jump_export_list() {
+			jump_export_list () {
 				this.$router.push({
 					path: '/order/export_list'
 				})
 			},
-			order_time_range(e) {
+			order_time_range (e) {
 				console.log(e)
 			},
-			filterHandler(value, row, column) {
+			filterHandler (value, row, column) {
 				const property = column['property'];
 				return row.ordergoods[0][property] === value * 1;
 			},
-			xxx(filters) {
+			xxx (filters) {
 				// console.log(filters)
 			},
-			open(order_money, id) {
+			open (order_money, id) {
 				this.ed = true
 				this.yj = order_money
 				this.eid = id
@@ -655,8 +655,8 @@
 			},
 			//导出数据
 			get_excel() {
-				// const aLink = document.createElement('a');
-				 let token = localStorage.getItem('token');
+				// const aLink = document.createElement('a')
+				 let token = localStorage.getItem('token')
 				// aLink.href = Api_url + 'index/export_excl?token=' + token
 				// aLink.target = '_blank'
 				// aLink.download = 'ly_2019.csv';
@@ -937,10 +937,10 @@
 				console.log(start, end)
 				this.list = this.all.slice(start, end);
 			},
-			sub() {},
+			sub () {},
 			//获取订单列表
 			//删除订单
-			del(id) {
+			del (id) {
 				// var that = this;
 				// this.$confirm('是否删除?', '提示', {
 				// 	confirmButtonText: '确定',
