@@ -97,6 +97,10 @@ class Goods extends BaseModel
             $post['content'] = str_replace(config('site.api_domain'), config('site.img_domain'), $post['content']);
 
             if (input('?post.sku')) {
+
+                //如果填写规格后单独的商品编号被清空
+                $post['goods_code'] = '';
+
                 $num =0;
                 $sku= input('post.sku');
                 foreach ($sku as $k => $v) {
@@ -106,6 +110,7 @@ class Goods extends BaseModel
                     $post['stock'] = $num;
                     $arr = input('post.sku');
                     $sku_img_ids = input('post.sku_img_ids');
+
                     $res = self::create($post);
                     (new GoodsSku())->addSku($res['id'], $arr, $sku_img_ids);//添加sku
                 }else{
@@ -134,10 +139,14 @@ class Goods extends BaseModel
     public static function editProduct($post)
     {
         $arrs = input('post.sku');
-        Log::error('修改商品222');
-        Log::error($post);
-        Log::error('xxx');
-        Log::error($arrs);
+        //Log::error('修改商品222');
+        //Log::error($post);
+        //Log::error('xxx');
+        //Log::error($arrs);
+
+        //https://api.aku.pub 转换成 img.aku.pub
+        //$post['content'] = str_replace(config('site.api_domain'), config('site.img_domain'), $post['content']);
+
         Db::startTrans();// 启动事务
         try {
             $post['img_id'] = $post['banner_imgs'][0];
@@ -155,19 +164,24 @@ class Goods extends BaseModel
              * 3.商品规格为空有两种可能，1.以前为空，2.以前有规格修改为空
              **/
             if(!empty($arrs)){
-                if (input('?post.sku')) {
+                if (input('?post.sku')){
+
+                    //如果填写规格后单独的商品编号被清空
+                    $post['goods_code'] = '';
+
                     $arr = input('post.sku');
                     $num =0;
                     foreach ($arr as $k => $v) {
                         $num = $num+$v['stock_num'];
                     }
+
                     if($num>0) {
                         $sku_img_ids = input('post.sku_img_ids');
+
                         (new GoodsSku())->editSku($post['goods_id'], $arr, $sku_img_ids); //修改sku
                         $post['stock'] = $num;
                         $res = self::update($post, ['goods_id' => $post['goods_id']]);
-                    }
-                    else{
+                    }else{
                         $res = self::update($post, ['goods_id' => $post['goods_id']]);
                     }
                 }
@@ -686,7 +700,7 @@ class Goods extends BaseModel
                 }
             } else {
                 $goods['stock'] = $goods['stock'] - $v['num'];
-               // $goods['sales']= $goods['sales']+$v['num'];
+                // $goods['sales']= $goods['sales']+$v['num'];
                 if ($goods['stock'] >= 0) {
                     $goods->save();
                 }
@@ -734,18 +748,18 @@ class Goods extends BaseModel
                         $shrot2 = 1;
                         foreach ($sname as $kk=>$vv){
                             if($vv!=''){
-                            if(isset($v['s'.$short1.'_name'])){
-                                if($v['s'.$short1.'_name']!=$vv){
+                                if(isset($v['s'.$short1.'_name'])){
+                                    if($v['s'.$short1.'_name']!=$vv){
+                                        $shrot2 = 2;
+                                        break;
+                                    }
+                                }
+                                else{
                                     $shrot2 = 2;
                                     break;
                                 }
-                            }
-                            else{
-                                $shrot2 = 2;
-                                break;
-                            }
-                            $short1++;
-                        }}
+                                $short1++;
+                            }}
                         if ($shrot2==1) {
                             if($v['stock_num'] - $ordergoods[$i]['num']<0)
                                 throw new OrderException(['msg' => '库存不足']);

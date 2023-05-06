@@ -101,10 +101,10 @@ class ProductManage extends BaseController
      */
     public function all_goods_info()
     {
-       // Log::error('4321');
-        $res = GoodsModel::with('imgs')->field('goods_id,goods_name,market_price,price,stock,sales,is_hot,is_new,state,img_id,sort')
+        // Log::error('4321');
+        $res = GoodsModel::with('imgs')->field('goods_id,goods_name,goods_code,ic_code,market_price,price,stock,sales,is_hot,is_new,state,img_id,sort')
             ->order('goods_id desc')->select();
-       // Log::error('1234');
+        // Log::error('1234');
         return app('json')->success($res);
     }
 

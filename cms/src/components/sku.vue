@@ -44,6 +44,7 @@
 							<th v-for="(list,index) in tableData" :key="index">{{list['pName']}}</th>
 							<th width="200">价格</th>
 							<th width="200">库存</th>
+							<th width="200">商品编码</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -54,6 +55,9 @@
 							</td>
 							<td>
 								<input v-model="tableList[row-1]['stock_num']" placeholder="库存" />
+							</td>
+							<td>
+								<input v-model="tableList[row-1]['goods_code']" placeholder="商品编码" />
 							</td>
 						</tr>
 					</tbody>
@@ -157,6 +161,8 @@
 					row["spec"] = [];
 					row["price"] = {};
 					row["stock_num"] = {};
+					row["goods_code"] = {};
+
 					let len2 = attrs[i]["spec"].length;
 					let specLen = 0;
 					for (let j = 0; j < len2; j++) {
@@ -225,12 +231,14 @@
 					}
 					listItem["price"] = "";
 					listItem["stock_num"] = "";
+					listItem["goods_code"] = "";
 					if (this.edit_data.list) {
 						let e = this.edit_data.list
 						//判断 e[i]['price']，如果 e[i]不存在就会报错
 						if (e[i]) {
 							listItem["price"] = e[i]['price'];
 							listItem["stock_num"] = e[i]['stock_num'];
+							listItem["goods_code"] = e[i]['goods_code'];
 						}
 					}
 					tList.push(listItem);

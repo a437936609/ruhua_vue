@@ -55,8 +55,10 @@ class GoodsSku extends BaseModel
      * @param $sku_img_ids
      */
     public function editSku($goods_id,$arr,$sku_img_ids){
+
         $sarr = $this->set_kv_arr($arr, $sku_img_ids);  //sku_tree
         $fdata = $this->set_kv_json($arr, $sarr);   //sku_list
+
         $ty['tree'] = $sarr;
         $ty['list'] = $fdata;
         $json = json_encode($ty, JSON_UNESCAPED_UNICODE);
@@ -70,11 +72,6 @@ class GoodsSku extends BaseModel
             ]);
         }
     }
-
-    /*
-     *
-     * */
-
     /**
      * sku_tree
      * @param $arr
@@ -86,11 +83,12 @@ class GoodsSku extends BaseModel
         $obj = [];
         foreach ($arr as $k => $v) {
             foreach ($v as $kk => $vv) {
-                if (!in_array($kk, ['price', 'stock_num'])) {
+                if (!in_array($kk, ['price', 'stock_num', 'goods_code'])) {
                     $obj[$kk][$k] = $vv;
                 }
             }
         }
+
         $sarr = [];
         $x = 0;
         foreach ($obj as $k => $v) {
@@ -122,7 +120,7 @@ class GoodsSku extends BaseModel
         foreach ($arr as $k => $v) {
             $x = 0;
             foreach ($v as $kk => $vv) {
-                if (!in_array($kk, ['price', 'stock_num'])) {
+                if (!in_array($kk, ['price', 'stock_num', 'goods_code'])) {
                     $ca[$k][$x]['k'] = $kk;
                     $ca[$k][$x]['v'] = $vv;
                     $x++;
@@ -130,11 +128,13 @@ class GoodsSku extends BaseModel
             }
             $ca[$k]['price'] = $v['price'];
             $ca[$k]['stock_num'] = $v['stock_num'];
+            $ca[$k]['goods_code'] = $v['goods_code'];
         }
+
         $fdata = [];
         foreach ($ca as $k => $v) {
             foreach ($v as $kk => $vv) {
-                if ($kk !== 'price' && $kk !== 'stock_num') {
+                if ($kk !== 'price' && $kk !== 'stock_num' && $kk !== 'goods_code') {
                     $x = $kk + 1;
                     $fdata[$k]['s' . $x] = $this->get_sku_num($vv['k'], $vv['v'], $sarr);
                     $fdata[$k]['s' . $x . '_name'] = $vv['v'];
@@ -142,6 +142,7 @@ class GoodsSku extends BaseModel
                 $fdata[$k]['id'] = $k + 1;
                 $fdata[$k]['price'] = $v['price'];
                 $fdata[$k]['stock_num'] = $v['stock_num'];
+                $fdata[$k]['goods_code'] = $v['goods_code'];
             }
         }
         return $fdata;

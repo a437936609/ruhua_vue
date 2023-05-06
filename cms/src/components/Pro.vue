@@ -13,10 +13,12 @@
 						<el-form-item label="商品名称">
 							<el-input v-model="forms.goods_name" style="width:60%"></el-input>
 						</el-form-item>
+						
 						<el-form-item label="商品类型">
 							<el-radio v-model="forms.style" :label="0" border size="medium">实物商品(物流)</el-radio>
 							<el-radio v-model="forms.style" :label="1" border size="medium">虚拟商品(验证码)</el-radio>
 						</el-form-item>
+						
 						<el-form-item label="商品分类">
 							<el-select v-model="forms.category_id" placeholder="请选择商品分类">
 								<template v-for="item in category">
@@ -115,13 +117,19 @@
 								</el-col>
 
 							</el-col>
-
 						</el-row>
+						<el-form-item label="商品编码">
+							<el-input v-model="forms.goods_code" style="width:200px"></el-input>
+						</el-form-item>
+						
+						<el-form-item label="内控编码">
+							<el-input v-model="forms.ic_code" style="width:200px"></el-input>
+						</el-form-item>
+						
 						<el-form-item label="规格类型">
 							<el-radio v-model="show_sku" :label="0" border size="medium" :checked="show_sku?'':'checked'">无</el-radio>
 							<el-radio v-model="show_sku" :label="1" border size="medium" :checked="show_sku?'checked':''">有</el-radio>
 						</el-form-item>
-						
 
 						<el-form-item>
 							<skuv v-show="show_sku" :sub="sub" :del="sku_comfirm" :rdata="rdata" @pro_sku="pro_sku"></skuv>
@@ -226,6 +234,8 @@
 					img_id: "", //主图
 					banner_imgs: [], //banner多图
 					description: "",
+					goods_code: "",
+					ic_code: "",
 					content: "",
 					sales: "",
 					style: 0,
