@@ -32,7 +32,7 @@ class Delivery extends BaseModel
             DeliveryRule::createDeliveryRule($data['rule'],$res['id']);
             Db::commit();
             if($res){
-             return app('json')->success($res['id']);
+                return app('json')->success();
             }else{
                 return app('json')->fail();
             }
@@ -59,11 +59,12 @@ class Delivery extends BaseModel
             if(!$delivery){
                 return app('json')->fail('id错误');
             }
+
             $res=$delivery->save($data);
             DeliveryRule::createDeliveryRule($data['rule'],$data['id']);
             Db::commit();
             if($res){
-                return app('json')->success($res['id']);
+                return app('json')->success();
             }else{
                 return app('json')->fail();
             }
