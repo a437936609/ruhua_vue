@@ -12,7 +12,10 @@
 							<view class="tui-amount tui-bold"><price-to-integral :price="price"></price-to-integral></view>
 						</template>
 		
-						<view class="tui-number"><text v-if="list.sku_name">{{list.sku_name}}</text> <text>库存：{{list.stock}}</text>
+						<view class="tui-number">
+							<text v-if="list.sku_name">{{list.sku_name}}</text> 
+							<text>库存：{{list.stock}}</text>
+							<text>编号：{{list.goods_code}}</text>
 						</view>
 					</view>
 				</view>

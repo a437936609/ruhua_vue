@@ -919,6 +919,7 @@
 						if (isku['s1'] == v['s1']) {
 							price = v.price
 							stock = v.stock_num
+							goods_code = v.goods_code
 							sku_name = v['s1_name']
 							sku_index = k
 						}
@@ -927,6 +928,7 @@
 						if (isku['s1'] == v['s1'] && isku['s2'] == v['s2']) {
 							price = v.price
 							stock = v.stock_num
+							goods_code = v.goods_code
 							sku_name = v['s1_name'] + ' ' + v['s2_name']
 							sku_index = k
 						}
@@ -935,6 +937,7 @@
 						if (isku['s1'] == v['s1'] && isku['s2'] == v['s2'] && isku['s3'] == v['s3']) {
 							price = v.price
 							stock = v.stock_num
+							goods_code = v.goods_code
 							sku_name = v['s1_name'] + ' ' + v['s2_name'] + ' ' + v['s3_name']
 							sku_index = k
 						}
@@ -942,6 +945,7 @@
 				}
 				g.price = price
 				g.stock = stock
+				g.goods_code = goods_code
 				g.sku_name = sku_name
 				this.xz_sku_name = g.sku_name
 				this.list = g,
