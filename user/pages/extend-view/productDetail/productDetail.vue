@@ -213,7 +213,7 @@
 		<!--底部操作栏--->
 
 		<!--规格选择-->
-		<ChooseSku :num="num" :popupShow="popupShow" :price="price" :list="list" :sku_arr="sku_arr" @hidePopup="hidePopup"
+		<ChooseSku :num="num" :popupShow="popupShow" :price="price" :list="list" :sku_arr.sync="sku_arr" @hidePopup="hidePopup"
 		 @sku_change_num="sku_change_num" @sure="sure" :is_bottom_click="is_bottom_click"></ChooseSku>
 
 		<!--规格选择-->
@@ -404,7 +404,7 @@
 				zk_price: '',
 				list: {},
 				applist: [],
-				collected: '',
+				collected: false,
 				detailData: '',
 				shareList: '',
 				shopping_type: '',
@@ -914,6 +914,7 @@
 				let stock = g.stock
 				let sku_name = ''
 				let sku_index = -1
+				let goods_code = ''
 				for (let [k, v] of Object.entries(g.sku_arr.list)) {
 					if (count == 1) {
 						if (isku['s1'] == v['s1']) {

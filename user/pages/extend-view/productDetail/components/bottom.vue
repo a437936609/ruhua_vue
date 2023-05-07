@@ -11,7 +11,7 @@
 					<tui-badge type="danger" size="small" v-if="shop_car_num>0">{{shop_car_num}}</tui-badge>
 				</view>
 				<view class="tui-operation-item pad" hover-class="opcity" :hover-stay-time="150" @click="collecting">
-					<tui-icon :name="collected?'like-fill':'like'" :size="22" :color=" collected?'#ff201f':'#333' "></tui-icon>
+					<tui-icon :name="collected === true ?'like-fill':'like'" :size="22" :color=" collected === true?'#ff201f':'#333' "></tui-icon>
 					<view class="tui-operation-text tui-scale-small" :style="collected?'color: #ff201f;':''">收藏</view>
 				</view>
 				<view style="width: 20px;"></view>
@@ -49,7 +49,7 @@
 		props:{
 			opcity:Number,
 			shop_car_num:Number,
-			collected:Boolean,
+			collected: Boolean,
 			list:''
 		},
 		onLoad(){

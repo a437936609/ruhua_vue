@@ -13,7 +13,7 @@
 						<text class="attr">{{item.attr_val}}</text>
 						<text class="price"><price-to-integral :price="item.price"></price-to-integral></text>
 						<view class="item-right-num">
-							<tui-numberbox :max="item.stock" :min="1" :value="item.num" @change="numberChange($event,k)"></tui-numberbox> 
+							<tui-numberbox :max="+item.stock" :min="1" :value="item.num" @change="numberChange($event,k)"></tui-numberbox> 
 						</view>
 					</view>
 					<text class="del-btn yticon icon-fork" @click="deleteCartItem(k)"></text>

@@ -77,10 +77,11 @@
 				<view class="right">
 					<text class="title clamp">{{item.goods_name}}</text>
 					<text class="spec">{{item.sku_name?item.sku_name:''}}</text>
-					<text class="spec">
+					<!-- <text class="spec">
 						<price-to-integral :price="item.price"></price-to-integral>
-					</text>
+					</text> -->
 					<view class="price-box">
+						<price-to-integral :price="item.price"></price-to-integral>
 						<!-- <text class="price" v-if="item.vip_price && !item.discount">￥{{item.price - item.vip_price}}</text>
 						<text class="price" v-if="item.vip_price && item.discount">￥{{item.price}}</text>
 						<text class="price" v-if="!item.vip_price && !item.discount">￥{{item.price}}</text>
@@ -130,7 +131,7 @@
 		</view>
 
 		<!-- 优惠明细  &&!buy_data[0]['pt']-->
-		<view class="yt-list" v-if="!buy_data[0]['discount']&&!buy_data[0]['pt']">
+		<view class="yt-list" v-if="isYt">
 			<view class="yt-list-cell b-b" @click="toggleMask('show')">
 				<view class="cell-icon">
 					券
@@ -325,7 +326,6 @@
 			PriceToIntegral
 		},
 		async onLoad(option) {
-
 			this.sys_switch = uni.getStorageSync('switch')
 			this.form_switch = this.sys_switch.is_form == 1 ? true : false
 			this.state = option.state
@@ -401,7 +401,7 @@
 			}
 			const my = cache_user.info()
 			this.head = {
-				avatarUrl: my.headpic
+				avatarUrl: my?.headpic
 			}
 			this.is_kai = uni.getStorageSync('is_kai')
 			uni.removeStorageSync('is_kai')
@@ -435,9 +435,16 @@
 				}
 				return money;
 			},
+			isYt () {
+				return this.buy_data[0] && !this.buy_data[0]['discount'] && !this.buy_data[0]['pt']
+			}
 
 		},
 		methods: {
+			count_price (price) {
+				price = Math.floor(price * 100)/100
+				return price.toFixed(2)
+			},
 			async prmSwitch() {
 				this.switch_list = await this.promise_switch.then(res => {
 					return res;
@@ -654,6 +661,7 @@
 					sku[name].sku_id = 0
 					if (v.sku) {
 						sku[name].sku_id = v.sku.id
+						sku[name].goods_code = v.sku.goods_code
 					}
 					delete sku[name].radio
 					delete sku[name].sku
@@ -707,8 +715,6 @@
 					this.$refs.child.get_form()
 				}
 
-
-
 				let is_pin = uni.getStorageSync('is_item')
 				uni.removeStorageSync('is_item')
 				const url = this.check_sub_data()
@@ -716,7 +722,6 @@
 					return;
 				}
 				let obj = this.set_order_data()
-
 
 				if (this.switch_list.drive_type > 0 && (!obj.drive_type || obj.drive_type == '')) {
 					this.$api.msg('请选择配送方式')
@@ -1311,12 +1316,17 @@
 				font-size: 26upx;
 				color: $font-color-light;
 			}
+			.spec + .spec
+			{
+				margin-left: 0.5em;
+				color: $base-color;
+			}
 
 			.price-box {
 				display: flex;
 				align-items: center;
 				font-size: 32upx;
-				color: $font-color-dark;
+				color: $base-color;
 				padding-top: 10upx;
 
 				.price {

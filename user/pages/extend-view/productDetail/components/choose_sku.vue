@@ -23,10 +23,10 @@
 				<scroll-view scroll-y class="tui-popup-scroll">
 					<view class="tui-scrollview-box">
 						<template v-for="(item,index) of sku_arr.tree">
-							<view class="tui-bold tui-attr-title">{{item.k}}</view>
-							<view class="tui-attr-box">
+							<view class="tui-bold tui-attr-title" :key="'title_' + index">{{item.k}}</view>
+							<view class="tui-attr-box" :key="'box_' + index">
 								<view :class="list.sku_arr.initialSku['s'+(index+1)]==i.id?'tui-attr-item-active':'tui-attr-item'" v-for="(i,j) of item.v"
-								 @click="xz_sku_cs('s'+(index*1+1),i.id)">
+								 @click="xz_sku_cs('s'+(index*1+1),i.id)" :key="j">
 									<view class="guige_03_01">
 										{{i.name}}
 									</view>
@@ -48,7 +48,7 @@
 						 <tui-button type="warning" tui-button-class="tui-btn-equals" shape="circle" size="mini" class="tui-flex-1" @click="sure('is_bottom_click')">确定</tui-button>
 					 </block>
 					 <block v-else>
-						 <tui-button type="danger" tui-button-class="tui-btn-equals" shape="circle" size="mini" class="tui-flex-1" v-if="!list.pt.id" @click="sure('car')" >加入购物车</tui-button>
+						 <tui-button type="danger" tui-button-class="tui-btn-equals" shape="circle" size="mini" class="tui-flex-1" v-if="!list.pt || list.pt.id" @click="sure('car')" >加入购物车</tui-button>
 						 <tui-button type="warning" tui-button-class="tui-btn-equals" shape="circle" size="mini" class="tui-flex-1" @click="sure('shopping')">去购买</tui-button>
 					 </block>
 					
@@ -91,7 +91,8 @@
 		},
 		methods:{
 			xz_sku_cs(ik, iv){  
-				this.sku_arr = this.list 
+				// this.sku_arr = this.list
+				// this.$emit('update:sku_arr', this.list)
 				this.$root.xz_sku_cs(ik, iv)
 			},
 			sure(e){
