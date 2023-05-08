@@ -350,6 +350,12 @@ class PayService
         $icbc_config['icbc_appid']                  =   SysConfig::get('icbc_appid');
         $icbc_config['icbc_mer_private_key']        =   SysConfig::get('icbc_mer_private_key');
         $icbc_config['icbc_platform_public_key']    =   SysConfig::get('icbc_platform_public_key');
+        $icbc_config['merc_id']                     =   SysConfig::get('merc_id');
+        $icbc_config['store_id']                    =   SysConfig::get('store_id');
+        $icbc_config['store_name']                  =   SysConfig::get('store_name');
+        $icbc_config['prod_id']                     =   SysConfig::get('prod_id');
+        $icbc_config['prod_name']                   =   SysConfig::get('prod_name');
+        $icbc_config['sku_id']                      =   SysConfig::get('sku_id');
 
 
         $order_info                                 =   [];
@@ -362,12 +368,12 @@ class PayService
         $order_info['noticeUrl']                    =   $notify_url;
         $order_info['payBackUrl']                   =   $api_url . '#/pages/user/myorder/myorder?id=' . $order_id;
         $order_info['payFailUrl']                   =   $api_url . '#/pages/user/myorder/myorder?id=' . $order_id;
-        $order_info['mercId']                       =   '19213615';
-        $order_info['storeId']                      =   '907319';
-        $order_info['storeName']                    =   '数币旗舰店';
-        $order_info['prodId']                       =   '9100002843';
-        $order_info['prodName']                     =   '一分钱商品数币';
-        $order_info['skuId']                        =   '90000000000100004519';
+        $order_info['mercId']                       =   $icbc_config['merc_id'];
+        $order_info['storeId']                      =   $icbc_config['store_id'];
+        $order_info['storeName']                    =   $icbc_config['store_name'];
+        $order_info['prodId']                       =   $icbc_config['prod_id'];
+        $order_info['prodName']                     =   $icbc_config['prod_name'];
+        $order_info['skuId']                        =   $icbc_config['sku_id'];
 
         return IcbcApi::createOrder($icbc_config, $order_info);
     }
