@@ -350,12 +350,12 @@ class PayService
         $icbc_config['icbc_appid']                  =   SysConfig::get('icbc_appid');
         $icbc_config['icbc_mer_private_key']        =   SysConfig::get('icbc_mer_private_key');
         $icbc_config['icbc_platform_public_key']    =   SysConfig::get('icbc_platform_public_key');
-        $icbc_config['merc_id']                     =   SysConfig::get('merc_id');
-        $icbc_config['store_id']                    =   SysConfig::get('store_id');
-        $icbc_config['store_name']                  =   SysConfig::get('store_name');
-        $icbc_config['prod_id']                     =   SysConfig::get('prod_id');
-        $icbc_config['prod_name']                   =   SysConfig::get('prod_name');
-        $icbc_config['sku_id']                      =   SysConfig::get('sku_id');
+        $icbc_config['merc_id']                     =   SysConfig::get('icbc_merc_id');
+        $icbc_config['store_id']                    =   SysConfig::get('icbc_store_id');
+        $icbc_config['store_name']                  =   SysConfig::get('icbc_store_name');
+        $icbc_config['prod_id']                     =   SysConfig::get('icbc_prod_id');
+        $icbc_config['prod_name']                   =   SysConfig::get('icbc_prod_name');
+        $icbc_config['sku_id']                      =   SysConfig::get('icbc_sku_id');
 
 
         $order_info                                 =   [];
