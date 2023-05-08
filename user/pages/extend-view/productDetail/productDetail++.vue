@@ -1266,7 +1266,7 @@
 		},
 		onShareAppMessage(res) {
 			return {
-				title: '商城',
+				title: '维达纸品商城',
 			}
 		},
 		onPullDownRefresh() {

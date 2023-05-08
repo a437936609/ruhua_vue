@@ -89,6 +89,7 @@
 									<xianshi v-if="!is_fx && item.pt && item.pt.price" title="拼团" :price="item.price-item.pt.price*1"></xianshi>
 									<xianshi v-if="is_fx" title="佣金" :price="item.fx_goods.price*1"></xianshi>
 								</view>
+								<view class="tag-exchange"><text>支持积分兑换</text></view>
 								<view class="tui-pro-pay">
 									{{item.sales?item.sales:0}}人付款
 								</view>
@@ -317,6 +318,7 @@
 			}
 			if (options.key) {
 				this.is_search = 1
+				this.searchKey = options.key || ''
 				this.get_pro_search(options.key)
 			}
 
@@ -342,7 +344,7 @@
 					this.height = obj.top ? (obj.top + obj.height + 8) : (res.statusBarHeight + 44);
 					this.inputTop = obj.top ? (obj.top + (obj.height - 30) / 2) : (res.statusBarHeight + 7);
 					this.arrowTop = obj.top ? (obj.top + (obj.height - 32) / 2) : (res.statusBarHeight + 6);
-					this.searchKey = options.searchKey || "";
+					this.searchKey = options.searchKey || options.key ||  "";
 					//略小，避免误差带来的影响
 					this.dropScreenH = this.height * 750 / res.windowWidth + 186;
 					this.drawerH = res.windowHeight - uni.upx2px(100) - this.height

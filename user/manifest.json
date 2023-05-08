@@ -1,5 +1,5 @@
 {
-    "name" : "遇见商城",
+    "name" : "维达纸品商城",
     "appid" : "__UNI__828DBA5",
     "description" : "",
     "versionName" : "1.0.0",
@@ -131,7 +131,7 @@
             "mode" : "hash"
         },
         "domain" : "api.aku.pub",
-        "title" : "遇见商城",
+        "title" : "维达纸品商城",
         "sdkConfigs" : {
             "maps" : {}
         }

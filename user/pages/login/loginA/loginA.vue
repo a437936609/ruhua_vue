@@ -3,7 +3,7 @@
 		<view class="head">
 			<img src="@/imgs/detail.jpg"></img>
 		</view>
-		<view class="name">商城</view>
+		<view class="name">维达纸品商城</view>
 		<view class="btn-wx" @click="login('wx')">
 			<img src="@/imgs/wx.png" ></img>微信一键登录
 		</view>

@@ -1,5 +1,6 @@
 <template>
-	<span>{{ integral }} 积分</span>
+	<!-- <span>{{ integral }} 积分</span> -->
+	<span>¥{{ price }}</span>
 </template>
 
 <script>

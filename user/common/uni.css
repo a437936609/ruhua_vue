@@ -37,6 +37,17 @@
 	margin-left: 20upx;
 }
 
+/* 不显示 */
+uni-page-head
+{
+	height: 0px!important;
+	overflow: hidden!important;
+}
+uni-page-head .uni-page-head
+{
+	height: 0px!important;
+	overflow: hidden!important;
+}
 /* page */
 .uni-page-head{
 	padding:35upx; 

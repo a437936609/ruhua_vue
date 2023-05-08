@@ -84,9 +84,11 @@
 				<!-- 普通商品结束 -->
 
 				<view class="tui-pro-titbox">
+					<view class="tag-exchange"><text>支持积分兑换</text></view>
 					<view class="tui-pro-title">
 						{{list.goods_name}}
 					</view>
+
 
 					<!-- 分享按钮 -->
 					<!-- #ifdef MP-WEIXIN -->
@@ -98,12 +100,12 @@
 					</button>
 					<!-- #endif -->
 					<!-- #ifdef H5 -->
-					<button @click="toShare" class="tui-share-btn tui-share-position share" style="margin-top: -7px;">
+					<!-- <button @click="toShare" class="tui-share-btn tui-share-position share" style="margin-top: -7px;">
 						<tui-tag type="gray" tui-tag-class="tui-tag-share tui-size" shape="circleLeft" size="small">
 							<view class="tui-icon tui-icon-partake" style="color:#999;font-size:15px"></view>
 							<text class="tui-share-text tui-gray">分享</text>
 						</tui-tag>
-					</button>
+					</button> -->
 					<!-- #endif -->
 
 					<!-- 分享按钮 -->
@@ -2176,6 +2178,7 @@
 	}
 
 	.tui-pro-title {
+		margin-top: 6px;
 		padding: 5upx 0px 0 0;
 		// max-height: 50px;
 		line-height: 20px;
@@ -2271,7 +2274,7 @@
 
 
 	.tui-cell-title {
-		width: 66upx;
+		width: 100upx;
 		padding-right: 30upx;
 		flex-shrink: 0;
 	}
