@@ -16,46 +16,48 @@
 					<!-- 订单列表 -->
 					<view v-else>
 						<!-- <view v-for="(item,index) in order_list" :key="index" class="order-item" v-if="tabCurrentIndex==0 || (item.payment_state==now_pay && item.shipment_state==now_drive && item.state==now_state) "> -->
-						<view v-for="(item,index) in order_list" :key="index" class="order-item"
-							v-if="check_state(item)">
-							<view class="i-top b-b">
-								<text class="time">{{item.order_num}}</text>
-								<text class="state" :style="{color: item.stateTipColor}"
-									style="margin-right: 20px;">{{item.stateTip}}</text>
-								<text class="state">{{item.create_time}}</text>
-								<text v-if="item.payment_state == 0" class="del-btn yticon icon-iconfontshanchu1"
-									@click="deleteOrder(item.order_id)"></text>
-							</view>
-							<scroll-view v-if="item.OrderGoods.length > 1" class="goods-box" scroll-x>
-								<view v-for="(goodsItem, goodsIndex) in item.OrderGoods" :key="goodsIndex"
-									class="goods-item" @click="jumo_tomyorder(item.order_id)">
-									<image class="goods-img" :src="getimg+goodsItem.imgs.url" mode="aspectFill"></image>
+						<template v-for="(item,index) in order_list">
+							<view  :key="index" class="order-item" v-if="check_state(item)">
+								<view class="i-top b-b">
+									<text class="time">{{item.order_num}}</text>
+									<text class="state" :style="{color: item.stateTipColor}"
+										style="margin-right: 20px;">{{item.stateTip}}</text>
+									<text class="state">{{item.create_time}}</text>
+									<text v-if="item.payment_state == 0" class="del-btn yticon icon-iconfontshanchu1"
+										@click="deleteOrder(item.order_id)"></text>
 								</view>
-							</scroll-view>
-							<view v-if="item.OrderGoods.length === 1" class="goods-box-single"
-								v-for="(goodsItem, goodsIndex) in item.OrderGoods" :key="goodsIndex">
-								<image class="goods-img" :src="getimg+goodsItem.imgs.url" mode="aspectFill"
-									@click="jumo_tomyorder(item.order_id)"></image>
-								<view class="right" @click="jumo_tomyorder(item.order_id)">
-									<text class="title clamp">{{goodsItem.goods_name}}</text>
-									<text class="attr-box">{{goodsItem.sku_name?goodsItem.sku_name:''}} x
-										{{goodsItem.num}}</text>
+								<scroll-view v-if="item.OrderGoods.length > 1" class="goods-box" scroll-x>
+									<view v-for="(goodsItem, goodsIndex) in item.OrderGoods" :key="goodsIndex"
+										class="goods-item" @click="jumo_tomyorder(item.order_id)">
+										<image class="goods-img" :src="getimg+goodsItem.imgs.url" mode="aspectFill"></image>
+									</view>
+								</scroll-view>
+								<template v-for="(goodsItem, goodsIndex) in item.OrderGoods">
+									<view v-if="item.OrderGoods.length === 1" class="goods-box-single" :key="goodsIndex">
+										<image class="goods-img" :src="getimg+goodsItem.imgs.url" mode="aspectFill"
+											@click="jumo_tomyorder(item.order_id)"></image>
+										<view class="right" @click="jumo_tomyorder(item.order_id)">
+											<text class="title clamp">{{goodsItem.goods_name}}</text>
+											<text class="attr-box">{{goodsItem.sku_name?goodsItem.sku_name:''}} x
+												{{goodsItem.num}}</text>
+											<text class="price">{{item.order_money}}</text>
+										</view>
+									</view>
+								</template>
+
+								<view class="price-box">
+									共
+									<text class="num">{{item.OrderGoods.length}}</text>
+									件商品 实付款
 									<text class="price">{{item.order_money}}</text>
 								</view>
+								<view class="action-box b-t" v-if="item.payment_state == 0 && item.state != -3">
+									<button class="action-btn" @click="deleteOrder(item.order_id)">取消订单</button>
+									<button class="action-btn recom" @click="pay_again(item.order_id)"
+										v-if="item.payment_state == 0">立即支付</button>
+								</view>
 							</view>
-
-							<view class="price-box">
-								共
-								<text class="num">{{item.OrderGoods.length}}</text>
-								件商品 实付款
-								<text class="price">{{item.order_money}}</text>
-							</view>
-							<view class="action-box b-t" v-if="item.payment_state == 0 && item.state != -3">
-								<button class="action-btn" @click="deleteOrder(item.order_id)">取消订单</button>
-								<button class="action-btn recom" @click="pay_again(item.order_id)"
-									v-if="item.payment_state == 0">立即支付</button>
-							</view>
-						</view>
+						</template>
 					</view>
 
 

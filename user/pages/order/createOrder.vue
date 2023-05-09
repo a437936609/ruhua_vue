@@ -11,10 +11,9 @@
 					</view>
 					<text class="address">{{address.province}} {{address.city}}{{address.county}}</text>
 				</view>
+				<view v-if="!address" class="placeholder">您还没有收货地址，请点击添加</view>
 				<text class="yticon icon-you"></text>
 			</view>
-
-
 		</navigator>
 		<view class="H10" v-if="is_kai != 1 && is_pt == 1"></view>
 		<view class="tuanzhang" v-if="is_kai != 1 && is_pt == 1">
@@ -66,6 +65,7 @@
 		<view class="ztdz" v-if="kuaidi==3">
 			{{switch_list.zt_address}}
 		</view>
+
 		<view class="goods-section">
 			<!-- <view class="g-header b-b">
 				<image class="logo" src="http://duoduo.qibukj.cn/./Upload/Images/20190321/201903211727515.png"></image>
@@ -76,12 +76,10 @@
 				<image :src="getimg + item.imgs"></image>
 				<view class="right">
 					<text class="title clamp">{{item.goods_name}}</text>
-					<text class="spec">{{item.sku_name?item.sku_name:''}}</text>
-					<!-- <text class="spec">
-						<price-to-integral :price="item.price"></price-to-integral>
-					</text> -->
+					<text class="spec">{{item.sku_name ? item.sku_name : ''}}</text>
+					<text class="spec num">数量：{{ item.num }}</text>
+					<text class="spec price">￥{{item.price}}</text>
 					<view class="price-box">
-						<price-to-integral :price="item.price"></price-to-integral>
 						<!-- <text class="price" v-if="item.vip_price && !item.discount">￥{{item.price - item.vip_price}}</text>
 						<text class="price" v-if="item.vip_price && item.discount">￥{{item.price}}</text>
 						<text class="price" v-if="!item.vip_price && !item.discount">￥{{item.price}}</text>
@@ -91,9 +89,6 @@
 			</view>
 
 		</view>
-
-
-
 
 		<view class="yt-list" v-if="is_pt == 1">
 			<view class="jr">
@@ -131,7 +126,7 @@
 		</view>
 
 		<!-- 优惠明细  &&!buy_data[0]['pt']-->
-		<view class="yt-list" v-if="isYt">
+		<view class="yt-list" v-if="!buy_data[0]['discount']&&!buy_data[0]['pt']">
 			<view class="yt-list-cell b-b" @click="toggleMask('show')">
 				<view class="cell-icon">
 					券
@@ -156,9 +151,7 @@
 		<view class="yt-list">
 			<view class="yt-list-cell b-b">
 				<text class="cell-tit clamp">商品金额</text>
-				<text class="cell-tip">
-					￥{{goods_money || count_price(goods_money)}}
-				</text>
+				<text class="cell-tip">￥{{goods_money | count_price(goods_money)}}</text>
 			</view>
 			<view class="yt-list-cell b-b" v-if="coupon_money>0">
 				<text class="cell-tit clamp">优惠金额</text>
@@ -192,14 +185,15 @@
 		<!-- 底部 -->
 		<view class="footer">
 			<view class="price-content">
-				<text>实付款</text>
-				<!-- <text class="price-tip">￥</text> -->
+				<text>实付款 </text>
+				<text class="price-tip">￥</text>
 				<!-- <text class="price">{{pay_money.toFixed(2)}}</text> -->
-				<text class="price"><price-to-integral :price="pay_money || count_price()"></price-to-integral></text>
+				<text class="price">{{pay_money | count_price()}}</text>
 			</view>
 			<text class="submit" @click="submit">提交订单</text>
 		</view>
 
+		<!-- 优惠券面板 -->
 		<!-- 优惠券面板 -->
 		<view class="mask" :class="maskState===0 ? 'none' : maskState===1 ? 'show' : ''" @click="toggleMask">
 			<view class="mask-content">
@@ -1226,6 +1220,14 @@
 			color: #888;
 			font-size: 44upx;
 		}
+		.placeholder
+		{
+			display: flex;
+			flex-direction: column;
+			flex: 1;
+			font-size: 28upx;
+			color: $font-color-dark;
+		}
 
 		.cen {
 			display: flex;
@@ -1319,6 +1321,13 @@
 			.spec + .spec
 			{
 				margin-left: 0.5em;
+			}
+			.spec.num
+			{
+				color: #555;
+			}
+			.spec.price
+			{
 				color: $base-color;
 			}
 
