@@ -128,13 +128,13 @@ class IcbcNotifyService
                 Log::error('支付调用事件');
               //  event('PayOrder', $order);//扣除库存  修改至创建订单里扣库存
                 event('InvoiceLog', $order);//检查是否需要开发票
-                event('SendGzhDeliveryMessage', [$order, 1, '']);//公众号发送模板消息通知管理员
+                //event('SendGzhDeliveryMessage', [$order, 1, '']);//公众号发送模板消息通知管理员
             
 
 
                 if ($order['payment_type'] == 'wx') {
 
-                    event('SendGzhDeliveryMessage', [$order, 5, $order['user_id']]);//公众号发送模板消息通知用户
+                    //event('SendGzhDeliveryMessage', [$order, 5, $order['user_id']]);//公众号发送模板消息通知用户
 
                 } else if ($order['payment_type'] == 'xcx') {
                     //小程序发送模板消息
