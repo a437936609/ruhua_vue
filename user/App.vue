@@ -9,12 +9,12 @@
 	export default { 
 		onLaunch() { 
 			// #ifdef MP-WEIXIN
-				xcxtoken.verify(); //小程序获取token 
+				// xcxtoken.verify(); //小程序获取token 
 			// #endif
 			
 			// #ifdef H5 
 				//微信公众号获取token -必须是认证的服务号  
-				wxtoken.verify('userinfo'); //静默获取openid					
+				// wxtoken.verify('userinfo'); //静默获取openid					
 			// #endif
 			
 			// #ifdef APP-PLUS 

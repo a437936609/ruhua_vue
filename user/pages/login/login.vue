@@ -3,7 +3,7 @@
 		<view class="head">
 			<view class="head-img"><img src="@/imgs/8.jpg"></img></view>
 		</view>
-		<view class="head-name">商城</view>
+		<view class="head-name">维达纸品商城</view>
 		<view class="shen">
 			申请获取以下权限
 		</view>

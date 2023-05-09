@@ -58,12 +58,12 @@
 		</view>
 
 		<view class="tui-product-category">
-			<swiper :indicator-dots="category && category.length >8 ?true:false" :interval="5000" :duration="150" class="tui-banner-swiper"
-			 style='height:160px' :circular="true" indicator-color="#ccc" indicator-active-color="rgba(251,88,106, 0.8)">
+			<swiper :indicator-dots="category && category.length > 4 ?true:false" :interval="5000" :duration="150" class="tui-banner-swiper"
+			 style='height:92px' :circular="true" indicator-color="#ccc" indicator-active-color="rgba(251,88,106, 0.8)">
 				<swiper-item>
 					<view style="display: flex;flex-wrap: wrap;">
 						<view class="tui-category-item" v-for="(item,index) in category"
-						 :key="index" :data-key="item.name" v-if="index<8"						 
+						 :key="index" :data-key="item.name" v-if="index < 4"						 
 						 @click="jump(item.url,item.id,item.url_name,item)">
 							<!-- <navigator :url="item.url">
 								<image :src="getimg+item.img_id" class="tui-category-img" mode="scaleToFill"></image>
@@ -105,6 +105,11 @@
 			</view> -->
 		</view>
 
+		<div class="contact-us">
+			<span>工作时间：9:00-17:00</span>
+			<a href="tel:4000211182">免费热线：4000211182</a>
+		</div>
+
 		<!-- 	 <view class="tui-product-box tui-pb-20 tui-bg-white">
 			<view class="tui-group-name" @tap="more">
 				<text>新人专享</text>
@@ -125,7 +130,7 @@
 
 		<view class="tui-product-box tui-pb-20 tui-bg-white">
 			<view class="tui-group-name">
-				<text>新品推荐</text>
+				<text>优惠券商品</text>
 			</view>
 			<view class="tui-new-box">
 				<view class="tui-new-item" :class="[index!=0 && index!=1 ?'tui-new-mtop':'']" v-for="(item,index) in newProduct"
@@ -139,6 +144,7 @@
 							</text>
 							<!-- <text class="tui-new-original">￥{{item.market_price}}</text> -->
 						</view>
+						<view class="tag-exchange"><text>支持积分兑换</text></view>
 					</view>
 					<img :src="getimg+item.imgs" class="tui-new-img2" />
 				</view>
@@ -172,11 +178,12 @@
 										<text class="tui-sale-price" v-if="is_vip">vip <price-to-integral :price="item.price"></price-to-integral></text>
 										<text class="tui-sale-price" v-else><price-to-integral :price="item.price"></price-to-integral></text>
 										<text class="tui-factory-price" v-if="is_vip"><price-to-integral :price="item.market_price"></price-to-integral></text>
-										<xianshi v-if="item.discount && item.discount.reduce_price" title="限时" :price="item.price-item.discount.reduce_price*1"></xianshi>
-										<xianshi v-if="item.pt && item.pt.price" title="拼团" :price="(item.price*100-item.pt.price*100)/100"></xianshi>
+										<!-- <xianshi v-if="item.discount && item.discount.reduce_price" title="限时" :price="item.price-item.discount.reduce_price*1"></xianshi> -->
+										<!-- <xianshi v-if="item.pt && item.pt.price" title="拼团" :price="(item.price*100-item.pt.price*100)/100"></xianshi> -->
 									</view>
 									<!-- <view class="tui-pro-pay">{{item.sales}}人付款</view> -->
 								</view>
+								<view class="tag-exchange"><text>支持积分兑换</text></view>
 							</view>
 						</view>
 						<!--商品列表-->
@@ -204,11 +211,12 @@
 										<text class="tui-sale-price" v-if="is_vip">vip <price-to-integral :price="item.price"></price-to-integral></text>
 										<text class="tui-sale-price" v-else><price-to-integral :price="item.price"></price-to-integral></text>
 										<text class="tui-factory-price" v-if="is_vip"><price-to-integral :price="item.market_price"></price-to-integral></text>
-										<xianshi v-if="item.discount && item.discount.reduce_price" title="限时" :price="item.price-item.discount.reduce_price*1"></xianshi>
-										<xianshi v-if="item.pt && item.pt.price" title="拼团" :price="item.price-item.pt.price*1"></xianshi>
+										<!-- <xianshi v-if="item.discount && item.discount.reduce_price" title="限时" :price="item.price-item.discount.reduce_price*1"></xianshi> -->
+										<!-- <xianshi v-if="item.pt && item.pt.price" title="拼团" :price="item.price-item.pt.price*1"></xianshi> -->
 									</view>
 									<!-- <view class="tui-pro-pay">{{item.sales}}人付款</view> -->
 								</view>
+								<view class="tag-exchange"><text>支持积分兑换</text></view>
 							</view>
 						</view>
 						<!--商品列表-->
@@ -946,6 +954,13 @@
 		justify-content: space-between;
 		flex-wrap: wrap;
 	}
+	.tui-new-box
+	{
+		.tag-exchange
+		{
+			padding-top: 6px;
+		}	
+	}
 
 	.tui-new-item {
 		width: 49%;
@@ -1141,5 +1156,23 @@
 		padding-top: 10rpx;
 		font-size: 24rpx;
 		color: #656565;
+	}
+	.contact-us
+	{
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		padding: 0px 11px;
+		height: 42px;
+		border-radius: 6px;
+		background-color: #fff;
+		color: #666;
+		a
+		{
+			color: $base-color;
+			text-decoration: none;
+			font-weight: bold;
+		}
 	}
 </style>

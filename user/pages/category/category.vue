@@ -32,6 +32,7 @@
 						<view class="pro_price">
 							<price-to-integral :price="titem.price"></price-to-integral>
 						</view>
+						<view class="tag-exchange"><text>支持积分兑换</text></view>
 						
 					</view>
 				</view>
