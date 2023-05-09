@@ -1,3 +1,7 @@
 /user/node_modules
 cms/cms_adm
 api/.idea
+user/pages/extend-view/productDetail/productDetail.vue
+cms/src/common/axios.js
+cms/src/main.js
+cms/src/main.js
