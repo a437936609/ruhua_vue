@@ -6,8 +6,7 @@
 <script>
 	export default {
 		data() {
-			return {
-			};
+			return {};
 		},
 		components: {},
 		onLoad(options) {
@@ -15,7 +14,7 @@
 			console.log('登录参数:', options);
 			if (options.is_login != '1') {
 				window.location.href =
-					`https://mmall.dccnet.com.cn/mobile/member/checkAuthorizationNew.jhtml?targetUrl=${encodeURIComponent('https://mall.aku.pub/#/pages/login/loginB/loginB?is_login=1')}&outerName=021424`
+					`https://m.mall.icbc.com.cn/mobile/member/checkAuthorizationNew.jhtml?targetUrl=${encodeURIComponent('https://mall.aku.pub/#/pages/login/loginB/loginB?is_login=1')}&outerName=021424`
 				return;
 			}
 			that.loginByIcbc(options.userInfoKey);
