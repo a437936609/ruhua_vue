@@ -21,10 +21,7 @@ class ReduceStock
     }
 
     public function reduceStock($data){
-        if(isset($data['order_id']))
-            $tes=GoodsModel::ReduceStock($data['order_id']);
-        else
-            $tes = GoodsModel::ReduceStock($data['id']);
+        GoodsModel::ReduceStock($data['order_id']);
     }
 
 }

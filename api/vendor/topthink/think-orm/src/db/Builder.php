@@ -136,7 +136,7 @@ abstract class Builder
         }
 
         if (empty($fields)) {
-            if ('*' == $options['field']) {
+            if (empty($options['field']) || '*' == $options['field']) {
                 $fields = array_keys($bind);
             } else {
                 $fields = $options['field'];
@@ -158,7 +158,8 @@ abstract class Builder
             if (false !== strpos($key, '->')) {
                 [$key, $name]  = explode('->', $key, 2);
                 $item          = $this->parseKey($query, $key);
-                $result[$item] = 'json_set(' . $item . ', \'$.' . $name . '\', ' . $this->parseDataBind($query, $key . '->' . $name, $val, $bind) . ')';
+
+                $result[$item . '->' . $name] = 'json_set(' . $item . ', \'$.' . $name . '\', ' . $this->parseDataBind($query, $key . '->' . $name, $val, $bind) . ')';
             } elseif (false === strpos($key, '.') && !in_array($key, $fields, true)) {
                 if ($options['strict']) {
                     throw new Exception('fields not exists:[' . $key . ']');
@@ -176,7 +177,11 @@ abstract class Builder
                 }
             } elseif (is_scalar($val)) {
                 // 过滤非标量数据
-                $result[$item] = $this->parseDataBind($query, $key, $val, $bind);
+                if (!$query->isAutoBind() && PDO::PARAM_STR == $bind[$key]) {
+                    $val = '\'' . $val . '\'';
+                }
+
+                $result[$item] = !$query->isAutoBind() ? $val : $this->parseDataBind($query, $key, $val, $bind);
             }
         }
 
@@ -490,7 +495,7 @@ abstract class Builder
         // 字段分析
         $key = $field ? $this->parseKey($query, $field, true) : '';
 
-        list($exp, $value) = $val;
+        [$exp, $value] = $val;
 
         // 检测操作符
         if (!is_string($exp)) {
@@ -703,6 +708,8 @@ abstract class Builder
         // 比较运算
         if ($value instanceof Closure) {
             $value = $this->parseClosure($query, $value);
+        } elseif ($value instanceof Raw) {
+            $value = $this->parseRaw($query, $value);
         }
 
         if ('=' == $exp && is_null($value)) {
@@ -755,19 +762,26 @@ abstract class Builder
         } elseif ($value instanceof Raw) {
             $value = $this->parseRaw($query, $value);
         } else {
-            $value = array_unique(is_array($value) ? $value : explode(',', $value));
-            $array = [];
-
-            foreach ($value as $v) {
-                $name    = $query->bindValue($v, $bindType);
-                $array[] = ':' . $name;
+            $value = array_unique(is_array($value) ? $value : explode(',', (string) $value));
+            if (count($value) === 0) {
+                return 'IN' == $exp ? '0 = 1' : '1 = 1';
             }
 
-            if (count($array) == 1) {
-                return $key . ('IN' == $exp ? ' = ' : ' <> ') . $array[0];
+            if ($query->isAutoBind()) {
+                $array = [];
+                foreach ($value as $v) {
+                    $name       = $query->bindValue($v, $bindType);
+                    $array[]    = ':' . $name;
+                }
+                $value = implode(',', $array);
+            } elseif (PDO::PARAM_STR == $bindType) {
+                $value = '\'' . implode('\',\'', $value) . '\'';
             } else {
-                $zone  = implode(',', $array);
-                $value = empty($zone) ? "''" : $zone;
+                $value = implode(',', $value);
+            }
+
+            if (false === strpos($value, ',')) {
+                return $key . ('IN' == $exp ? ' = ' : ' <> ') . $value;
             }
         }
 
@@ -898,7 +912,7 @@ abstract class Builder
                 $array[] = $this->parseRand($query);
             } elseif (is_string($val)) {
                 if (is_numeric($key)) {
-                    list($key, $sort) = explode(' ', strpos($val, ' ') ? $val : $val . ' ');
+                    [$key, $sort] = explode(' ', strpos($val, ' ') ? $val : $val . ' ');
                 } else {
                     $sort = $val;
                 }
@@ -967,8 +981,8 @@ abstract class Builder
         $sort = in_array($sort, ['ASC', 'DESC'], true) ? ' ' . $sort : '';
         $bind = $query->getFieldsBindType();
 
-        foreach ($val as $item) {
-            $val[] = $this->parseDataBind($query, $key, $item, $bind);
+        foreach ($val as $k => $item) {
+            $val[$k] = $this->parseDataBind($query, $key, $item, $bind);
         }
 
         return 'field(' . $this->parseKey($query, $key, true) . ',' . implode(',', $val) . ')' . $sort;
@@ -1123,7 +1137,7 @@ abstract class Builder
                 $this->parseTable($query, $options['table']),
                 $this->parseDistinct($query, $options['distinct']),
                 $this->parseExtra($query, $options['extra']),
-                $this->parseField($query, $options['field']),
+                $this->parseField($query, $options['field'] ?? '*'),
                 $this->parseJoin($query, $options['join']),
                 $this->parseWhere($query, $options['where']),
                 $this->parseGroup($query, $options['group']),
@@ -1135,7 +1149,8 @@ abstract class Builder
                 $this->parseComment($query, $options['comment']),
                 $this->parseForce($query, $options['force']),
             ],
-            $this->selectSql);
+            $this->selectSql
+        );
     }
 
     /**
@@ -1167,7 +1182,8 @@ abstract class Builder
                 implode(' , ', $values),
                 $this->parseComment($query, $options['comment']),
             ],
-            $this->insertSql);
+            $this->insertSql
+        );
     }
 
     /**
@@ -1185,7 +1201,7 @@ abstract class Builder
         $bind = $query->getFieldsBindType();
 
         // 获取合法的字段
-        if ('*' == $options['field']) {
+        if (empty($options['field']) || '*' == $options['field']) {
             $allowFields = array_keys($bind);
         } else {
             $allowFields = $options['field'];
@@ -1218,9 +1234,57 @@ abstract class Builder
                 implode(' UNION ALL ', $values),
                 $this->parseComment($query, $options['comment']),
             ],
-            $this->insertAllSql);
+            $this->insertAllSql
+        );
     }
 
+    /**
+     * 生成insertall SQL
+     * @access public
+     * @param  Query $query 查询对象
+     * @param  array $keys  字段名
+     * @param  array $datas 数据
+     * @return string
+     */
+    public function insertAllByKeys(Query $query, array $keys, array $datas): string
+    {
+        $options = $query->getOptions();
+
+        // 获取绑定信息
+        $bind   = $query->getFieldsBindType();
+        $fields = [];
+        $values = [];
+
+        foreach ($keys as $field) {
+            $fields[] = $this->parseKey($query, $field);
+        }
+
+        foreach ($datas as $data) {
+            foreach ($data as $key => &$val) {
+                if (!$query->isAutoBind()) {
+                    $val = PDO::PARAM_STR == $bind[$keys[$key]] ? '\'' . $val . '\'' : $val;
+                } else {
+                    $val = $this->parseDataBind($query, $keys[$key], $val, $bind);
+                }
+            }
+
+            $values[] = 'SELECT ' . implode(',', $data);
+        }
+
+        return str_replace(
+            ['%INSERT%', '%TABLE%', '%EXTRA%', '%FIELD%', '%DATA%', '%COMMENT%'],
+            [
+                !empty($options['replace']) ? 'REPLACE' : 'INSERT',
+                $this->parseTable($query, $options['table']),
+                $this->parseExtra($query, $options['extra']),
+                implode(' , ', $fields),
+                implode(' UNION ALL ', $values),
+                $this->parseComment($query, $options['comment']),
+            ],
+            $this->insertAllSql
+        );
+    }
+    
     /**
      * 生成slect insert SQL
      * @access public
@@ -1272,7 +1336,8 @@ abstract class Builder
                 $this->parseLock($query, $options['lock']),
                 $this->parseComment($query, $options['comment']),
             ],
-            $this->updateSql);
+            $this->updateSql
+        );
     }
 
     /**
@@ -1298,6 +1363,7 @@ abstract class Builder
                 $this->parseLock($query, $options['lock']),
                 $this->parseComment($query, $options['comment']),
             ],
-            $this->deleteSql);
+            $this->deleteSql
+        );
     }
 }
