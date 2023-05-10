@@ -53,23 +53,13 @@ export default {
 
 	check_login_h5(e = '') {
 		let type = ''
-		if (e == 'userinfo') {
-			type = 'userinfo'
-		}
-		const code = this.GetUrlParame('code') // 截取code  
-		var domine = window.location.href.split("#")[0]; // 微信会自动识别#    并且清除#后面的内容 
-		var domine = domine.split("?code")[0];
-		if (!code) {
-			console.log('获取code')
-			var token = uni.getStorageSync('token'); //获取缓存
-			// var token = 'db6e572e7ac70c20b4ec91cabaaa' //获取缓存
-			if (!token) {
-				console.log('token不存在')
-				return x = 0
-			} else {
-				return x = 1
-			}
-
+		var token = uni.getStorageSync('token'); //获取缓存
+		// var token = 'db6e572e7ac70c20b4ec91cabaaa' //获取缓存
+		if (!token) {
+			console.log('token不存在')
+			return x = 0
+		} else {
+			return x = 1
 		}
 	},
 
@@ -106,16 +96,9 @@ export default {
 		// }
 		
 		// #ifdef H5
-		let ua = window.navigator.userAgent.toLowerCase()
-		if (ua.match(/MicroMessenger/i) == 'micromessenger') {
-			uni.redirectTo({
-				url: '/pages/login/login'
-			})
-		}else{
-			uni.redirectTo({
-				url: '/pages/login/loginB/loginB'
-			})
-		}
+		uni.redirectTo({
+			url: '/pages/login/loginB/loginB',
+		})
 		// #endif
 		// #ifdef MP-WEIXIN
 		uni.redirectTo({
@@ -134,13 +117,7 @@ export default {
 		// #endif
 
 		// #ifdef H5
-		let ua = window.navigator.userAgent.toLowerCase()
-		if (ua.match(/MicroMessenger/i) == 'micromessenger') { //是否微信浏览器登录
-			is_login = await that.check_login_xcx()
-		} else {
-			is_login = await that.check_login_h5()
-		}
-		
+		is_login = await that.check_login_h5()
 		// console.log('h5', is_login)
 		// #endif
 

@@ -1,8 +1,7 @@
 import {
 	Api_url
 } from './config'
-// import {Token} from './token.js'
-// var token = new Token();
+import Check from './check'
 
 export default {
 	async post(url, param, yanci = false) {
@@ -91,7 +90,9 @@ export default {
 							// });				
 						} else {
 							console.log('再次登陆仍然失败,准备跳转', url)
-
+							if (!Check.a()) {
+								return
+							}
 						}
 					} else {
 						uni.hideLoading()
