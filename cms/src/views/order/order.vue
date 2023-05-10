@@ -68,7 +68,7 @@
 											
 											<div class="sea_02_01_l">日期(近期)：</div>
 											<div class="sea_02_01_r">
-												<el-date-picker v-model="date_range" type="daterange" align="right"
+												<el-date-picker v-model="date_range" type="datetimerange" align="right"
 													unlink-panels range-separator="至" :start-placeholder="show_date_range[0]"
 													:end-placeholder="show_date_range[1]" :picker-options="pickerOptions"
 													@change="order_time_range" value-format="timestamp"
