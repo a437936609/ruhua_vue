@@ -24,7 +24,7 @@ class TuiManage extends BaseController
      */
     public function getTuiAll()
     {
-        $res = TuiModel::order('create_time desc')->select();
+        $res = TuiModel::with('order')->order('create_time desc')->select();
        // mb_convert_encoding($res, 'UTF-8', 'UTF-8');
         foreach ($res as $k => $v) {
             $res[$k]['money'] = $v['money'];

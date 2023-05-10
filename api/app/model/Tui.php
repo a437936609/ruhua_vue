@@ -21,4 +21,10 @@ class Tui extends BaseModel
             return $v;
         return $data;
     }
+
+    public function order()
+    {
+        return $this->hasOne('Order', 'order_id', 'order_id');
+    }
+
 }

@@ -17,11 +17,20 @@
 									<el-tab-pane label="全部">
 										<el-table :data="list" border style="width: 100%">
 											<el-table-column type="index" label="序号" width="50px"></el-table-column>
-											<el-table-column prop="order_num" label="订单号"></el-table-column>
-											<el-table-column prop="nickname" label="用户昵称"></el-table-column>
-											<el-table-column prop="because" label="退款原因"></el-table-column>
+											<el-table-column prop="order.prepay_id" label="订单号"></el-table-column>
+											<el-table-column prop="order.receiver_name" label="昵称"></el-table-column>
+											
+											<el-table-column prop="because" label="退款原因">
+												<template slot-scope="scope">
+													<template v-if="scope.row.because == 1">其他</template>
+													<template v-if="scope.row.because == 2">不想买了</template>
+													<template v-if="scope.row.because == 3">多拍了</template>
+												</template>
+											</el-table-column>
+											
+
+											
 											<el-table-column prop="message" label="客户留言"></el-table-column>
-											<el-table-column prop="ip" label="IP"></el-table-column>
 											<el-table-column prop="money" label="退款金额"></el-table-column>
 											<el-table-column prop="status" label="状态">
 												<template slot-scope="scope">
@@ -30,6 +39,10 @@
 													<template v-if="scope.row.status == 1">退款成功</template>
 												</template>
 											</el-table-column>
+											
+											<el-table-column prop="create_time" label="下单时间"></el-table-column>
+											<el-table-column prop="order.create_time" label="退款时间"></el-table-column>
+											
 											<el-table-column prop="operation" label="操作" width="300px">
 												<template slot-scope="scope">
 													<el-button type="primary" size="small"
