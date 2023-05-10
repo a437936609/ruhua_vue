@@ -38,10 +38,14 @@
 									<el-tab-pane label="积分" name="7">
 										<set-d :list="list" :type="type" @submit="onSubmit"></set-d>
 									</el-tab-pane>
-									
+
 									<el-tab-pane label="水印" name="9">
 										<set-d :list="list" :type="type" @submit="onSubmit"></set-d>
 									</el-tab-pane>
+									<el-tab-pane label="工行配置" name="14">
+										<set-d :list="list" :type="type" @submit="onSubmit"></set-d>
+									</el-tab-pane>
+
 								</el-tabs>
 							</div>
 						</transition>
@@ -109,7 +113,7 @@
 			post_config(type) {
 				var that = this;
 				this.http.post("cms/get_config", {
-						type: type*1
+						type: type * 1
 					})
 					.then((res) => {
 						that.list = res.data; //收藏返回的是商品和店铺   
