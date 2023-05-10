@@ -180,7 +180,7 @@ class TuiService
         $refund_info['remark']                      =   $aid . '';
 
         $resp = IcbcApi::refundPay($icbc_config, $refund_info);
-        var_dump($resp);exit;
+
         if (isset($resp['refund_id'])) {
             $res = $tui->save(['status' => 1, 'wx_id' => $resp['refund_id']]);
             if($tui['goods_id']==0){

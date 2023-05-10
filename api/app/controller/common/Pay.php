@@ -190,8 +190,6 @@ class Pay extends BaseController
         $biz_content = json_decode($biz_content, true);
         $order_num      =   $biz_content['third_order_id'];
         Log::error("工行支付回调订单号:". $order_num);
-        echo 1;
-        exit;
         $notify = new IcbcNotifyService(); 
         return $notify->NotifyEditOrder($order_num);
     }

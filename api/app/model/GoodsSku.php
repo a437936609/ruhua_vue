@@ -55,7 +55,7 @@ class GoodsSku extends BaseModel
      * @param $sku_img_ids
      */
     public function editSku($goods_id,$arr,$sku_img_ids){
-
+        
         $sarr = $this->set_kv_arr($arr, $sku_img_ids);  //sku_tree
         $fdata = $this->set_kv_json($arr, $sarr);   //sku_list
 

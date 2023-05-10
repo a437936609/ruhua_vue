@@ -21,6 +21,9 @@ class controller
         }else{
             $url='http://'.$_SERVER['HTTP_HOST'].'/';
         } 
+        
+        //$url='http://img.aku.pub/';
+        
         $json_file = dirname(__FILE__) . "/config.json";
         date_default_timezone_set("Asia/chongqing");
         error_reporting(E_ERROR);

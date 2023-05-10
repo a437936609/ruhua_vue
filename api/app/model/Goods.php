@@ -92,15 +92,15 @@ class Goods extends BaseModel
         try {
             $post['img_id'] = $post['banner_imgs'][0];
             $post['banner_imgs'] = implode(',', $post['banner_imgs']);
-
+            
             //https://api.aku.pub 转换成 img.aku.pub
             $post['content'] = str_replace(config('site.api_domain'), config('site.img_domain'), $post['content']);
-
+            
             if (input('?post.sku')) {
-
+                
                 //如果填写规格后单独的商品编号被清空
                 $post['goods_code'] = '';
-
+                
                 $num =0;
                 $sku= input('post.sku');
                 foreach ($sku as $k => $v) {
@@ -110,7 +110,7 @@ class Goods extends BaseModel
                     $post['stock'] = $num;
                     $arr = input('post.sku');
                     $sku_img_ids = input('post.sku_img_ids');
-
+                    
                     $res = self::create($post);
                     (new GoodsSku())->addSku($res['id'], $arr, $sku_img_ids);//添加sku
                 }else{
@@ -143,7 +143,7 @@ class Goods extends BaseModel
         //Log::error($post);
         //Log::error('xxx');
         //Log::error($arrs);
-
+        
         //https://api.aku.pub 转换成 img.aku.pub
         //$post['content'] = str_replace(config('site.api_domain'), config('site.img_domain'), $post['content']);
 
@@ -165,16 +165,16 @@ class Goods extends BaseModel
              **/
             if(!empty($arrs)){
                 if (input('?post.sku')){
-
+                    
                     //如果填写规格后单独的商品编号被清空
                     $post['goods_code'] = '';
-
+                    
                     $arr = input('post.sku');
                     $num =0;
                     foreach ($arr as $k => $v) {
                         $num = $num+$v['stock_num'];
                     }
-
+                    
                     if($num>0) {
                         $sku_img_ids = input('post.sku_img_ids');
 
@@ -700,7 +700,7 @@ class Goods extends BaseModel
                 }
             } else {
                 $goods['stock'] = $goods['stock'] - $v['num'];
-                // $goods['sales']= $goods['sales']+$v['num'];
+               // $goods['sales']= $goods['sales']+$v['num'];
                 if ($goods['stock'] >= 0) {
                     $goods->save();
                 }
@@ -748,18 +748,18 @@ class Goods extends BaseModel
                         $shrot2 = 1;
                         foreach ($sname as $kk=>$vv){
                             if($vv!=''){
-                                if(isset($v['s'.$short1.'_name'])){
-                                    if($v['s'.$short1.'_name']!=$vv){
-                                        $shrot2 = 2;
-                                        break;
-                                    }
-                                }
-                                else{
+                            if(isset($v['s'.$short1.'_name'])){
+                                if($v['s'.$short1.'_name']!=$vv){
                                     $shrot2 = 2;
                                     break;
                                 }
-                                $short1++;
-                            }}
+                            }
+                            else{
+                                $shrot2 = 2;
+                                break;
+                            }
+                            $short1++;
+                        }}
                         if ($shrot2==1) {
                             if($v['stock_num'] - $ordergoods[$i]['num']<0)
                                 throw new OrderException(['msg' => '库存不足']);

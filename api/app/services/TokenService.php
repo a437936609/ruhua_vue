@@ -99,8 +99,6 @@ class TokenService
         $user = UserModel::find($uid);
 
         $login_mode=SysConfig::get('login_mode');
-        Log::error('$login_mode');
-        Log::error($login_mode);
         if($login_mode==1){
             $state=$user['start'];
             if($state==0){

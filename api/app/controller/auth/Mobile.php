@@ -126,7 +126,12 @@ class Mobile extends BaseController
         $icbc_config['icbc_appid']                  =   SysConfig::get('icbc_appid');
         $icbc_config['icbc_mer_private_key']        =   SysConfig::get('icbc_mer_private_key');
         $icbc_config['icbc_platform_public_key']    =   SysConfig::get('icbc_platform_public_key');
+        Log::channel('msgLog')->write("userInfoKey:".json_encode($userInfoKey));
         $resp           =           IcbcApi::getUserInfo($icbc_config, $userInfoKey);
+        Log::channel('msgLog')->write("resp".json_encode($resp));
+        #$resp = [];
+        #$resp['mobile'] = '18901737789';
+        #$resp['userId'] = '201511300025429190';
         $user           =           UserModel::where('mobile', $resp['mobile'])->find();
         if(!$user){
             UserModel::create(['mobile'=>$resp['mobile']]);
@@ -139,7 +144,6 @@ class Mobile extends BaseController
             throw new BaseException(['msg'=>'创建用户失败,请重试']);
         }
         $data['icbc_user_id']       =       $resp['userId'];
-        $data['nickname']           =       $resp['nickName'];
         $user->save($data);
 
         $cache['uid']               =       $user['id'];
