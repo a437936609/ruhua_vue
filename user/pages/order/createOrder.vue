@@ -9,7 +9,7 @@
 						<text class="name">{{address.name}}</text>
 						<text class="mobile">{{address.mobile}}</text>
 					</view>
-					<text class="address">{{address.province}} {{address.city}}{{address.county}}</text>
+					<text class="address">{{address.province}} {{address.city}} {{address.county}} {{address.detail}}</text>
 				</view>
 				<view v-if="!address" class="placeholder">您还没有收货地址，请点击添加</view>
 				<text class="yticon icon-you"></text>

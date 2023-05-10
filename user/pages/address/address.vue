@@ -7,7 +7,7 @@
 					<text v-if="item.is_default" class="tag">默认</text>
 					<text v-if="!item.is_default" class="tag" @click="set_default(item.id)">设默认</text>
 					<text class="address" @click="checkAddress(item.id)">{{item.province}}
-						{{item.city}}{{item.county}}</text>
+						{{item.city}} {{item.county}} {{item.detail}}</text>
 				</view>
 				<view class="u-box" @click="checkAddress(item.id)">
 					<text class="name">{{item.name}}</text>
