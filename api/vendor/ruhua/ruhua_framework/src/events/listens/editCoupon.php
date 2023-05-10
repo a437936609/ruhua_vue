@@ -27,6 +27,7 @@ class editCoupon
      */
     public function editCoupon($data){
         if($data['coupon_id']){
+
             $coupon=UserCouponModel::where('id',$data['coupon_id'])->update(['status'=>2]);
             if(!$coupon){
                 throw new OrderException();

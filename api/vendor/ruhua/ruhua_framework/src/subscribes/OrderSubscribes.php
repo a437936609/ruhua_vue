@@ -12,12 +12,8 @@ use app\model\Goods as GoodsModel;
 use app\model\Order as OrderModel;
 use app\model\OrderLog as OrderLogModel;
 use app\model\PtItem;
-use app\model\UserCoupon as UserCouponModel;
 use app\services\DeliveryMessage;
 use app\services\GzhDeliveryMessage;
-use ruhua\exceptions\BaseException;
-use ruhua\exceptions\OrderException;
-use think\facade\Log;
 
 /**
  * 订单事件
@@ -94,36 +90,5 @@ class OrderSubscribes
     {
         $message = new DeliveryMessage();
         $message->sendDeliveryMessage($event, '');//小程序发送模板消息通知用户
-    }
-    /**
-     * 优惠券回收
-     * @param $data
-     * @throws OrderException
-     */
-    public function oneditCouponNo($data){
-        if($data['coupon_id']){
-            $coupon=UserCouponModel::where('id',$data['coupon_id'])->update(['status'=>0]);
-            if(!$coupon){
-                throw new OrderException();
-            }
-        }
-    }
-    /*
-     * 库存添加
-     * */
-    public function onreduceStockAdd($data){
-        if(isset($data['order_id']))
-            $tes=GoodsModel::ReduceStockAdd($data['order_id']);
-        else
-            $tes = GoodsModel::ReduceStockAdd($data['id']);
-    }
-    /*
-     * 库存减少s
-     * */
-    public function onreduceStocks($data){
-        if(isset($data['order_id']))
-            $tes=GoodsModel::ReduceStock($data['order_id']);
-        else
-            $tes = GoodsModel::ReduceStock($data['id']);
     }
 }
