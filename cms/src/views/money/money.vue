@@ -31,9 +31,16 @@
 												</template>
 											</el-table-column>
 											<el-table-column prop="operation" label="操作" width="300px">
-												<template slot-scope="scope" v-if="scope.row.status != 1">
-													<el-button type="success" size="small" @click="agree(scope.row.id)">同意</el-button>
-													<el-button style="margin-left: 10px" type="danger" size="small" slot="reference" @click="refuse(scope.row.id)">驳回</el-button>
+												<template slot-scope="scope">
+													<el-button type="primary" size="small"
+														@click="detail(scope.row)">查看订单详情</el-button>
+													<template v-if="scope.row.status != 1">
+														<el-button type="success" size="small"
+															@click="agree(scope.row.id)">同意</el-button>
+														<el-button style="margin-left: 10px" type="danger" size="small"
+															slot="reference"
+															@click="refuse(scope.row.id)">驳回</el-button>
+													</template>
 												</template>
 											</el-table-column><strong></strong>
 										</el-table>
@@ -56,8 +63,12 @@
 											</el-table-column>
 											<el-table-column prop="operation" label="操作" width="300px">
 												<template slot-scope="scope">
-													<el-button type="success" size="small" @click="agree(scope.row.id)">同意</el-button>
-													<el-button style="margin-left: 10px" type="danger" size="small" slot="reference" @click="refuse(scope.row.id)">驳回</el-button>
+													<el-button type="primary" size="small"
+														@click="detail(scope.row)">查看订单详情</el-button>
+													<el-button type="success" size="small"
+														@click="agree(scope.row.id)">同意</el-button>
+													<el-button style="margin-left: 10px" type="danger" size="small"
+														slot="reference" @click="refuse(scope.row.id)">驳回</el-button>
 												</template>
 											</el-table-column><strong></strong>
 										</el-table>
@@ -79,9 +90,17 @@
 												</template>
 											</el-table-column>
 											<el-table-column prop="operation" label="操作" width="300px">
-												<template slot-scope="scope" v-if="scope.row.status != 1">
-													<el-button type="success" size="small" @click="agree(scope.row.id)">同意</el-button>
-													<el-button style="margin-left: 10px" type="danger" size="small" slot="reference" @click="refuse(scope.row.id)">驳回</el-button>
+												<template slot-scope="scope">
+													<el-button type="primary" size="small"
+														@click="detail(scope.row)">查看订单详情</el-button>
+													<template v-if="scope.row.status != 1">
+														<el-button type="success" size="small"
+															@click="agree(scope.row.id)">同意</el-button>
+														<el-button style="margin-left: 10px" type="danger" size="small"
+															slot="reference"
+															@click="refuse(scope.row.id)">驳回</el-button>
+													</template>
+
 												</template>
 											</el-table-column><strong></strong>
 										</el-table>
@@ -102,6 +121,13 @@
 				<el-button type="primary" @click="sub_refuse">确 定</el-button>
 			</span>
 		</el-dialog>
+
+		<el-dialog title="订单详情" :visible.sync="dialogDetailVisible" width="80%">
+			<order-details v-if="dialogDetailVisible" :order_id="this.order_id"></order-details>
+			<span slot="footer" class="dialog-footer">
+				<el-button type="primary" @click="dialogDetailVisible = false">关 闭</el-button>
+			</span>
+		</el-dialog>
 	</div>
 </template>
 
@@ -115,25 +141,37 @@
 
 	import NavTo from '@/components/navTo.vue'
 	import Header from '@/components/header.vue'
+	import OrderDetails from "../order/Details.vue";
 	export default {
+		components: {
+			Header,
+			NavTo,
+			OrderDetails
+		},
 		data() {
 			return {
 				dialogVisible: false,
 				list: '',
 				msg: '',
 				rid: '',
-				dai_tui:[],
-				yi_tui:[]
+				dai_tui: [],
+				yi_tui: [],
+				order_id: '',
+				dialogDetailVisible: false,
 			}
-		},
-		components: {
-			Header,
-			NavTo
 		},
 		mounted() {
 			this._load()
 		},
 		methods: {
+			detail(row) {
+				if (null == row) {
+					return;
+				}
+				console.log(row);
+				this.order_id = row.order_id;
+				this.dialogDetailVisible = true;
+			},
 			_load() {
 				this.http.get('order/admin/get_tui_all').then(res => {
 					// this.list = res.data
@@ -145,10 +183,10 @@
 						if (v.status != -1) {
 							arr.push(v)
 						}
-						if(v.status != -1 && v.status == 1){
+						if (v.status != -1 && v.status == 1) {
 							brr.push(v)
 						}
-						if(v.status != -1 && v.status == 0){
+						if (v.status != -1 && v.status == 0) {
 							crr.push(v)
 						}
 					}
