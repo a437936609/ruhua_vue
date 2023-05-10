@@ -10,6 +10,7 @@ namespace app\controller\cms;
 
 
 use app\model\Goods as GoodsModel;
+use app\services\CommonServices;
 use app\services\CopyProductService;
 use app\validate\IDPostiveInt;
 use app\validate\ProductValidate;
@@ -55,7 +56,7 @@ class ProductManage extends BaseController
         (new IDPostiveInt())->goCheck();
         $good_one = GoodsModel::where(['goods_id' => $id])->find();
         GoodsModel::deleteGoods($id);
-        if(!$good_one){
+        if (!$good_one) {
             return app('json')->fail();
         }
         $result = $good_one->delete(config('setting.soft_del'));   //这里是软删除
@@ -108,6 +109,37 @@ class ProductManage extends BaseController
         return app('json')->success($res);
     }
 
+
+    /**
+     * mcms获取所有商品信息导出
+     * @return \think\Collection
+     */
+    public function all_goods_info_export()
+    {
+        // Log::error('4321');
+        $res = GoodsModel::with('imgs')
+            ->where("state", 1)
+            ->field('goods_id,goods_name,goods_code,ic_code,market_price,price,stock,sales,is_hot,is_new,state,img_id,sort')
+            ->order('goods_id desc')->select();
+        // Log::error('1234');
+        $list = [];
+        $title = [
+            "商品名称","商品编码","价格","总库存","销量"
+        ];
+        foreach ($res as $k => $v){
+            $arr = [
+                $title[0]  => $v["goods_name"],
+                $title[1]  => $v["ic_code"],
+                $title[2]  => $v["price"],
+                $title[3]  => $v["stock"],
+                $title[4]  => $v["sales"],
+            ];
+            $list[] = $arr;
+        }
+        $com = new CommonServices();
+        return app('json')->success($com->put_csv_cus_title($list, $title, "商品导出"));
+    }
+
     /**
      * mcms获取所有商品名称ID
      * @return \think\Collection
@@ -141,7 +173,8 @@ class ProductManage extends BaseController
      * 采集商品
      * @return \app\services\json
      */
-    public function getCopyProductInfo(){
+    public function getCopyProductInfo()
+    {
         return (new CopyProductService())->getRequestContents();
     }
 
@@ -149,8 +182,9 @@ class ProductManage extends BaseController
      * 获取为参加活动的商品
      * @return mixed
      */
-    public function getNormalGoods(){
-        $res=GoodsModel::getNormalGoods();
+    public function getNormalGoods()
+    {
+        $res = GoodsModel::getNormalGoods();
         return app('json')->success($res);
     }
 

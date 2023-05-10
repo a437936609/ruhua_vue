@@ -639,7 +639,7 @@ Route::group('product', function () {
         Route::post('add_product', 'cms.ProductManage/addProduct');//添加商品
         Route::post('edit_product', 'cms.ProductManage/mEditProduct');//修改商品
         Route::put('del_product', 'cms.ProductManage/deleteProduct');//删除商品
-        Route::post('all_goods_info', 'cms.ProductManage/all_goods_info');//获取所有商品简略信息
+        Route::post('all_goods_info', 'cms.ProductManage/all_goods_info');//所有商品信息导出
     })->middleware('CheckMCMS');
 
     //采集商品
@@ -658,6 +658,7 @@ Route::group('product', function () {
         Route::post('all_goods_info', 'cms.ProductManage/all_goods_info');//获取所有商品简略信息
         Route::get('all_goods_name', 'cms.ProductManage/allGoodsName');//获取所有商品id+名称
         Route::get('get_normal_goods', 'cms.ProductManage/getNormalGoods');//获取所有未参加活动的商品
+        Route::post('all_goods_info_export', 'cms.ProductManage/all_goods_info_export');//获取所有商品简略信息
     })->middleware('CheckCms');
 });
 

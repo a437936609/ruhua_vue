@@ -62,74 +62,74 @@ class CommonServices
         $title = ['序号'];
         foreach ($list as $k => $v) {
             $arr[$k]['xu'] = $k + 1;
-            if(in_array('number',$csv_titless)){
+            if (in_array('number', $csv_titless)) {
                 $arr[$k]['number'] = $v['order_num'];
-                if($k==0)
-                array_push($title,'订单号');
+                if ($k == 0)
+                    array_push($title, '订单号');
             }
-            if(in_array('status',$csv_titless)){
+            if (in_array('status', $csv_titless)) {
                 $arr[$k]['status'] = $v['shipment_state'] ? '已发货' : '待发货';
-                if($k==0)
-                array_push($title,'订单状态');
+                if ($k == 0)
+                    array_push($title, '订单状态');
             }
-            if(in_array('pay_time',$csv_titless)){
-                $arr[$k]['pay_time'] = $v['pay_time'] ? date('Y-m-s h:i:s',$v['pay_time']) : '未付款';
-                if($k==0)
-                    array_push($title,'付款时间');
+            if (in_array('pay_time', $csv_titless)) {
+                $arr[$k]['pay_time'] = $v['pay_time'] ? date('Y-m-s h:i:s', $v['pay_time']) : '未付款';
+                if ($k == 0)
+                    array_push($title, '付款时间');
             }
-            if(in_array('ordergoods',$csv_titless)){
+            if (in_array('ordergoods', $csv_titless)) {
                 $pro = '';
                 foreach ($v['ordergoods'] as $kk => $vv) {
-                    $sku = $vv['sku_name']?$vv['sku_name']:'无';
-                    $pro .= '【商品名称】：'.$vv['goods_name'].';【商品规格】：'.$sku.';'.'[x' . $vv['num'] . ']@@';
+                    $sku = $vv['sku_name'] ? $vv['sku_name'] : '无';
+                    $pro .= '【商品名称】：' . $vv['goods_name'] . ';【商品规格】：' . $sku . ';' . '[x' . $vv['num'] . ']@@';
                 }
-                if($k==0){
-                    array_push($title,'商品名');
-                    array_push($title,'商品价格');
+                if ($k == 0) {
+                    array_push($title, '商品名');
+                    array_push($title, '商品价格');
                 }
                 $arr[$k]['goods'] = $pro;
                 $arr[$k]['goods_money'] = $v['goods_money'];
             }
-            if(in_array('order_money',$csv_titless)){
+            if (in_array('order_money', $csv_titless)) {
                 $arr[$k]['order_money'] = $v['order_money'];
-                if($k==0)
-                array_push($title,'订单价格');
+                if ($k == 0)
+                    array_push($title, '订单价格');
             }
-            if(in_array('yunfei',$csv_titless)){
+            if (in_array('yunfei', $csv_titless)) {
                 $arr[$k]['shipping_money'] = $v['shipping_money'];
-                if($k==0)
-                    array_push($title,'运费');
+                if ($k == 0)
+                    array_push($title, '运费');
             }
-            if(in_array('nickname',$csv_titless)){
+            if (in_array('nickname', $csv_titless)) {
                 $arr[$k]['nickname'] = $v['users']['nickname'];
-                if($k==0)
-                array_push($title,'买家');
+                if ($k == 0)
+                    array_push($title, '买家');
             }
-            if(in_array('username',$csv_titless)){
+            if (in_array('username', $csv_titless)) {
                 $arr[$k]['username'] = $v['receiver_name'];
-                if($k==0)
-                array_push($title,'收货人');
+                if ($k == 0)
+                    array_push($title, '收货人');
             }
 //            if(isset($csv_titless['username'])){
 //                $arr[$k]['mobile'] = $v['receiver_mobile'];
 //            }
-            if(in_array('address',$csv_titless)){
-                $arr[$k]['address'] = $v['receiver_city'].$v['receiver_address'];
-                if($k==0)
-                array_push($title,'收获地址');
+            if (in_array('address', $csv_titless)) {
+                $arr[$k]['address'] = $v['receiver_city'] . $v['receiver_address'];
+                if ($k == 0)
+                    array_push($title, '收获地址');
             }
-            if(in_array('wuliunum',$csv_titless)){
+            if (in_array('wuliunum', $csv_titless)) {
                 $arr[$k]['wuliunum'] = $v['create_time'];
-                if($k==0)
-                array_push($title,'物流单号');
+                if ($k == 0)
+                    array_push($title, '物流单号');
             }
-            if(in_array('message',$csv_titless)){
+            if (in_array('message', $csv_titless)) {
                 $arr[$k]['message'] = $v['message'];
-                if($k==0)
-                array_push($title,'买家留言');
+                if ($k == 0)
+                    array_push($title, '买家留言');
             }
         }
-     return   $this->put_csv($arr, $title);
+        return $this->put_csv($arr, $title);
     }
 
     /**
@@ -190,20 +190,20 @@ class CommonServices
         /*if(Request::ip() != '123'){
             return app('json')->fail('非法操作');
         }*/
-        $up_file=request()->file('img');
+        $up_file = request()->file('img');
         Log::error('上传图片');
         Log::error($up_file);
         $file = Image::open($up_file);
-        $filename=$up_file->getOriginalExtension();
+        $filename = $up_file->getOriginalExtension();
 
-        if($filename!="jpg"&&$filename!="jpeg"&&$filename!="png"&&$filename!="gif"){
-            throw new ProductException(['msg'=>'非图片上传']);
+        if ($filename != "jpg" && $filename != "jpeg" && $filename != "png" && $filename != "gif") {
+            throw new ProductException(['msg' => '非图片上传']);
         }
-        if(!is_dir(ROOT."/uploads/$use")){
-            mkdir(ROOT."/uploads/$use");
+        if (!is_dir(ROOT . "/uploads/$use")) {
+            mkdir(ROOT . "/uploads/$use");
         }
 
-        $name = uniqid() .".". $filename;
+        $name = uniqid() . "." . $filename;
         $file->thumb(500, 500, 1)->save('./uploads/' . $use . '/' . $name);
         $res = self::img_save($use, $name, $cid);   //保存图片
         if ($res['id']) {
@@ -234,28 +234,28 @@ class CommonServices
     public static function uploadVideo()
     {
         $file = request()->file('file');
-        $filename=$file->getOriginalExtension();
+        $filename = $file->getOriginalExtension();
         if (!$file) {
             return app('json')->fail('请上传文件video');
         }
-        if($filename!="mp4"&&$filename!="flv"){
-            throw new BaseException(['msg'=>'视频格式只支持mp4和flv']);
+        if ($filename != "mp4" && $filename != "flv") {
+            throw new BaseException(['msg' => '视频格式只支持mp4和flv']);
         }
         validate(['file' => 'fileSize:10240000'])
             ->check(['file' => $file]);
         $fileName = Filesystem::disk('public')->putFile('video', $file, 'uniqid');
-        $file1=getcwd()."/storage/".$fileName; //旧目录
+        $file1 = getcwd() . "/storage/" . $fileName; //旧目录
         if (file_exists($file1)) {
             $dir = './uploads/video/';
-            if(is_dir($dir)){
+            if (is_dir($dir)) {
                 Log::error('上传视频：该目录已存在');
-            }else{
-                if(mkdir($dir,0777,true))Log::error('上传视频：目录创建完毕'); ;
+            } else {
+                if (mkdir($dir, 0777, true)) Log::error('上传视频：目录创建完毕');;
             }
-            $newFile=getcwd()."/uploads/".$fileName; //新目录
-            copy($file1,$newFile); //拷贝到bai新目录
+            $newFile = getcwd() . "/uploads/" . $fileName; //新目录
+            copy($file1, $newFile); //拷贝到bai新目录
             unlink($file1); //删除旧目录下的文件
-            }
+        }
         $res = self::video_save('video', $fileName);   //保存视频
         if ($res['id']) {
             return app('json')->success($res['id']);
@@ -271,12 +271,12 @@ class CommonServices
     public static function uploadVideoUrl()
     {
         $file = request()->file('file');
-        $filename=$file->getOriginalExtension();
+        $filename = $file->getOriginalExtension();
         if (!$file) {
             return app('json')->fail('请上传文件video');
         }
-        if($filename!="mp4"&&$filename!="flv"){
-            throw new BaseException(['msg'=>'视频格式只支持mp4和flv']);
+        if ($filename != "mp4" && $filename != "flv") {
+            throw new BaseException(['msg' => '视频格式只支持mp4和flv']);
         }
         validate(['file' => 'fileSize:10240000'])
             ->check(['file' => $file]);
@@ -284,7 +284,7 @@ class CommonServices
 
         $res = self::video_save('video', $fileName);   //保存视频
         if ($res['id']) {
-            $arr[0]=$res['url'];
+            $arr[0] = $res['url'];
             return app('json')->go($arr);
 
         } else {
@@ -304,21 +304,22 @@ class CommonServices
         $data['use_name'] = $use;
         $data['url'] = '/uploads/' . $use . '/' . $name;
         $data['category_id'] = $cid;
-        $is_oss=SysConfigModel::where('key','upload_oss')->value('value');
-        if($is_oss==1){
-            $oss=new Oss();
-            $data['url']=$oss->uploadFileImg(ROOT.$data['url']);
-            $path=ROOT.$data['url'];
-            if(file_exists($path))
+        $is_oss = SysConfigModel::where('key', 'upload_oss')->value('value');
+        if ($is_oss == 1) {
+            $oss = new Oss();
+            $data['url'] = $oss->uploadFileImg(ROOT . $data['url']);
+            $path = ROOT . $data['url'];
+            if (file_exists($path))
                 unlink($path);//删除文件
         }
-        $watermark=SysConfig::where('key','watermark')->value('value');
-        if($watermark==1&&$is_oss==0)
-            $res=(new Watermark())->text($data);
+        $watermark = SysConfig::where('key', 'watermark')->value('value');
+        if ($watermark == 1 && $is_oss == 0)
+            $res = (new Watermark())->text($data);
         else
             $res = ImageModel::create($data);
         return $res;
     }
+
     /**
      * 上传的图片信息，录入数据库
      * @param $name
@@ -332,15 +333,15 @@ class CommonServices
         $data['use_name'] = $use;
         $data['url'] = '/uploads/' . $name;
         $data['description'] = input('post.description');
-        $is_oss=SysConfigModel::where('key','upload_oss')->value('value');
-        if($is_oss==1){
-        $oss=new Oss();
-        $data['url']=$oss->uploadFileVideo(ROOT.$data['url']);
-        $path=ROOT.$data['url'];
+        $is_oss = SysConfigModel::where('key', 'upload_oss')->value('value');
+        if ($is_oss == 1) {
+            $oss = new Oss();
+            $data['url'] = $oss->uploadFileVideo(ROOT . $data['url']);
+            $path = ROOT . $data['url'];
 
-        if(file_exists($path))
-           unlink($path);//删除文件
-    }
+            if (file_exists($path))
+                unlink($path);//删除文件
+        }
         $res = Video::create($data);
         return $res;
     }
@@ -368,32 +369,33 @@ class CommonServices
             return app('json')->fail('未找到单号');
         }
         $code = SysConfigModel::where(['key' => 'appcode'])->value('value');
-        $mobile=substr($order['receiver_mobile'],-4,4);
-        $kd = new Kd($code, '', $order['courier_num'],$mobile);
-        $data=json_decode($kd->get(),true);
+        $mobile = substr($order['receiver_mobile'], -4, 4);
+        $kd = new Kd($code, '', $order['courier_num'], $mobile);
+        $data = json_decode($kd->get(), true);
         Log::error($data);
-        if($data==null){
-            Log::channel('msgLog')->write($order['courier_num']." 快递单号获取失败,原因：快递code不对");
-        }else{
-            if($data['status']!=0){
-                Log::channel('msgLog')->write($order['courier_num']." 快递单号获取失败,原因：".$data['msg']);
+        if ($data == null) {
+            Log::channel('msgLog')->write($order['courier_num'] . " 快递单号获取失败,原因：快递code不对");
+        } else {
+            if ($data['status'] != 0) {
+                Log::channel('msgLog')->write($order['courier_num'] . " 快递单号获取失败,原因：" . $data['msg']);
             }
         }
         return json($data);
     }
 
     /**
-     * 导出csv文件
+     * 导出csv文件自定义文件名称
      * @param $list
      * @param $title
+     * @param $fileName
      */
-    public function put_csv($list, $title)
+    public function put_csv_cus_title($list, $title, $file_name)
     {
-        $file_name = date("Y年m月d日h时i分", time()) . ".csv";
+        $file_name = '/storage/newexcel/' . $file_name . date("Y年m月d日h时i分", time()) . ".csv";
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename=' . $file_name);
         header('Cache-Control: max-age=0');
-        $file = fopen(ROOT.'/storage/excel/'.$file_name, "a");
+        $file = fopen(ROOT . $file_name, "a");
         $limit = 1000;
         $calc = 0;
         foreach ($title as $v) {
@@ -415,7 +417,45 @@ class CommonServices
         }
         unset($list);
         fclose($file);
-        if($res){
+        if ($res) {
+            return $file_name;
+        }
+    }
+
+    /**
+     * 导出csv文件
+     * @param $list
+     * @param $title
+     */
+    public function put_csv($list, $title)
+    {
+        $file_name = date("Y年m月d日h时i分", time()) . ".csv";
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename=' . $file_name);
+        header('Cache-Control: max-age=0');
+        $file = fopen(ROOT . '/storage/excel/' . $file_name, "a");
+        $limit = 1000;
+        $calc = 0;
+        foreach ($title as $v) {
+            $tit[] = iconv('UTF-8', 'GB2312//IGNORE', $v);
+        }
+        fputcsv($file, $tit);
+        foreach ($list as $v) {
+            $calc++;
+            if ($limit == $calc) {
+                ob_flush();
+                flush();
+                $calc = 0;
+            }
+            foreach ($v as $t) {
+                $tarr[] = iconv('UTF-8', 'GB2312//IGNORE', $t);
+            }
+            $res = fputcsv($file, $tarr);
+            unset($tarr);
+        }
+        unset($list);
+        fclose($file);
+        if ($res) {
             return true;
         }
     }
@@ -423,19 +463,22 @@ class CommonServices
     /**
      * 获取导出的所有文件
      */
-    public static function getExcel(){
-        $dir = ROOT."/storage/excel";
-        return scandir($dir,1);
+    public static function getExcel()
+    {
+        $dir = ROOT . "/storage/excel";
+        return scandir($dir, 1);
     }
 
     /**
      * 删除导出的文件
      */
-    public static function delExcel(){
-        $dir = ROOT."/storage/excel/";
+    public static function delExcel()
+    {
+        $dir = ROOT . "/storage/excel/";
         $name = input('param.name');
-        return unlink($dir.$name);
+        return unlink($dir . $name);
     }
+
     /**
      * 获取二维码
      * @param $path
@@ -459,10 +502,10 @@ class CommonServices
 
         $qcode = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=$access_token";
 
-        if($scene){
+        if ($scene) {
             $scene = $scene . '&' . $sf_code;
-        }else{
-            $scene= $sf_code;
+        } else {
+            $scene = $sf_code;
         }
         $param = ["page" => $path, 'scene' => $scene, "width" => 140];
         //POST参数
@@ -470,11 +513,11 @@ class CommonServices
         Log::error($result);
         $date = date('Ymd', time());
         $filename = $date . uniqid() . '.jpg'; //定义图片名字及格式
-        if($path){
+        if ($path) {
             //返回图片base数据给前端小程序，直接放前端img src即可显示;
-           /* $base64_image = "data:image/jpeg;base64," . base64_encode($result);
-            return $base64_image;*/
-            $filename = "pro".$date . uniqid() . '.jpg'; //定义图片名字及格式
+            /* $base64_image = "data:image/jpeg;base64," . base64_encode($result);
+             return $base64_image;*/
+            $filename = "pro" . $date . uniqid() . '.jpg'; //定义图片名字及格式
         }
         file_put_contents('./uploads/code/' . $filename, $result);    //保存小程序码到服务器
         $url = '/uploads/code/';
