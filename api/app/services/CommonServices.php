@@ -72,10 +72,11 @@ class CommonServices
                 if ($k == 0)
                     array_push($title, '订单状态');
             }
-            if (in_array('pay_time', $csv_titless)) {
-                $arr[$k]['pay_time'] = $v['pay_time'] ? date('Y-m-s h:i:s', $v['pay_time']) : '未付款';
-                if ($k == 0)
-                    array_push($title, '付款时间');
+            if(in_array('pay_time',$csv_titless)){
+
+                $arr[$k]['pay_time'] = empty($v['prepay_id']) ? '未付款' : $v['pay_time'];
+                if($k==0)
+                    array_push($title,'付款时间');
             }
             if (in_array('ordergoods', $csv_titless)) {
                 $pro = '';
