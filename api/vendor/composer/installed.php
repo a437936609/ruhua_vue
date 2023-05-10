@@ -5,18 +5,27 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '1514c883ac4f5ff025dbee10b6522a7fffae5c37',
+        'reference' => '19b3ee65b6b0eb7495d7834fb62ebbcd1455f74b',
         'name' => 'topthink/think',
         'dev' => true,
     ),
     'versions' => array(
-        'phpoffice/phpexcel' => array(
-            'pretty_version' => '1.8.2',
-            'version' => '1.8.2.0',
+        'markbaker/complex' => array(
+            'pretty_version' => '1.5.0',
+            'version' => '1.5.0.0',
             'type' => 'library',
-            'install_path' => __DIR__ . '/../phpoffice/phpexcel',
+            'install_path' => __DIR__ . '/../markbaker/complex',
             'aliases' => array(),
-            'reference' => '1441011fb7ecdd8cc689878f54f8b58a6805f870',
+            'reference' => 'c3131244e29c08d44fefb49e0dd35021e9e39dd2',
+            'dev_requirement' => false,
+        ),
+        'phpoffice/phpspreadsheet' => array(
+            'pretty_version' => '1.5.2',
+            'version' => '1.5.2.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../phpoffice/phpspreadsheet',
+            'aliases' => array(),
+            'reference' => 'cd60531c44f580fbdfbd55dfb935af791f09be5d',
             'dev_requirement' => false,
         ),
         'psr/container' => array(
@@ -115,7 +124,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '1514c883ac4f5ff025dbee10b6522a7fffae5c37',
+            'reference' => '19b3ee65b6b0eb7495d7834fb62ebbcd1455f74b',
             'dev_requirement' => false,
         ),
         'topthink/think-helper' => array(
