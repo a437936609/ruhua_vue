@@ -98,7 +98,7 @@
 											</div>
 										</div>
 										<div class="sea_02_01">
-											<el-button type="primary" size="mini" @click="export_dialog = true">导出
+											<el-button type="primary" size="mini" @click="upload">导出
 											</el-button>
 											<el-button type="primary" size="mini" @click="jump_export_list">导出历史
 											</el-button>
