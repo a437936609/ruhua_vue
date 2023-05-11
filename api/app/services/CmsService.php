@@ -76,25 +76,31 @@ class CmsService implements RoleInterface
             $where[] = ['receiver_mobile','=',$mobile];
         }
 
-        //订单状态 值里有空和负数
-        if(strlen($post['filter_status']) > 0)
-        {
-            $filter_status=$post['filter_status'];
-            $where[] = ['state','=',$filter_status];
+        if(isset($post['filter_status'])){
+            //订单状态 值里有空和负数
+            if(strlen($post['filter_status']) > 0)
+            {
+                $filter_status=$post['filter_status'];
+                $where[] = ['state','=',$filter_status];
+            }
         }
 
-        //支付状态 值里有空和负数
-        if(strlen($post['payment_state']) > 0)
-        {
-            $filter_pay=$post['filter_pay'];
-            $where[] = ['payment_state','=',$filter_pay];
+        if(isset($post['filter_pay'])){
+            //支付状态 值里有空和负数
+            if(strlen($post['filter_pay']) > 0)
+            {
+                $filter_pay=$post['filter_pay'];
+                $where[] = ['payment_state','=',$filter_pay];
+            }
         }
 
-        //发货状态 值里有空和负数
-        if(strlen($post['filter_send']) > 0)
-        {
-            $filter_send=$post['filter_send'];
-            $where[] = ['shipment_state','=',$filter_send];
+        if(isset($post['filter_send'])){
+            //发货状态 值里有空和负数
+            if(strlen($post['filter_send']) > 0)
+            {
+                $filter_send=$post['filter_send'];
+                $where[] = ['shipment_state','=',$filter_send];
+            }
         }
 
         if(isset($post['pro_name']) && !empty($post['pro_name'])) {
@@ -116,19 +122,37 @@ class CmsService implements RoleInterface
             $where[]=[['create_time','>=',$post['stat_time']],['create_time','<=',$post['end_time']]];
         }
         if($page<0) {
-            $data = OrderModel::with(['ordergoods.imgs', 'users' => function ($query) {
-                $query->field('id,nickname,headpic');
-            }])->where($where)->where('state', '<>', -3)
+
+            //原始代码 不用获取用户信息
+            $data = OrderModel::with('ordergoods.imgs')->where($where)->where('state', '<>', -3)
                 ->order('create_time desc')->field("$os order_id,order_num,prepay_id,user_id,item_id,pt_state,state,payment_state,shipment_state,
-            delete_time,update_time,pay_time,shipping_money,order_money,user_ip,message,create_time", true)
+            delete_time,update_time,pay_time,shipping_money,order_money,receiver_name,receiver_mobile,user_ip,message,create_time", true)
                 ->limit(1000)->select();
+
+
+            //原始代码 获取用户信息
+//            $data = OrderModel::with(['ordergoods.imgs', 'users' => function ($query) {
+//                $query->field('id,nickname,headpic');
+//            }])->where($where)->where('state', '<>', -3)
+//                ->order('create_time desc')->field("$os order_id,order_num,prepay_id,user_id,item_id,pt_state,state,payment_state,shipment_state,
+//            delete_time,update_time,pay_time,shipping_money,order_money,user_ip,message,create_time", true)
+//                ->limit(1000)->select();
         }else {
-            $data = OrderModel::with(['ordergoods.imgs', 'users' => function ($query) {
-                $query->field('id,nickname,headpic');
-            }])->where($where)
+
+            //原始代码 不用获取用户信息
+            $data = OrderModel::with('ordergoods.imgs')->where($where)
                 ->order('create_time desc')->field("$os order_id,order_num,prepay_id,user_id,item_id,pt_state,state,payment_state,shipment_state,
-                delete_time,update_time,pay_time,shipping_money,order_money,user_ip,message,create_time", true)
+                delete_time,update_time,pay_time,shipping_money,order_money,receiver_name,receiver_mobile,user_ip,message,create_time", true)
                 ->limit($page * $num, $num)->select();
+
+
+            //原始代码 获取用户信息
+//            $data = OrderModel::with(['ordergoods.imgs', 'users' => function ($query) {
+//                $query->field('id,nickname,headpic');
+//            }])->where($where)
+//                ->order('create_time desc')->field("$os order_id,order_num,prepay_id,user_id,item_id,pt_state,state,payment_state,shipment_state,
+//                delete_time,update_time,pay_time,shipping_money,order_money,user_ip,message,create_time", true)
+//                ->limit($page * $num, $num)->select();
         }
         return $data;
     }
@@ -148,6 +172,7 @@ class CmsService implements RoleInterface
                     $query->field('id,nickname,headpic');
                 }])->where(['order_id' => $id])->find();
         }
+
         Log::error('654321');
         $data['log'] = OrderLog::where(['order_id' => $id])->order('create_time desc')->select();
         return $data;

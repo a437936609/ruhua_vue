@@ -310,6 +310,7 @@
 			// this.get_token()
 		},
 		async onLoad(options) {
+			
 			await this.get_token()
 			if (options.sfm) {
 				uni.setStorageSync('level_one', options.sfm) //上级分销的身份码

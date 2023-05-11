@@ -135,7 +135,7 @@ Route::group('index', function () {
         Route::get('get_file', 'common.Common/getFile');  //获取文件
         Route::post('/send_gzh_massege', 'common.Common/send_gzh_massege')->middleware('CheckMCMS');  //公众号模板
         Route::get('getcode', 'common.Common/getCode');   //获取验证码
-        Route::post('export_excl', 'cms.Common/export_excl');   //导出表格
+        Route::get('export_excl', 'cms.Common/export_excl');   //导出表格
         Route::get('get_excel', 'cms.Common/get_excel');   //导出表格
         Route::post('del_excel', 'cms.Common/del_excel');   //下载表格
     });
@@ -561,7 +561,7 @@ Route::group('order', function () {
         Route::post('/vipback', 'common.Pay/gzh_vipback'); //公众号vip支付回调
 
         Route::post('/pay/pre_order', 'common.Pay/getPreOrder');//小程序支付
-        Route::post('/pay/notify', 'common.Pay/receiveNotify');//小程序支付回调
+        #Route::post('/pay/notify', 'common.Pay/receiveNotify');//小程序支付回调
         Route::post('/pay/wx_h5_pay', 'common.Pay/wx_h5_pay');//微信H5支付
         Route::post('/pay/pre_app', 'common.Pay/getAppPayData');//app支付
         Route::post('/pay/app_notify', 'common.Pay/appNotify');//app支付回调

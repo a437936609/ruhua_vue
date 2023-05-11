@@ -70,4 +70,12 @@ class OrderGoods extends BaseModel
         $res = self::where('order_id',$orderid)->find();
         return $res;
     }
+
+
+    //关联内控编码
+    public function iccode()
+    {
+        return $this->hasOne('Goods','goods_id','goods_id')->bind(['ic_code']);
+    }
+    
 }

@@ -6,6 +6,7 @@
 use think\facade\Env;
 
 return [
+    'app_debug'        => true,
     // 应用地址
     'app_host'         => Env::get('app.host', ''),
     // 应用的命名空间

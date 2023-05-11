@@ -35,6 +35,10 @@ class OrderLog extends BaseModel
         }
     }
 
+    public function getCreateTimeAttr($v)
+    {
+        return date("Y-m-d H:i:s",$v);
+    }
     /**
      * 写入发票信息
      * @param $order

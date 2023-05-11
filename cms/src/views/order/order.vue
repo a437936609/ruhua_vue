@@ -22,12 +22,13 @@
 											<div class="sea_02_01_r">
 												<el-input v-model="search_form.num" placeholder="请输入订单号"></el-input>
 											</div>
-											
+
 											<div class="sea_02_01_l">手机号：</div>
 											<div class="sea_02_01_r">
-												<el-input v-model="search_form.mobile" placeholder="请输入客户手机号"></el-input>
+												<el-input v-model="search_form.mobile"
+													placeholder="请输入客户手机号"></el-input>
 											</div>
-											
+
 											<div class="sea_02_01_l">用户名：</div>
 											<div class="sea_02_01_r">
 												<el-input v-model="search_form.user_name" placeholder="请输入用户名全称">
@@ -40,39 +41,43 @@
 											</div>
 
 										</div>
-										
+
 										<div class="sea_02_01">
 
 
 											<div class="sea_02_01_l">订单状态：</div>
 											<div class="sea_02_01_r">
 												<el-select v-model="search_form.filter_status" placeholder="请选择">
-													<el-option v-for="item in orderzt" :key="item.value" :label="item.label" :value="item.value"></el-option>
-												</el-select>
-											</div>
-											
-											<div class="sea_02_01_l">支付状态：</div>
-											<div class="sea_02_01_r">
-												<el-select v-model="search_form.filter_pay" placeholder="请选择">
-													<el-option v-for="item in payzt" :key="item.value" :label="item.label" :value="item.value"></el-option>
-												</el-select>
-											</div>
-											
-											<div class="sea_02_01_l">运输状态：</div>
-											<div class="sea_02_01_r">
-												<el-select v-model="search_form.filter_send" placeholder="请选择">
-													<el-option v-for="item in returnzt" :key="item.value" :label="item.label" :value="item.value"></el-option>
+													<el-option v-for="item in orderzt" :key="item.value"
+														:label="item.label" :value="item.value"></el-option>
 												</el-select>
 											</div>
 
-											
+											<div class="sea_02_01_l">支付状态：</div>
+											<div class="sea_02_01_r">
+												<el-select v-model="search_form.filter_pay" placeholder="请选择">
+													<el-option v-for="item in payzt" :key="item.value"
+														:label="item.label" :value="item.value"></el-option>
+												</el-select>
+											</div>
+
+											<div class="sea_02_01_l">运输状态：</div>
+											<div class="sea_02_01_r">
+												<el-select v-model="search_form.filter_send" placeholder="请选择">
+													<el-option v-for="item in returnzt" :key="item.value"
+														:label="item.label" :value="item.value"></el-option>
+												</el-select>
+											</div>
+
+
 											<div class="sea_02_01_l">日期(近期)：</div>
 											<div class="sea_02_01_r">
-												<el-date-picker v-model="date_range" type="daterange" align="right"
-													unlink-panels range-separator="至" :start-placeholder="show_date_range[0]"
-													:end-placeholder="show_date_range[1]" :picker-options="pickerOptions"
-													@change="order_time_range" value-format="timestamp"
-													:default-value="date_range">
+												<el-date-picker v-model="date_range" type="datetimerange" align="right"
+													unlink-panels range-separator="至"
+													:start-placeholder="show_date_range[0]"
+													:end-placeholder="show_date_range[1]"
+													:picker-options="pickerOptions" @change="order_time_range"
+													value-format="timestamp" :default-value="date_range">
 												</el-date-picker>
 												<el-button size="small" style="margin-left: 10px;" type="success"
 													@click="search('goods_name')">搜索</el-button>
@@ -81,7 +86,7 @@
 											</div>
 										</div>
 
-										
+
 										<div class="sea_02_01">
 											<div class="sea_02_01_l">创建时间：</div>
 											<div class="sea_02_01_r">
@@ -93,7 +98,7 @@
 											</div>
 										</div>
 										<div class="sea_02_01">
-											<el-button type="primary" size="mini" @click="export_dialog = true">导出
+											<el-button type="primary" size="mini" @click="upload">导出
 											</el-button>
 											<el-button type="primary" size="mini" @click="jump_export_list">导出历史
 											</el-button>
@@ -130,16 +135,22 @@
 								</el-row> -->
 							</el-collapse-item>
 						</el-collapse>
-						
+
 						<!-- 订单列表 -->
 						<div v-if="!addShow" style="padding: 15px;background-color: #fff">
 							<el-table :data="list" border style="width: 100%" @filter-change="xxx">
 								<el-table-column type="index" label="序号" width="50"></el-table-column>
-								<el-table-column prop="prepay_id" label="订单号" width="180"></el-table-column>
+								<el-table-column label="订单号" width="180">
+									<template slot-scope="scope">
+										<del v-if="scope.row.prepay_id == null" style="color: #d0d0d0;">未完成付款</del>
+										<span v-else>{{scope.row.prepay_id}}</span>
+									</template>
+								</el-table-column>
 								<el-table-column label="商品名称" prop="goods_id" width="280" :filters="goods_list"
 									:filter-method="filterHandler">
 									<template slot-scope="scope">
-										<div v-for="(item, key) of scope.row.ordergoods" :key="key">{{item.goods_name | ellipsis}}
+										<div v-for="(item, key) of scope.row.ordergoods" :key="key">
+											{{item.goods_name | ellipsis}}
 										</div>
 									</template>
 								</el-table-column>
@@ -153,9 +164,17 @@
 										</el-button>
 									</template>
 								</el-table-column>
-								<el-table-column prop="message" label="客户备注" width="160">
+								<el-table-column label="客户备注" width="160">
+
+									<template slot-scope="scope">
+										<p v-if="scope.row.message == ''"><el-tag type="info">无</el-tag></p>
+										<p v-else><el-tag>{{scope.row.message}}</el-tag></p>
+									</template>
+
+
 								</el-table-column>
-								<el-table-column prop="users.nickname" label="用户" width="160"></el-table-column>
+								<el-table-column prop="receiver_name" label="姓名" width="100"></el-table-column>
+								<el-table-column prop="receiver_mobile" label="手机号" width="120"></el-table-column>
 								<el-table-column prop="create_time" label="创建日期" width="180"></el-table-column>
 								<el-table-column label="支付状态" width="100"
 									:filters="[{ text: '已支付', value: 1 }, { text: '未支付', value: 0 }]"
@@ -196,7 +215,7 @@
 										<p style="color:#E6A23C" v-else>未发货</p> -->
 									</template>
 								</el-table-column>
-								<el-table-column prop="operation" label="操作" width="220">
+								<el-table-column prop="operation" label="操作" width="150px">
 									<template slot-scope="scope">
 										<el-button @click="show_order(scope.row.order_id)" type="primary" size="small">
 											<!-- <a href="#top" style="text-decoration:none;color: #FFFFFF;">查看</a> -->
@@ -262,11 +281,52 @@
 	import Header from '@/components/header.vue'
 	import Order from './new_order.vue'
 	import OrderDetails from "./Details.vue";
-	const cityOptions = [
-		{name:'订单号',value:'number'}, {name:'下单时间',value:'create_time'}, {name:'订单状态',value:'status'},{name:'付款时间',value:'pay_time'}, 
-		{name:'发货时间',value:'create_time'},{name:'买家',value:'nickname'},{name:'收货人',value:'username'},{name:'收货人地址',value:'address'},
-		{name:'实付金额',value:'order_money'},{name:'运费',value:'yunfei'},{name:'物流单号',value:'wuliunum'},{name:'买家留言',value:'message'},
-		{name:'商家备注',value:'messages'},{name:'商品信息',value:'ordergoods'}
+	const cityOptions = [{
+			name: '订单号',
+			value: 'number'
+		}, {
+			name: '下单时间',
+			value: 'create_time'
+		}, {
+			name: '订单状态',
+			value: 'status'
+		}, {
+			name: '付款时间',
+			value: 'pay_time'
+		},
+		{
+			name: '发货时间',
+			value: 'create_time'
+		}, {
+			name: '买家',
+			value: 'nickname'
+		}, {
+			name: '收货人',
+			value: 'username'
+		}, {
+			name: '收货人地址',
+			value: 'address'
+		},
+		{
+			name: '实付金额',
+			value: 'order_money'
+		}, {
+			name: '运费',
+			value: 'yunfei'
+		}, {
+			name: '物流单号',
+			value: 'wuliunum'
+		}, {
+			name: '买家留言',
+			value: 'message'
+		},
+		{
+			name: '商家备注',
+			value: 'messages'
+		}, {
+			name: '商品信息',
+			value: 'ordergoods'
+		}
 	];
 	export default {
 		filters: {
@@ -283,7 +343,7 @@
 				checkAll: false,
 				checkedCities: [],
 				cities: cityOptions,
-				val: [1,2,3,4,5,6,7,8,9,10,11,12,13,14],
+				val: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
 				isIndeterminate: true,
 				export_dialog: false,
 				pickerOptions: {
@@ -319,10 +379,10 @@
 					user_name: '',
 					pro_name: '',
 					num: '',
-					mobile:'',
-					filter_status:'',
-					filter_pay:'',
-					filter_send:'',
+					mobile: '',
+					filter_status: '',
+					filter_pay: '',
+					filter_send: '',
 					stat_time: '',
 					end_time: ''
 				},
@@ -337,49 +397,47 @@
 				activeNames: '1',
 				input: '',
 				orderzt: [{
-						"value": "",
-						"label": "请选择",
-					},{
-						"value": "-2",
-						"label": "已退款",
-					},{
-						"value": "-1",
-						"label": "退款中",
-					},{
-						"value": "0",
-						"label": "未完成",
-					},{
-						"value": "1",
-						"label": "已完成",
-					},{
-						"value": "2",
-						"label": "已评价",
-					},{
-						"value": "-3",
-						"label": "已关闭",
-					}
-				],
+					"value": "",
+					"label": "请选择",
+				}, {
+					"value": "-2",
+					"label": "已退款",
+				}, {
+					"value": "-1",
+					"label": "退款中",
+				}, {
+					"value": "0",
+					"label": "未完成",
+				}, {
+					"value": "1",
+					"label": "已完成",
+				}, {
+					"value": "2",
+					"label": "已评价",
+				}, {
+					"value": "-3",
+					"label": "已关闭",
+				}],
 				payzt: [{
-						"value": "",
-						"label": "请选择",
-					},{
-						"value": "1",
-						"label": "已支付",
-					},{
-						"value": "0",
-						"label": "未支付",
-					}],
-				returnzt:[{
-						"value": "",
-						"label": "请选择",
-					},{
-						"value": "1",
-						"label": "已退货",
-					},{
-						"value": "0",
-						"label": "未退货",
-						},
-					],
+					"value": "",
+					"label": "请选择",
+				}, {
+					"value": "1",
+					"label": "已支付",
+				}, {
+					"value": "0",
+					"label": "未支付",
+				}],
+				returnzt: [{
+					"value": "",
+					"label": "请选择",
+				}, {
+					"value": "1",
+					"label": "已退货",
+				}, {
+					"value": "0",
+					"label": "未退货",
+				}, ],
 				type: [{
 						"names": "普通订单",
 						"num": 879,
@@ -498,7 +556,9 @@
 				dialogVisible: false,
 				dialogVisibleadd: false,
 				dialogFormVisible: false,
-				val:['number','create_time','status','pay_time','create_time','nickname','username','address','order_money','yunfei','wuliunum','message','messages','ordergoods'],
+				val: ['number', 'create_time', 'status', 'pay_time', 'create_time', 'nickname', 'username', 'address',
+					'order_money', 'yunfei', 'wuliunum', 'message', 'messages', 'ordergoods'
+				],
 				oid: 0,
 				form: {
 					id: '',
@@ -545,7 +605,7 @@
 				range_end: '',
 				quanbu: '',
 				addShow: false,
-				show_date_range:[]
+				show_date_range: []
 			}
 		},
 		components: {
@@ -563,7 +623,7 @@
 			this.date_range[1] = end.getTime()
 			this.show_date_range[0] = this.happenTimeFun(start)
 			this.show_date_range[1] = this.happenTimeFun(end)
-			
+
 			this.get_week();
 			this.get_month()
 			this.get_year()
@@ -575,52 +635,52 @@
 			this.show_default = true
 		},
 		methods: {
-			upload(){
-				console.log("xxx",this.checkedCities)
+			upload() {
+				console.log("xxx", this.checkedCities)
 				this.get_excel();
 			},
-			happenTimeFun(num){//时间戳数据处理
-					let date = new Date(num);
-					 //时间戳为10位需*1000，时间戳为13位的话不需乘1000
-			        let y = date.getFullYear() 
-			        let MM = date.getMonth() + 1
-			        MM = MM < 10 ? ('0' + MM) : MM //月补0
-			        let d = date.getDate()
-			        d = d < 10 ? ('0' + d) : d // 天补0
-			        let h = date.getHours()
-			        h = h < 10 ? ('0' + h) : h // 小时补0
-			        let m = date.getMinutes()
-			        m = m < 10 ? ('0' + m) : m // 分钟补0
-			        let s = date.getSeconds()
-			        s = s < 10 ? ('0' + s) : s // 秒补0
-			        return y + '-' + MM + '-' + d
+			happenTimeFun(num) { //时间戳数据处理
+				let date = new Date(num);
+				//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+				let y = date.getFullYear()
+				let MM = date.getMonth() + 1
+				MM = MM < 10 ? ('0' + MM) : MM //月补0
+				let d = date.getDate()
+				d = d < 10 ? ('0' + d) : d // 天补0
+				let h = date.getHours()
+				h = h < 10 ? ('0' + h) : h // 小时补0
+				let m = date.getMinutes()
+				m = m < 10 ? ('0' + m) : m // 分钟补0
+				let s = date.getSeconds()
+				s = s < 10 ? ('0' + s) : s // 秒补0
+				return y + '-' + MM + '-' + d
 			},
-			handleCheckAllChange () {
+			handleCheckAllChange() {
 				console.log(cityOptions)
 				this.checkedCities = this.checkAll ? this.val : [];
-        		this.isIndeterminate = false;
+				this.isIndeterminate = false;
 			},
-			handleCheckedCitiesChange () {
+			handleCheckedCitiesChange() {
 				let checkedCount = this.checkedCities.length;
-        		this.checkAll = checkedCount === this.cities.length;
-        		this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
+				this.checkAll = checkedCount === this.cities.length;
+				this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
 			},
-			jump_export_list () {
+			jump_export_list() {
 				this.$router.push({
 					path: '/order/export_list'
 				})
 			},
-			order_time_range (e) {
+			order_time_range(e) {
 				console.log(e)
 			},
-			filterHandler (value, row, column) {
+			filterHandler(value, row, column) {
 				const property = column['property'];
 				return row.ordergoods[0][property] === value * 1;
 			},
-			xxx (filters) {
+			xxx(filters) {
 				// console.log(filters)
 			},
-			open (order_money, id) {
+			open(order_money, id) {
 				this.ed = true
 				this.yj = order_money
 				this.eid = id
@@ -656,26 +716,28 @@
 			//导出数据
 			get_excel() {
 				// const aLink = document.createElement('a')
-				 let token = localStorage.getItem('token')
+				let token = localStorage.getItem('token')
 				// aLink.href = Api_url + 'index/export_excl?token=' + token
 				// aLink.target = '_blank'
 				// aLink.download = 'ly_2019.csv';
 				// aLink.click();
 				// aLink.remove();
-				
+
 				let url = 'index/export_excl?token=' + token;
-				let title = {title:this.checkedCities};
-				this.http.post(url,title).then(res=>{
+				let title = {
+					title: this.checkedCities
+				};
+				this.http.get(url, title).then(res => {
 					console.log(res);
-					if(res.status==200){
+					if (res.status == 200) {
 						this.$message({
-								showClose: true,
-								message: "导出成功",
-								type: "success"
-							});
-							setTimeout(()=>{
-								this.$router.push('/order/export_list')
-							},1000)
+							showClose: true,
+							message: "导出成功",
+							type: "success"
+						});
+						setTimeout(() => {
+							this.$router.push('/order/export_list')
+						}, 1000)
 					}
 				})
 			},
@@ -882,12 +944,12 @@
 				this.search_form.end_time = this.date_range[1] / 1000
 				this.http.post('order/admin/get_order', this.search_form).then(res => {
 					console.log('搜索结果（订单号）：', res)
-/* 					this.search_form = {
-						pro_name: '',
-						user_name: '',
-						user_mobile: '',
-						num: ''
-					} */
+					/* 					this.search_form = {
+											pro_name: '',
+											user_name: '',
+											user_mobile: '',
+											num: ''
+										} */
 					that.all = res.data
 					that.list = res.data;
 					that.list = res.data.slice(0, that.size);
@@ -937,10 +999,10 @@
 				console.log(start, end)
 				this.list = this.all.slice(start, end);
 			},
-			sub () {},
+			sub() {},
 			//获取订单列表
 			//删除订单
-			del (id) {
+			del(id) {
 				// var that = this;
 				// this.$confirm('是否删除?', '提示', {
 				// 	confirmButtonText: '确定',
@@ -1128,12 +1190,13 @@
 
 <style lang="less">
 	.order {
-		
+
 		margin-top: 0;
-		
-		.el-collapse-item__content{
+
+		.el-collapse-item__content {
 			padding-bottom: 0px;
 		}
+
 		.list-head {
 			padding-bottom: 10px;
 			display: flex;

@@ -38,17 +38,17 @@ class OrderManage extends BaseController
      */
     public function deleteOrder($id = '')
     {
-//        (new IDPostiveInt)->goCheck();
-//        $result = OrderModel::where('order_id', $id)->find(); //这里是软删除
-//        if (!$result) {
-//            return app('json')->fail();
-//        }
-//        if (!$result->delete(config('setting.soft_del'))) {
-//            return app('json')->fail();
-//        }
-//        return app('json')->success();
-////        return $result?1:0;
-        return true;
+        return app('json')->success();
+        (new IDPostiveInt)->goCheck();
+        $result = OrderModel::where('order_id', $id)->find(); //这里是软删除
+        if (!$result) {
+            return app('json')->fail();
+        }
+        if (!$result->delete(config('setting.soft_del'))) {
+            return app('json')->fail();
+        }
+        return app('json')->success();
+//        return $result?1:0;
     }
 
     /**
@@ -60,7 +60,6 @@ class OrderManage extends BaseController
         $key = $this->request->param('keywords') ?: '';
         $order = (new QyFactory())->instance('CmsService');
         $order->set_param($key);
-
         $data = $order->get_order_list();
         return app('json')->success($data);
     }

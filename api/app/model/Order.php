@@ -32,6 +32,17 @@ class Order extends BaseModel
     protected $deleteTime = 'delete_time';
     protected $hidden = ['delete_time'];
 
+
+    public function getCreateTimeAttr($v)
+    {
+        return date("Y-m-d H:i:s",$v);
+    }
+
+    public function getPayTimeAttr($v)
+    {
+        return date("Y-m-d H:i:s",$v);
+    }
+
     /**
      * 用户删除订单
      * @param $uid
@@ -564,4 +575,9 @@ class Order extends BaseModel
         return app('json')->go($order);
     }
 
+    //关联订单日志
+    public function orderlog()
+    {
+        return $this->hasMany('OrderLog', 'order_id', 'order_id');
+    }
 }

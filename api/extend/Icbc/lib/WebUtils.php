@@ -24,7 +24,7 @@ class WebUtils{
 	    curl_close($ch);
 
 	    if($resinfo["http_code"] != 200){
-	    	throw new Exception("response status code is not valid. status code: ".$resinfo["http_code"]);
+	    	throw new Exception("response status code is not valid. status code: ".$resinfo["http_code"] . 'url:' . $url . ',params:' . json_encode($params));
 	    }
 	    return $response;
 	}
@@ -53,7 +53,7 @@ class WebUtils{
 	    curl_close($ch);
 
 	    if($resinfo["http_code"] != 200){
-	    	throw new Exception("response status code is not valid. status code: ".$resinfo["http_code"]);
+	    	throw new Exception("response status code is not valid. status code: ".$resinfo["http_code"] . 'url:' . $url . ',params:' . json_encode($params));
 	    }
 		return $response;
    }

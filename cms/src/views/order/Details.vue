@@ -19,19 +19,21 @@
 					</div>
 					<div class="details-l-02">
 						<div class="details-l-02-l">买家 ：</div>
-						<div class="details-l-02-r">{{details.users.nickname}}</div>
-					</div>
-					<div class="details-l-02">
-						<div class="details-l-02-l">买家IP ：</div>
-						<div class="details-l-02-r">{{details.user_ip}}</div>
+						<div class="details-l-02-r"></div>
 					</div>
 					<div class="details-l-02">
 						<div class="details-l-02-l">购买时间 ：</div>
 						<div class="details-l-02-r">{{details.create_time}}</div>
 					</div>
 					<div class="details-l-02">
-						<div class="details-l-02-l">使用时间 ：</div>
-						<div class="details-l-02-r">{{details.create_time}}</div>
+						<div class="details-l-02-l">付款时间 ：</div>
+						<div class="details-l-02-r">
+							
+							<span v-if="details.prepay_id == null">未付</span>
+							<span v-else>{{details.pay_time}}</span>
+							
+						</div>
+			
 					</div>
 
 					<hr style="height:1px;border:none;border-top:1px dashed #f0f0f0;">
@@ -84,6 +86,7 @@
 									{{scope.row.sku_name}}
 								</template>
 							</el-table-column>
+							<el-table-column property="goods_code" label="商品编号" width="160"></el-table-column>
 							<el-table-column property="num" label="数量" width="120"></el-table-column>
 							<el-table-column property="price" label="单价" width="120"></el-table-column>
 							<el-table-column property="price" label="合计">
