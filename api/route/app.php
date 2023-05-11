@@ -561,7 +561,7 @@ Route::group('order', function () {
         Route::post('/vipback', 'common.Pay/gzh_vipback'); //公众号vip支付回调
 
         Route::post('/pay/pre_order', 'common.Pay/getPreOrder');//小程序支付
-        Route::post('/pay/notify', 'common.Pay/receiveNotify');//小程序支付回调
+        #Route::post('/pay/notify', 'common.Pay/receiveNotify');//小程序支付回调
         Route::post('/pay/wx_h5_pay', 'common.Pay/wx_h5_pay');//微信H5支付
         Route::post('/pay/pre_app', 'common.Pay/getAppPayData');//app支付
         Route::post('/pay/app_notify', 'common.Pay/appNotify');//app支付回调
