@@ -135,7 +135,12 @@
 						<div v-if="!addShow" style="padding: 15px;background-color: #fff">
 							<el-table :data="list" border style="width: 100%" @filter-change="xxx">
 								<el-table-column type="index" label="序号" width="50"></el-table-column>
-								<el-table-column prop="prepay_id" label="订单号" width="180"></el-table-column>
+								<el-table-column label="订单号" width="180">
+									<template slot-scope="scope">
+										<del v-if="scope.row.prepay_id == null" style="color: #d0d0d0;">未完成付款</del>
+										<span v-else>{{scope.row.prepay_id}}</span>
+									</template>
+								</el-table-column>
 								<el-table-column label="商品名称" prop="goods_id" width="280" :filters="goods_list"
 									:filter-method="filterHandler">
 									<template slot-scope="scope">
@@ -153,9 +158,17 @@
 										</el-button>
 									</template>
 								</el-table-column>
-								<el-table-column prop="message" label="客户备注" width="160">
+								<el-table-column label="客户备注" width="160">
+									
+									<template slot-scope="scope">
+										<p v-if="scope.row.message == ''"><el-tag type="info">无</el-tag></p>
+										<p v-else><el-tag>{{scope.row.message}}</el-tag></p>
+									</template>
+									
+									
 								</el-table-column>
-								<el-table-column prop="users.nickname" label="用户" width="160"></el-table-column>
+								<el-table-column prop="receiver_name" label="姓名" width="160"></el-table-column>
+								<el-table-column prop="receiver_mobile" label="手机号" width="160"></el-table-column>
 								<el-table-column prop="create_time" label="创建日期" width="180"></el-table-column>
 								<el-table-column label="支付状态" width="100"
 									:filters="[{ text: '已支付', value: 1 }, { text: '未支付', value: 0 }]"
@@ -196,7 +209,7 @@
 										<p style="color:#E6A23C" v-else>未发货</p> -->
 									</template>
 								</el-table-column>
-								<el-table-column prop="operation" label="操作" width="220">
+								<el-table-column prop="operation" label="操作" width="150px">
 									<template slot-scope="scope">
 										<el-button @click="show_order(scope.row.order_id)" type="primary" size="small">
 											<!-- <a href="#top" style="text-decoration:none;color: #FFFFFF;">查看</a> -->
