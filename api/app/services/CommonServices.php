@@ -36,8 +36,17 @@ class CommonServices
      * 导出数据
      * @return int
      */
+    public function export_new_excel(){
+        
+    }
+
+    /**
+     * 导出数据
+     * @return int
+     */
     public function export_excl()
     {
+        return $this->export_new_excel();
         $token = input('get.token');
         $csv_titless = input('param.title');
         if (!$token) {
