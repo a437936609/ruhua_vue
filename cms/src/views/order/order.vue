@@ -167,8 +167,8 @@
 									
 									
 								</el-table-column>
-								<el-table-column prop="receiver_name" label="姓名" width="160"></el-table-column>
-								<el-table-column prop="receiver_mobile" label="手机号" width="160"></el-table-column>
+								<el-table-column prop="receiver_name" label="姓名" width="100"></el-table-column>
+								<el-table-column prop="receiver_mobile" label="手机号" width="120"></el-table-column>
 								<el-table-column prop="create_time" label="创建日期" width="180"></el-table-column>
 								<el-table-column label="支付状态" width="100"
 									:filters="[{ text: '已支付', value: 1 }, { text: '未支付', value: 0 }]"

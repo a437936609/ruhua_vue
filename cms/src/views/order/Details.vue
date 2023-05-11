@@ -19,7 +19,7 @@
 					</div>
 					<div class="details-l-02">
 						<div class="details-l-02-l">买家 ：</div>
-						<div class="details-l-02-r">{{details.users.nickname}}</div>
+						<div class="details-l-02-r"></div>
 					</div>
 					<div class="details-l-02">
 						<div class="details-l-02-l">购买时间 ：</div>
