@@ -135,7 +135,7 @@ Route::group('index', function () {
         Route::get('get_file', 'common.Common/getFile');  //获取文件
         Route::post('/send_gzh_massege', 'common.Common/send_gzh_massege')->middleware('CheckMCMS');  //公众号模板
         Route::get('getcode', 'common.Common/getCode');   //获取验证码
-        Route::post('export_excl', 'cms.Common/export_excl');   //导出表格
+        Route::get('export_excl', 'cms.Common/export_excl');   //导出表格
         Route::get('get_excel', 'cms.Common/get_excel');   //导出表格
         Route::post('del_excel', 'cms.Common/del_excel');   //下载表格
     });
