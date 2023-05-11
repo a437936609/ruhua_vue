@@ -144,7 +144,7 @@ class Mobile extends BaseController
             throw new BaseException(['msg'=>'创建用户失败,请重试']);
         }
         $data['icbc_user_id']       =       $resp['userId'];
-        $data['nickname']           =       isset($resp['nickName']) ? $resp['nickName'] : $resp['mobile'];
+        #$data['nickname']           =       $resp['mobile'];
         $user->save($data);
 
         $cache['uid']               =       $user['id'];
