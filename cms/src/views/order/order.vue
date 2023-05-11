@@ -140,7 +140,7 @@
 						<div v-if="!addShow" style="padding: 15px;background-color: #fff">
 							<el-table :data="list" border style="width: 100%" @filter-change="xxx">
 								<el-table-column type="index" label="序号" width="50"></el-table-column>
-								<el-table-column label="订单号" width="180">
+								<el-table-column label="订单号" width="170">
 									<template slot-scope="scope">
 										<del v-if="scope.row.prepay_id == null" style="color: #d0d0d0;">未完成付款</del>
 										<span v-else>{{scope.row.prepay_id}}</span>
@@ -154,7 +154,7 @@
 										</div>
 									</template>
 								</el-table-column>
-								<el-table-column label="订单价格" width="100">
+								<el-table-column label="订单价格" width="80">
 									<template slot-scope="scope">
 										<template
 											v-if="scope.row.payment_state == 1">{{scope.row.order_money}}</template>
@@ -173,9 +173,20 @@
 
 
 								</el-table-column>
-								<el-table-column prop="receiver_name" label="姓名" width="100"></el-table-column>
-								<el-table-column prop="receiver_mobile" label="手机号" width="120"></el-table-column>
-								<el-table-column prop="create_time" label="创建日期" width="180"></el-table-column>
+								<el-table-column label="商品编码" width="170">
+									<template slot-scope="scope">
+										<div v-for="(item, key) of scope.row.ordergoods" :key="key">
+											{{item.goods_code}}
+										</div>
+									</template>
+								</el-table-column>
+								<el-table-column label="姓名/手机号" width="120">
+									<template slot-scope="scope">
+										<div>{{scope.row.receiver_name}}</div>
+										<div>{{scope.row.receiver_mobile}}</div>
+									</template>
+								</el-table-column>
+								<el-table-column prop="create_time" label="创建日期" width="160"></el-table-column>
 								<el-table-column label="支付状态" width="100"
 									:filters="[{ text: '已支付', value: 1 }, { text: '未支付', value: 0 }]"
 									:filter-method="filter_pay" filter-placement="bottom-end" column-key="zf">
