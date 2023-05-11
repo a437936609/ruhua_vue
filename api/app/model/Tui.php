@@ -13,6 +13,12 @@ use ruhua\bases\BaseModel;
 
 class Tui extends BaseModel
 {
+
+    public function getCreateTimeAttr($v)
+    {
+        return date("Y-m-d H:i:s",$v);
+    }
+
     //获取器 提前修改
     public function getNicknameAttr($v)
     {
