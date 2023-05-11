@@ -28,6 +28,8 @@ use think\facade\Log;
 use think\facade\Request;
 use think\Image;
 use app\controller\cms\Oss;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class CommonServices
 {
@@ -37,7 +39,341 @@ class CommonServices
      * @return int
      */
     public function export_new_excel(){
+        $spreadsheet = new Spreadsheet();
+        // Add some data
+        $sheet =  $spreadsheet->setActiveSheetIndex(0);
+
+        // 设置表头-占用2行
+        $data           =           [];
+        $data[]         =           ['编号','订单基本信息','订单基本信息','订单基本信息','订单基本信息','订单基本信息','订单基本信息','订单基本信息','订单基本信息','','','','','','','','','','','','','','','','','','买家信息','买家信息','收货人信息','收货人信息','收货人信息','收货人信息','收货人信息','收货人信息','收货人信息','收货人信息','收货人信息','收货人信息','订单发票信息','订单发票信息','订单发票信息','订单发票信息','订单发票信息','订单发票信息','订单发票信息','订单发票信息','订单发票信息','订单发票信息','商品信息','商品信息','商品信息','商品信息','商品信息','商品信息','商品信息','商品信息','商品信息','商品信息','商品信息','快递信息','快递信息','快递信息'];
+        $data[]         =           ['编号','订单编号','活动类型','下单时间','支付时间','发货时间','买家备注','商户备注','给买家的备注','支付用途','订单金额(含运费)','实际运费','电子券抵扣','积分抵扣','商品优惠','运费优惠','满减优惠','满送优惠','满减/满送包邮','银行优惠金额','商户优惠金额','订单支付现金','订单支付微信','订单支付支付宝','分期期数','分期商户手续费','用户ID','用户名','收货人姓名','省市','地址','省','市','区','手机号码','自定义1','自定义2','自定义3','发票类型','发票抬头','开票状态','开票金额','发票内容','注册地址','注册电话','开户银行','银行账户','纳税人识别号','订单总件数','商品类型','内控编码','商品SKU编号','商品单价','购买数量','商品金额','商户商品编号','条形码','退款单编号','退款进度','物流公司名称','物流发货单','配送类型'];
+        foreach ($data as $index => $item) {
+            foreach($item as $column_index => $value){
+                // $columnIndex, $row, $value
+                $sheet->setCellValueByColumnAndRow($column_index + 1, $index + 1, $value);
+            }
+        }
+        // 对表头格式进行处理
+        // ($columnIndex1, $row1, $columnIndex2, $row2
+        // 合并编号
+        $sheet->mergeCellsByColumnAndRow(1, 1, 1, 2)
+        //  合并订单基本信息
+        ->mergeCellsByColumnAndRow(2, 1, 9, 1)
+        //  合并支付信息
+        ->mergeCellsByColumnAndRow(10, 1, 26, 1)
+        //  合并买家信息
+        ->mergeCellsByColumnAndRow(27, 1, 28, 1)
+        //  合并收货人信息
+        ->mergeCellsByColumnAndRow(29, 1, 38, 1)
+        //  合并订单发票信息
+        ->mergeCellsByColumnAndRow(39, 1, 48, 1)
+        //  合并商品信息
+        ->mergeCellsByColumnAndRow(49, 1, 59, 1)
+        //  合并快递信息
+        ->mergeCellsByColumnAndRow(60, 1, 62, 1)
+        ;
+
+        // -- 统一设置标题字体和样式
+        $sheet->getDefaultColumnDimension()->setWidth(20);
+        // 设置字体样式
+        $sheet->getStyleByColumnAndRow(1, 1, 62, 2)
+        ->getFont()
+        ->setBold(true)
+        ->setName('微软雅黑')
+        ->setSize(10)
+        ;
+        // 设置居中方式
+        $sheet->getStyleByColumnAndRow(1, 1, 62, 2)
+        ->getAlignment()
+        ->setHorizontal('center')
+        ->setVertical('bottom')
+        ;
+        // 设置边框
+        $sheet->getStyleByColumnAndRow(1, 1, 62, 2)
+        ->getBorders()
+        ->applyFromArray([
+            'allBorders' => [
+                'borderStyle' => 'thin',
+                'color' => ['rgb' => '000000'],
+            ]
+        ])
+        ;
+        // -- 设置编号背景
+        $sheet->getStyleByColumnAndRow(1, 1, 62, 2)
+        ->getFill()
+        ->setFillType('solid')
+        ->getStartColor()
+        ->setARGB('CCCCFF')
+        ;
+
+        // -- 支付相关信息背景是白色
+        $sheet->getStyleByColumnAndRow(10, 1, 26, 1)
+        ->getFill()
+        ->setFillType('solid')
+        ->getStartColor()
+        ->setARGB('FFFFFF')
+        ;
+
+        // -- B2-F2是黄色
+        $sheet->getStyleByColumnAndRow(2, 2, 6, 2)
+        ->getFill()
+        ->setFillType('solid')
+        ->getStartColor()
+        ->setARGB('FFFF00')
+        ;
+        // -- J2-N2是黄色
+        $sheet->getStyleByColumnAndRow(10, 2, 14, 2)
+        ->getFill()
+        ->setFillType('solid')
+        ->getStartColor()
+        ->setARGB('FFFF00')
+        ;
+        // -- V2-X2
+        $sheet->getStyleByColumnAndRow(22, 2, 24, 2)
+        ->getFill()
+        ->setFillType('solid')
+        ->getStartColor()
+        ->setARGB('FFFF00')
+        ;
+        // -- AC2
+        $sheet->getStyleByColumnAndRow(29, 2, 29, 2)
+        ->getFill()
+        ->setFillType('solid')
+        ->getStartColor()
+        ->setARGB('FFFF00')
+        ;
+        // -- AE2
+        $sheet->getStyleByColumnAndRow(31, 2, 31, 2)
+        ->getFill()
+        ->setFillType('solid')
+        ->getStartColor()
+        ->setARGB('FFFF00')
+        ;
+        // -- AI2
+        $sheet->getStyleByColumnAndRow(35, 2, 35, 2)
+        ->getFill()
+        ->setFillType('solid')
+        ->getStartColor()
+        ->setARGB('FFFF00')
+        ;
+        // -- AY2-BD2
+        $sheet->getStyleByColumnAndRow(51, 2, 56, 2)
+        ->getFill()
+        ->setFillType('solid')
+        ->getStartColor()
+        ->setARGB('FFFF00')
+        ;
+        // -- BH2-BJ2
+        $sheet->getStyleByColumnAndRow(60, 2, 62, 2)
+        ->getFill()
+        ->setFillType('solid')
+        ->getStartColor()
+        ->setARGB('FFFF00')
+        ;
+
+
+        // ---------------- 以上是表头及整体样式处理
+        $list = OrderModel::with(['ordergoods'=>['iccode'], 'users','orderlog'])
+        ->withSum(['ordergoods'=>'goods_num'], 'num') 
+        ->order('create_time desc')->select()->toArray();
+
+        // 导出的数据列表
+        $excel_list                     =           [];
         
+        // 需要合并的数据列表
+        $merge_list                     =           [];
+        $row_index                      =           0;
+        foreach($list as $index => $value){
+            if(isset($value['ordergoods']) && count($value['ordergoods']) > 0){
+                $row_index++;
+                if(count($value['ordergoods']) > 1 && !in_array($value['order_num'], $merge_list)){
+                    // merge_list记录需要合并的坐标
+                    $merge_list[]           =           array(
+                        'order_num'         =>          $value['order_num'], 
+                        'col_start'         =>          1,
+                        'col_end'           =>          49,
+                        'row_start'         =>          2 + $row_index,
+                        'row_end'           =>          2 + $row_index + count($value['ordergoods']) - 1,
+                    );
+                }
+                foreach($value['ordergoods'] as $goods){
+                    // 组装数据
+                    $cell_data          =           [];
+                    // 编号
+                    $cell_data[]        =           $row_index;
+                    // 订单编号
+                    $cell_data[]        =           empty($value['prepay_id']) ? '' : $value['prepay_id'];
+                    // 活动类型
+                    $cell_data[]        =           '积分活动';
+                    // 下单时间
+                    $cell_data[]        =           $value['create_time'];
+                    // 支付时间
+                    $cell_data[]        =           empty($value['prepay_id']) ? '' : $value['pay_time'];
+                    $courier_time       =           '';
+                    if(isset($value['orderlog']) && count($value['orderlog']) > 0){
+                        foreach($value['orderlog'] as $log){
+                            if($log['type_name'] == '录入快递单号'){
+                                $courier_time   =   $log['create_time'];
+                            }
+                        }
+                    }
+                    // 发货时间
+                    $cell_data[]        =           $courier_time;
+                    // 买家备注
+                    $cell_data[]        =           $value['message'];
+                    // 商户备注
+                    $cell_data[]        =           '';
+                    // 给买家的备注
+                    $cell_data[]        =           '';
+                    // 支付用途
+                    $cell_data[]        =           '全款';
+                    // 订单金额(含运费)
+                    $cell_data[]        =           $value['order_money'];
+                    // 实际运费
+                    $cell_data[]        =           $value['shipping_money'];
+                    // 电子券抵扣
+                    $cell_data[]        =           $value['coupon_money'];
+                    // 积分抵扣
+                    $cell_data[]        =           $value['order_money'];
+                    // 商品优惠
+                    $cell_data[]        =           0;
+                    // 运费优惠
+                    $cell_data[]        =           0;
+                    // 满减优惠
+                    $cell_data[]        =           0;
+                    // 满送优惠
+                    $cell_data[]        =           0;
+                    // 满减/满送包邮
+                    $cell_data[]        =           0;
+                    // 银行优惠金额
+                    $cell_data[]        =           0;
+                    // 商户优惠金额
+                    $cell_data[]        =           0;
+                    // 订单支付现金
+                    $cell_data[]        =           0;
+                    // 订单支付微信
+                    $cell_data[]        =           0;
+                    // 订单支付支付宝
+                    $cell_data[]        =           0;
+                    // 分期期数
+                    $cell_data[]        =           '';
+                    // 分期商户手续费
+                    $cell_data[]        =           '';
+                    // 用户ID
+                    $cell_data[]        =           $value['users']['icbc_user_id'];
+                    // 用户名
+                    $cell_data[]        =           '';
+                    // 收货人姓名
+                    $cell_data[]        =           $value['receiver_name'];
+                    // 省市
+                    $cell_data[]        =           $value['receiver_city'];
+                    // 地址
+                    $cell_data[]        =           $value['receiver_address'];
+                    // 省
+                    $cell_data[]        =           '';
+                    // 市
+                    $cell_data[]        =           '';
+                    // 区
+                    $cell_data[]        =           '';
+                    // 手机号码
+                    $cell_data[]        =           $value['receiver_mobile'];
+                    // 自定义1
+                    $cell_data[]        =           '';
+                    // 自定义2
+                    $cell_data[]        =           '';
+                    // 自定义3
+                    $cell_data[]        =           '';
+                    // 发票类型
+                    $cell_data[]        =           '—';
+                    // 发票抬头
+                    $cell_data[]        =           '无';
+                    // 开票状态
+                    $cell_data[]        =           '—';
+                    // 开票金额
+                    $cell_data[]        =           '—';
+                    // 发票内容
+                    $cell_data[]        =           '—';
+                    // 注册地址
+                    $cell_data[]        =           '—';
+                    // 注册电话
+                    $cell_data[]        =           '—';
+                    // 开户银行
+                    $cell_data[]        =           '—';
+                    // 银行账户
+                    $cell_data[]        =           '—';
+                    // 纳税人识别号
+                    $cell_data[]        =           '—';
+                    // 订单总件数
+                    $cell_data[]        =           $value['goods_num'];
+                    // 商品类型
+                    $cell_data[]        =           '普通商品';
+                    // 内控编码
+                    $cell_data[]        =           $goods['ic_code'];
+                    // 商品SKU编号
+                    $cell_data[]        =           $goods['goods_code'];
+                    // 商品单价
+                    $cell_data[]        =           $goods['price'];
+                    // 购买数量
+                    $cell_data[]        =           $goods['num'];
+                    // 商品金额
+                    $cell_data[]        =           $goods['num'];
+                    // 商户商品编号
+                    $cell_data[]        =           $goods['goods_name'] . $goods['sku_name'];
+                    // 条形码
+                    $cell_data[]        =           '';
+                    // 退款单编号
+                    $cell_data[]        =           '';
+                    // 退款进度
+                    $cell_data[]        =           '';
+                    // 物流公司名称
+                    $cell_data[]        =           empty($courier_time) ? '' : $value['courier'];
+                    // 物流发货单
+                    $cell_data[]        =           empty($courier_time) ? '' : $value['courier_num'];
+                    // 配送类型
+                    $cell_data[]        =           empty($courier_time) ? '' : $value['drive_type'];
+
+                    $excel_list[]       =           $cell_data;
+                }
+            }
+        }
+
+        $data_type_string_index = [27,35];
+        // 起始行为2
+        $row_num = 2;
+        foreach($excel_list as $key => $cell_data){
+            $row_num++;
+            foreach($cell_data as $column_index => $value){
+                if(in_array($column_index + 1, $data_type_string_index)){
+                    $sheet->setCellValueExplicitByColumnAndRow($column_index + 1, $row_num, $value, 's');
+                }else{
+                    $sheet->setCellValueByColumnAndRow($column_index + 1, $row_num, $value);
+                }
+            }
+        }
+
+        // 最后先合并行
+        foreach($merge_list as $key => $merge_data){
+            for($i = $merge_data['col_start']; $i <= $merge_data['col_end']; $i++){
+                $sheet->mergeCellsByColumnAndRow($i, $merge_data['row_start'], $i, $merge_data['row_end']);
+            }
+        }
+
+        // Redirect output to a client’s web browser (Xlsx)
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="01simple.xlsx"');
+        header('Cache-Control: max-age=0');
+        // If you're serving to IE 9, then the following may be needed
+        header('Cache-Control: max-age=1');
+
+        // If you're serving to IE over SSL, then the following may be needed
+        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+        header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+        header('Pragma: public'); // HTTP/1.0
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        ob_end_clean();
+        $writer->save('php://output');
+        exit;
     }
 
     /**

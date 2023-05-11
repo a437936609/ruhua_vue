@@ -575,4 +575,9 @@ class Order extends BaseModel
         return app('json')->go($order);
     }
 
+    //关联订单日志
+    public function orderlog()
+    {
+        return $this->hasMany('OrderLog', 'order_id', 'order_id');
+    }
 }
