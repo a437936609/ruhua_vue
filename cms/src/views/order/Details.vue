@@ -29,12 +29,11 @@
 						<div class="details-l-02-l">付款时间 ：</div>
 						<div class="details-l-02-r">
 							
-							<span v-if="details.pay_time > 0">
-								{{details.pay_time}}
-							</span>
-							<span v-else>无</span>
+							<span v-if="details.prepay_id == null">未付</span>
+							<span v-else>{{details.pay_time}}</span>
 							
 						</div>
+			
 					</div>
 
 					<hr style="height:1px;border:none;border-top:1px dashed #f0f0f0;">
