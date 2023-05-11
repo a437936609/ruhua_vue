@@ -188,10 +188,12 @@ class OrderService
                         $data[$k]['sku_name'] = (array_key_exists('s1_name', $value) ? $value['s1_name'] : '')
                             . ' ' . (array_key_exists('s2_name', $value) ? $value['s2_name'] : '')
                             . ' ' . (array_key_exists('s3_name', $value) ? $value['s3_name'] : '');
+                        $data[$k]['goods_code'] = $value['goods_code'];  //商品编码
                     }
                 }
             } else {
                 $data[$k]['price'] = $pinfo['price'];
+                $data[$k]['goods_code'] = $pinfo['goods_code'];  //商品编码
             }
             if (config('setting.is_business') == 1 && $post['discount'] == 1) {
                 $data[$k]['price'] = $v['price'];

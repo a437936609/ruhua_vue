@@ -38,6 +38,7 @@ class OrderManage extends BaseController
      */
     public function deleteOrder($id = '')
     {
+        return app('json')->success();
         (new IDPostiveInt)->goCheck();
         $result = OrderModel::where('order_id', $id)->find(); //这里是软删除
         if (!$result) {
