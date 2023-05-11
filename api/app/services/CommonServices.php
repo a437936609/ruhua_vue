@@ -39,6 +39,21 @@ class CommonServices
      * @return int
      */
     public function export_new_excel(){
+        $token = input('get.token');
+        if (!$token) {
+            throw new TokenException();
+        }
+        $vars = Cache::get($token);
+        if (!$vars) {
+            throw new TokenException();
+        }
+        if (!is_array($vars)) {
+            $vars = json_decode($vars, true);
+        }
+        if (!array_key_exists('admin_id', $vars)) {
+            throw new TokenException(['msg' => '尝试获取的变量并不存在']);
+        }
+
         $spreadsheet = new Spreadsheet();
         // Add some data
         $sheet =  $spreadsheet->setActiveSheetIndex(0);
