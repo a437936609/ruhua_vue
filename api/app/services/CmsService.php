@@ -76,25 +76,31 @@ class CmsService implements RoleInterface
             $where[] = ['receiver_mobile','=',$mobile];
         }
 
-        //订单状态 值里有空和负数
-        if(strlen($post['filter_status']) > 0)
-        {
-            $filter_status=$post['filter_status'];
-            $where[] = ['state','=',$filter_status];
+        if(isset($post['filter_status'])){
+            //订单状态 值里有空和负数
+            if(strlen($post['filter_status']) > 0)
+            {
+                $filter_status=$post['filter_status'];
+                $where[] = ['state','=',$filter_status];
+            }
         }
 
-        //支付状态 值里有空和负数
-        if(strlen($post['payment_state']) > 0)
-        {
-            $filter_pay=$post['filter_pay'];
-            $where[] = ['payment_state','=',$filter_pay];
+        if(isset($post['filter_pay'])){
+            //支付状态 值里有空和负数
+            if(strlen($post['filter_pay']) > 0)
+            {
+                $filter_pay=$post['filter_pay'];
+                $where[] = ['payment_state','=',$filter_pay];
+            }
         }
 
-        //发货状态 值里有空和负数
-        if(strlen($post['filter_send']) > 0)
-        {
-            $filter_send=$post['filter_send'];
-            $where[] = ['shipment_state','=',$filter_send];
+        if(isset($post['filter_send'])){
+            //发货状态 值里有空和负数
+            if(strlen($post['filter_send']) > 0)
+            {
+                $filter_send=$post['filter_send'];
+                $where[] = ['shipment_state','=',$filter_send];
+            }
         }
 
         if(isset($post['pro_name']) && !empty($post['pro_name'])) {
@@ -166,6 +172,7 @@ class CmsService implements RoleInterface
                     $query->field('id,nickname,headpic');
                 }])->where(['order_id' => $id])->find();
         }
+
         Log::error('654321');
         $data['log'] = OrderLog::where(['order_id' => $id])->order('create_time desc')->select();
         return $data;
