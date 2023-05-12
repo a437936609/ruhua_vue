@@ -727,7 +727,7 @@
 				let title = {
 					title: this.checkedCities
 				};
-				this.http.get(url, title).then(res => {
+				this.http.post(url, this.search_form).then(res => {
 					console.log(res);
 					if (res.status == 200) {
 						this.$message({

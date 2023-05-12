@@ -188,8 +188,63 @@ class CommonServices
 
 
         // ---------------- 以上是表头及整体样式处理
+        // 接受筛选参数
+        $post       =       input('post.');
+        $where      =       [];
+
+        if(isset($post['num']) && !empty($post['num'])) {
+            $where[]        =       ['prepay_id', 'like', '%' . trim($post['num']) . '%'];
+        }
+        if(isset($post['user_name']) && !empty($post['user_name'])) {
+            $name           =       base64_encode(trim($post['user_name']));
+            $uid            =       User::where('nickname','like', $name)->value('id');
+            $where[]        =       ['user_id','=',$uid];
+        }
+        //收货人手机
+        if(isset($post['mobile']) && !empty($post['mobile'])) {
+            $mobile         =       base64_encode(trim($post['mobile']));
+            $where[]        =       ['receiver_mobile','=',$mobile];
+        }
+        if(isset($post['filter_status'])){
+            //订单状态 值里有空和负数
+            if(strlen($post['filter_status']) > 0)
+            {
+                $filter_status      =       $post['filter_status'];
+                $where[]            =       ['state','=',$filter_status];
+            }
+        }
+        if(isset($post['filter_pay'])){
+            //支付状态 值里有空和负数
+            if(strlen($post['filter_pay']) > 0)
+            {
+                $filter_pay         =       $post['filter_pay'];
+                $where[]            =       ['payment_state','=',$filter_pay];
+            }
+        }
+        if(isset($post['filter_send'])){
+            //发货状态 值里有空和负数
+            if(strlen($post['filter_send']) > 0)
+            {
+                $filter_send        =       $post['filter_send'];
+                $where[]            =       ['shipment_state','=',$filter_send];
+            }
+        }
+        if(isset($post['pro_name']) && !empty($post['pro_name'])) {
+            $order_list             =       OrderGoods::where('goods_name','like', '%' . trim($post['pro_name']) . '%')->column('order_id');
+            $where[]                =       ['order_id', 'in', $order_list];
+        }
+        if(isset($post['stat_time'])&&!empty($post['stat_time'])&&isset($post['end_time'])&&!empty($post['end_time'])){
+            $where[]                =       [['create_time','>=',$post['stat_time']],['create_time','<=',$post['end_time']]];
+        }
+        //不选日期的话，默认一个月
+        else{
+            $post['stat_time']      =       strtotime(date("Y-m-d H:i:s", strtotime("-1 month")));
+            $post['end_time']       =       time();
+            $where[]                =       [['create_time','>=',$post['stat_time']],['create_time','<=',$post['end_time']]];
+        }
         $list = OrderModel::with(['ordergoods'=>['iccode'], 'users','orderlog'])
-        ->withSum(['ordergoods'=>'goods_num'], 'num') 
+        ->withSum(['ordergoods'=>'goods_num'], 'num')
+        ->where($where)
         ->order('create_time desc')->select()->toArray();
 
         // 导出的数据列表
@@ -197,21 +252,26 @@ class CommonServices
         
         // 需要合并的数据列表
         $merge_list                     =           [];
+        // row_index 编号记录，从1开始
         $row_index                      =           0;
+        // row_num为当前真实行数，表头占用2行，真实起始数为2
+        $row_num                        =           2;
         foreach($list as $index => $value){
             if(isset($value['ordergoods']) && count($value['ordergoods']) > 0){
-                $row_index++;
+                $row_index              +=          1;
+
                 if(count($value['ordergoods']) > 1 && !in_array($value['order_num'], $merge_list)){
                     // merge_list记录需要合并的坐标
                     $merge_list[]           =           array(
                         'order_num'         =>          $value['order_num'], 
                         'col_start'         =>          1,
                         'col_end'           =>          49,
-                        'row_start'         =>          2 + $row_index,
-                        'row_end'           =>          2 + $row_index + count($value['ordergoods']) - 1,
+                        'row_start'         =>          1 + $row_num,
+                        'row_end'           =>          1 + $row_num + count($value['ordergoods']) - 1,
                     );
                 }
                 foreach($value['ordergoods'] as $goods){
+                    $row_num            +=          1;
                     // 组装数据
                     $cell_data          =           [];
                     // 编号
@@ -331,7 +391,7 @@ class CommonServices
                     // 购买数量
                     $cell_data[]        =           $goods['num'];
                     // 商品金额
-                    $cell_data[]        =           $goods['num'];
+                    $cell_data[]        =           round($goods['num'] * floatval($goods['price']), 2);
                     // 商户商品编号
                     $cell_data[]        =           $goods['goods_name'] . $goods['sku_name'];
                     // 条形码
@@ -372,10 +432,11 @@ class CommonServices
                 $sheet->mergeCellsByColumnAndRow($i, $merge_data['row_start'], $i, $merge_data['row_end']);
             }
         }
+        $file_name = date("Y年m月d日h时i分s秒", time()) . ".xlsx";
 
         // Redirect output to a client’s web browser (Xlsx)
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename="01simple.xlsx"');
+        header('Content-Disposition: attachment;filename="' . $file_name . '"');
         header('Cache-Control: max-age=0');
         // If you're serving to IE 9, then the following may be needed
         header('Cache-Control: max-age=1');
@@ -387,8 +448,10 @@ class CommonServices
         header('Pragma: public'); // HTTP/1.0
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
         ob_end_clean();
-        $writer->save('php://output');
-        exit;
+        $writer->save(ROOT.'/storage/excel/'.$file_name);
+        // $writer->save('php://output');
+        // exit;
+        return true;
     }
 
     /**
