@@ -8,12 +8,12 @@
 
 namespace app\controller\cms;
 
-
 use app\model\Order as OrderModel;
 use app\services\TokenService;
 use app\model\OrderGoods as OrderGoodsModel;
 use app\validate\IDPostiveInt;
-use ruhua\bases\BaseController;
+//use ruhua\bases\BaseController;
+use app\BaseController;
 use ruhua\services\QyFactory;
 use think\facade\Log;
 use think\facade\Request;
