@@ -184,6 +184,7 @@
 				form_shipping: false,
 				formLabelWidth: "120px",
 				kd_cmp: {
+					JTSD: "极兔速递",
 					SF: "顺丰速运",
 					HTKY: "百世快递",
 					ZTO: "中通快递",
