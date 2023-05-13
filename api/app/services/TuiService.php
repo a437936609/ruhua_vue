@@ -64,7 +64,7 @@ class TuiService
             }else{
                 OrderGoodsModel::where(['order_id' => $order['order_id'] ,'goods_id' => $tui['goods_id']])->update(['state' => -2]);
                 $state=0;
-                
+
                 $order = OrderModel::with('ordergoods')->where(['order_num' => $tui['order_num']])->find();
                 foreach ($order['order_goods'] as $k => $v) {
                     if ($v['state']!=-2) {
@@ -100,15 +100,15 @@ class TuiService
         }else{
 
             foreach ($order['order_goods'] as $k => $v) {
-                if ($tui['goods_id'] == $v['goods_id']) {
-                    $total_money = $v['total_price'];
-                }
+                //if ($tui['goods_id'] == $v['goods_id']) {
+                $total_money += $v['total_price'];
+                //}
             }
             if ($order['coupon_id']) {
                 $coupon = UserCoupon::where('id', $order['coupon_id'])->where('status',1)->find();
                 if ($coupon && ($order['order_money'] - $total_money) < $coupon['full']) {
                     $total_money = $total_money - $coupon['reduce'];
-                   $coupon->save(['status' => 0]);
+                    $coupon->save(['status' => 0]);
                 }
             }
         }
@@ -183,18 +183,24 @@ class TuiService
 
         if (isset($resp['refund_id'])) {
             $res = $tui->save(['status' => 1, 'wx_id' => $resp['refund_id']]);
+
             if($tui['goods_id']==0){
                 $order->save(['state' => -2]);
                 OrderGoodsModel::where(['order_id' => $order['order_id']])->update(['state' => -2]);
                 if ($order['coupon_id']) {//整个订单退款退回优惠券
                     Coupon::where(['id' => $order['coupon_id'],'status'=>1])->update(['status' => 0]);
                 }
+
             }else{
-                OrderGoodsModel::where(['order_id' => $order['order_id'] ,'goods_id' => $tui['goods_id']])->update(['state' => -2]);
+
+                //这个修改状态有问题只能修改一个产品，如果出现一个订单多个产品是没有办法一次性修改状态
+                //OrderGoodsModel::where(['order_id' => $order['order_id'] ,'goods_id' => $tui['goods_id']])->update(['state' => -2]);
+
+                OrderGoodsModel::where(['order_id' => $order['order_id']])->update(['state' => -2]);
                 $state=0;
-                
+
                 $order = OrderModel::with('ordergoods')->where(['order_num' => $tui['order_num']])->find();
-                foreach ($order['order_goods'] as $k => $v) {
+                foreach ($order['ordergoods'] as $k => $v) {
                     if ($v['state']!=-2) {
                         $state=1;
                     }
