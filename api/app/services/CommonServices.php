@@ -38,7 +38,15 @@ class CommonServices
      * @return 
      */
     public function import_excel(){
-        
+        $file = request()->file('file');
+        // 上传到本地服务器
+        $savename = \think\facade\Filesystem::disk('public')->putFile('import_excel', $file);
+
+        $spreadsheet = IOFactory::load(PUBLIC . '/storage/' . $savename);
+        var_dump($spreadsheet);exit;
+        $data = [];
+        $data[] = [$savename];
+        return $spreadSheet;
     }
 
     /**

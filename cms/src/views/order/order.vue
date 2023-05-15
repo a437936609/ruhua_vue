@@ -102,6 +102,8 @@
 											</el-button>
 											<el-button type="primary" size="mini" @click="jump_export_list">导出历史
 											</el-button>
+											<el-button type="primary" size="mini" @click="import_dialog = true">批量发货
+											</el-button>
 										</div>
 
 										<!-- 条件搜索结束 -->
@@ -275,6 +277,25 @@
 			<span slot="footer" class="dialog-footer">
 				<el-button @click="cancel">取 消</el-button>
 				<el-button @click="upload(checkedCities)" type="primary">确 定</el-button>
+			</span>
+		</el-dialog>
+		<el-dialog title="批量发货" :visible.sync="import_dialog" width="80%"
+			style="text-align: left;">
+			<el-upload
+			  class="upload-demo"
+			  drag
+			  name="file"
+			  limit="1"
+			  accept="xlsx"
+			  :action="file_upload_url"
+			  :multiple="false">
+			  <i class="el-icon-upload"></i>
+			  <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+			  <div class="el-upload__tip" slot="tip">只能上传xlsx文件，且不超过1M</div>
+			</el-upload>
+			<span slot="footer" class="dialog-footer">
+				<el-button @click="cancel">取 消</el-button>
+				<el-button @click="importExcel" type="primary">上 传</el-button>
 			</span>
 		</el-dialog>
 	</div>
@@ -616,7 +637,9 @@
 				range_end: '',
 				quanbu: '',
 				addShow: false,
-				show_date_range: []
+				show_date_range: [],
+				// 是否显示导入弹窗
+				import_dialog: false
 			}
 		},
 		components: {
@@ -1191,9 +1214,14 @@
 					format = format.replace(formatArr[i], newArr[i])
 				}
 				return format;
-			}
+			},
 		},
-
+		computed:{
+			
+			file_upload_url(){
+				return Api_url+'index/upload_excel';
+			}
+		}
 
 
 	}

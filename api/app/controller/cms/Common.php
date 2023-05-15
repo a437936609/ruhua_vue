@@ -207,4 +207,17 @@ class Common extends BaseController
         return $data;
     }
 
+    /**
+     * 导入
+     * @return mixed
+     */
+    public function import_excel()
+    {
+        $data = (new CommonServices)->import_excel();
+        if ($data) {
+            return app('json')->success($data);
+        } else {
+            return app('json')->fail();
+        }
+    }
 }
