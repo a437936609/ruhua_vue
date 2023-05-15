@@ -242,6 +242,10 @@ class CommonServices
             $post['end_time']       =       time();
             $where[]                =       [['create_time','>=',$post['stat_time']],['create_time','<=',$post['end_time']]];
         }
+
+        //默认过滤关闭订单
+        $where[]                    =       ['state','<>',-3];
+
         $list = OrderModel::with(['ordergoods'=>['iccode'], 'users','orderlog'])
         ->withSum(['ordergoods'=>'goods_num'], 'num')
         ->where($where)
