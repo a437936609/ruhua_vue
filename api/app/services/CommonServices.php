@@ -33,6 +33,13 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class CommonServices
 {
+    /**
+     * 导入数据
+     * @return 
+     */
+    public function import_excel(){
+        
+    }
 
     /**
      * 导出数据
