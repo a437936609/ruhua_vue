@@ -55,8 +55,8 @@
 				xAxisType: 'time',
 				labelMap: {
 					'day': '日期',
-					'order_num': '用户量',
-					'user_num': '订单量'
+					'user_num': '用户量',
+					'order_num': '订单量'
 				},
 				legendName: {
 					'访问用户': '访问用户 total: 10000'
@@ -85,7 +85,7 @@
 						"num": 0,
 						"mess": "",
 						"state": 0,
-						"wen": "昨",
+						"wen": "今",
 						"duibi": 0,
 						"fudu": 0
 					},
@@ -94,7 +94,7 @@
 						"num": 0,
 						"mess": "",
 						"state": 1,
-						"wen": "待",
+						"wen": "今",
 						"duibi": 0,
 						"fudu": 1
 					},
@@ -131,11 +131,7 @@
 					this.message[0].num = res.data.all_num
 					this.message[1].num = res.data.wei_num
 					this.message[2].num = res.data.yi_num
-					this.message[3].num = parseFloat(res.data.tx).toFixed(2)
-					this.message[4].num = res.data.yesterday_order + '/'+ res.data.yesterday_money
-					this.message[5].num = res.data.month_order + '/'+ res.data.month_money
-					this.message[6].num = res.data.today_user
-					this.message[7].num = res.data.month_user
+					this.message[3].num = parseFloat(res.data.money).toFixed(2)
 				})
 			},
 			get_data() {

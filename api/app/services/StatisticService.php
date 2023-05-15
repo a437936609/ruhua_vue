@@ -25,8 +25,6 @@ class StatisticService
     public static function remind()
     {
 
-
-
         //state未完成成功  //payment_state已付款   //shipment_state待发货的
         $shipment = OrderModel::where(['state' => 0, 'payment_state' => 1, 'shipment_state' => 0])->field('count(order_id) as all_num')->find();
         $refund = OrderModel::where(['state' => -1, 'payment_state' => 1])->field('count(order_id) as all_num')->find();
@@ -67,28 +65,75 @@ class StatisticService
     {
         $order = new OrderModel();
         $user = new UserModel();
-        $shipment = $order->where(['state' => 0, 'payment_state' => 1, 'shipment_state' => 0])->field('count(order_id) as all_num')->find();
-        $refund = $order->where(['state' => -1, 'payment_state' => 1])->field('count(order_id) as all_num')->find();
-        $goods_stock = GoodsModel::getGoodsStock();
-        $yesterday = $order->where(['state' => 1, 'payment_state' => 1])->whereDay('pay_time', 'yesterday')
-            ->field('count(order_id) as yesterday_order,sum(order_money) as yesterday_money')->find();
-        $tx=FxManual::where('status',0)->sum('money');
-        $tx = round($tx,2);
-        $month_order = $order->where(['state' => 1, 'payment_state' => 1])->whereMonth('pay_time')
-            ->field('count(order_id) as month_order,sum(order_money) as month_money')->find();
-        $today_user = $user->whereDay('create_time')->field('count(id) as all_user')->find();
-        $month_user = $user->whereMonth('create_time')->field('count(id) as all_user')->find();
-        $data['shipment'] = $shipment['all_num'] ? $shipment['all_num'] : 0;
-        $data['tui'] = $refund['all_num'] ? $refund['all_num'] : 0;
-        $data['goods_stock'] = $goods_stock ? $goods_stock : 0;
-        $data['month_order'] = $month_order['month_order'] ? $month_order['month_order'] : 0;
-        $data['month_money'] = $month_order['month_money'] ? $month_order['month_money'] : 0;
-        $data['yesterday_order'] = $yesterday['yesterday_order'] ? $yesterday['yesterday_order'] : 0;
-        $data['yesterday_money'] = $yesterday['yesterday_money'] ? $yesterday['yesterday_money'] : 0;
-        $data['today_user'] = $today_user['all_user'] ? $today_user['all_user'] : 0;
-        $data['month_user'] = $month_user['all_user'] ? $month_user['all_user'] : 0;
-        $data['tx']=$tx;
+
+        //今天开始时间
+        $stat_time  =   strtotime(date('Y-m-d').'00:00:00');
+        //今天结束时间
+        $end_time   =   strtotime(date('Y-m-d').'23:59:59');
+
+        $where[] = ['state','=',0];
+        $where[] = ['payment_state','=',1];
+        $where[]=[['create_time','>=', $stat_time],['create_time','<=', $end_time]];
+
+        $row = $order->where($where)->field('count(order_id) as all_num')->find();
+        $data['all_num']    = $row['all_num'] ? $row['all_num'] : 0;
+
+
+        //未发货
+        $where[] = ['shipment_state','=',0];
+        $row = OrderModel::where($where)->field('count(order_id) as all_num')->find();
+        $data['wei_num']    = $row['all_num'] ? $row['all_num'] : 0;
+
+        unset($where[3]);
+        //已发货
+        $where[] = ['shipment_state','=',1];
+        $row = OrderModel::where($where)->field('count(order_id) as all_num')->find();
+        $data['yi_num']     = $row['all_num'] ? $row['all_num'] : 0;
+
+        //今日收录
+        unset($where);
+        $where[]=[['create_time','>=', $stat_time],['create_time','<=', $end_time]];
+        $where[] = ['state','=',0];
+        $where[] = ['payment_state','=',1];
+        $where[] = ['pay_time','>',0];
+
+        $order = $order->where($where)->field('sum(order_money) as order_money')->find();
+        $data['money'] = $order['order_money'] ? $order['order_money'] : 0;
+
         return app('json')->success($data);
+    }
+
+    //原始方法 未使用
+    public static function getCmsIndexData_a()
+    {
+//        $order = new OrderModel();
+//        $user = new UserModel();
+//        $shipment = $order->where(['state' => 0, 'payment_state' => 1, 'shipment_state' => 0])->field('count(order_id) as all_num')->find();
+//        $refund = $order->where(['state' => -1, 'payment_state' => 1])->field('count(order_id) as all_num')->find();
+//
+//        $goods_stock = GoodsModel::getGoodsStock();
+//        $yesterday = $order->where(['state' => 1, 'payment_state' => 1])->whereDay('pay_time', 'yesterday')
+//            ->field('count(order_id) as yesterday_order,sum(order_money) as yesterday_money')->find();
+//        $tx=FxManual::where('status',0)->sum('money');
+//        $tx = round($tx,2);
+//
+//        $month_order = $order->where(['state' => 1, 'payment_state' => 1])->whereMonth('pay_time')
+//            ->field('count(order_id) as month_order,sum(order_money) as month_money')->find();
+//
+//        $today_user = $user->whereDay('create_time')->field('count(id) as all_user')->find();
+//        $month_user = $user->whereMonth('create_time')->field('count(id) as all_user')->find();
+//        $data['shipment'] = $shipment['all_num'] ? $shipment['all_num'] : 0;
+//        $data['tui'] = $refund['all_num'] ? $refund['all_num'] : 0;
+//        $data['goods_stock'] = $goods_stock ? $goods_stock : 0;
+//        $data['month_order'] = $month_order['month_order'] ? $month_order['month_order'] : 0;
+//        $data['month_money'] = $month_order['month_money'] ? $month_order['month_money'] : 0;
+//        $data['yesterday_order'] = $yesterday['yesterday_order'] ? $yesterday['yesterday_order'] : 0;
+//        $data['yesterday_money'] = $yesterday['yesterday_money'] ? $yesterday['yesterday_money'] : 0;
+//        $data['today_user'] = $today_user['all_user'] ? $today_user['all_user'] : 0;
+//        $data['month_user'] = $month_user['all_user'] ? $month_user['all_user'] : 0;
+//        $data['tx']=$tx;
+//
+//        return app('json')->success($data);
     }
 
     /**
@@ -103,22 +148,28 @@ class StatisticService
             ->where('state', '>', '-1')
             ->whereMonth('pay_time', $time['time'])
             ->select();
+
         $user = UserModel::whereMonth('create_time', $time['time'])
             ->select();
+
         for ($i = 0; strtotime($time['time']) < strtotime($time['last_time']); $i++) {
             $data[$i]['day'] = $time['time'];
             $data[$i]['order_num'] = 0;
             $data[$i]['user_num'] = 0;
             $time['time'] = date('Y-m-d', strtotime('+1 day', strtotime($time['time'])));
         }
+
         foreach ($order as $k => $v) {
-            $day = strtotime(date('Y-m-d', $v['pay_time']));
+            //$day = strtotime(date('Y-m-d', $v['pay_time']));
+
+            $day = strtotime(date('Y-m-d', strtotime($v['pay_time'])));
             foreach ($data as $key => $value) {
                 if (strtotime($value['day']) == $day) {
                     $data[$key]['order_num'] += 1;
                 }
             }
         }
+
         foreach ($user as $k => $v) {
             $day = strtotime(date('Y-m-d', strtotime($v['create_time'])));
             foreach ($data as $key => $value) {
