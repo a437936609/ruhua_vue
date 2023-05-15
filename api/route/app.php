@@ -138,6 +138,7 @@ Route::group('index', function () {
         Route::post('export_excl', 'cms.Common/export_excl');   //导出表格
         Route::get('get_excel', 'cms.Common/get_excel');   //导出表格
         Route::post('del_excel', 'cms.Common/del_excel');   //下载表格
+        Route::post('upload_excel', 'cms.Common/import_excel');//导入数据
     });
 
     //用户
