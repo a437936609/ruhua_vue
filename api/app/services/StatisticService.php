@@ -24,6 +24,10 @@ class StatisticService
      */
     public static function remind()
     {
+
+
+
+        //state未完成成功  //payment_state已付款   //shipment_state待发货的
         $shipment = OrderModel::where(['state' => 0, 'payment_state' => 1, 'shipment_state' => 0])->field('count(order_id) as all_num')->find();
         $refund = OrderModel::where(['state' => -1, 'payment_state' => 1])->field('count(order_id) as all_num')->find();
         $goods_stock = GoodsModel::getGoodsStock();

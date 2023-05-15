@@ -72,7 +72,7 @@
 					rows: []
 				},
 				message: [{
-						"types": '今日收入/今日订单数',
+						"types": '今日订单数',
 						"num": 0,
 						"mess": "",
 						"state": 1,
@@ -81,7 +81,7 @@
 						"fudu": 0
 					},
 					{
-						"types": '昨日收入/昨日订单数',
+						"types": '今日未发货',
 						"num": 0,
 						"mess": "",
 						"state": 0,
@@ -90,7 +90,7 @@
 						"fudu": 0
 					},
 					{
-						"types": '代发货订单数',
+						"types": '今日已发货',
 						"num": 0,
 						"mess": "",
 						"state": 1,
@@ -99,7 +99,7 @@
 						"fudu": 1
 					},
 					{
-						"types": '总收入/总订单数',
+						"types": '今日总收入',
 						"num": 0,
 						"mess": "",
 						"state": 1,
@@ -128,9 +128,9 @@
 		methods: {
 			get_home_data(){
 				this.http.get('statistic/admin/get_index_data').then(res=>{
-					this.message[0].num = res.data.shipment
-					this.message[1].num = res.data.tui
-					this.message[2].num = res.data.goods_stock
+					this.message[0].num = res.data.all_num
+					this.message[1].num = res.data.wei_num
+					this.message[2].num = res.data.yi_num
 					this.message[3].num = parseFloat(res.data.tx).toFixed(2)
 					this.message[4].num = res.data.yesterday_order + '/'+ res.data.yesterday_money
 					this.message[5].num = res.data.month_order + '/'+ res.data.month_money
