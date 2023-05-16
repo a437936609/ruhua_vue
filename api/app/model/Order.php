@@ -354,7 +354,7 @@ class Order extends BaseModel
             $courier['courier']             =           $param['courier'];
             $courier['courier_num']         =           $param['courier_num'];
             $courier['shipment_state']      =           1;
-            $courier['drive_type']          =           $param['courier_num'];
+            $courier['drive_type']          =           "快递";
             self::where('order_id', $param['order_id'])->update($courier);
             $save                           =           [];
             $save['order_id']               =           $param['order_id'];
