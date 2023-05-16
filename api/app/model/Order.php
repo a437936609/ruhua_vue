@@ -220,8 +220,11 @@ class Order extends BaseModel
             if($data['goods_id']==0){
                 $order->save(['state' => -1]);
             }else{
+                $order->save(['state' => -1]);
                 $goodsWhere['goods_id']= $data['goods_id'];
             }
+
+            $goodsWhere['goods_id']= $data['goods_id'];
             $goodsWhere['order_id']=$post['order_id'];
             $goodsWhere['user_id']=$uid;
             OrderGoods::where($goodsWhere)->update(['state' => -1]);
