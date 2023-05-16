@@ -6,3 +6,5 @@ cms/src/common/axios.js
 cms/src/main.js
 cms/src/main.js
 /api/vendor
+/api/runtime
+/api/public/storage

@@ -38,15 +38,69 @@ class CommonServices
      * @return 
      */
     public function import_excel(){
+        $token = input('post.token');
+        if (!$token) {
+            throw new TokenException();
+        }
+        $vars = Cache::get($token);
+        if (!$vars) {
+            throw new TokenException();
+        }
+        if (!is_array($vars)) {
+            $vars = json_decode($vars, true);
+        }
+        if (!array_key_exists('admin_id', $vars)) {
+            throw new TokenException(['msg' => '尝试获取的变量并不存在']);
+        }
+
         $file = request()->file('file');
         // 上传到本地服务器
         $savename = \think\facade\Filesystem::disk('public')->putFile('import_excel', $file);
+        $spreadsheet = IOFactory::load(app()->getRootPath() ."public" . '/storage/' . $savename);
+        // 读取数据
+        $data = $spreadsheet->setActiveSheetIndex(0)->toArray(null, true, true, true);
 
-        $spreadsheet = IOFactory::load(PUBLIC . '/storage/' . $savename);
-        var_dump($spreadsheet);exit;
-        $data = [];
-        $data[] = [$savename];
-        return $spreadSheet;
+        $import_data = [];
+        foreach ($data as $key => $value) {
+            // 前2行是表头，跳过
+            if($key <= 2){
+                continue;
+            }
+            // 支付订单号
+            $prepay_id              =               $value['B'];
+            $courier_time           =               $value['F'];
+            $courier                =               $value['BH'];
+            $courier_num            =               $value['BI'];
+
+            if(null == $prepay_id || '' == $prepay_id){
+                // 支付单号为空，说明是合并行，需要跳过
+                continue;
+            }
+            if(null == $courier || '' == $courier){
+                // 物流公司为空，跳过
+                continue;
+            }
+            if(null == $courier_num || '' == $courier_num){
+                // 物流单号为空，跳过
+                continue;
+            }
+            $import_data[]          =               array(
+                'prepay_id'             =>              $prepay_id,
+                'courier_time'          =>              $courier_time,
+                'courier'               =>              $courier,
+                'courier_num'           =>              $courier_num
+            );
+        }
+        // 修改成功数量，默认0
+        $update_count               =                   0;
+        // 进行发货操作
+        foreach ($import_data as $key => $value) {
+            if(OrderModel::editCourierByPrepayId($value)){
+                echo 1;
+                $update_count       +=                  1;
+            }
+        }
+        return $update_count;
     }
 
     /**

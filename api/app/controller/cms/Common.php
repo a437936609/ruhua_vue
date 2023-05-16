@@ -214,10 +214,6 @@ class Common extends BaseController
     public function import_excel()
     {
         $data = (new CommonServices)->import_excel();
-        if ($data) {
-            return app('json')->success($data);
-        } else {
-            return app('json')->fail();
-        }
+        return app('json')->success($data);
     }
 }

@@ -329,6 +329,46 @@ class Order extends BaseModel
     }
 
     /**
+     * 修改发货状态
+     * @param $param
+     * @return bool
+     * @throws
+     */
+    public static function editCourierByPrepayId($param)
+    {
+        $order_id = self::where('prepay_id', $param['prepay_id'])->value('order_id');
+        if(!$order_id){
+            return false;
+        }
+        $param['order_id']          =           $order_id;
+        $pay                        =           self::where('order_id', $param['order_id'])->value('payment_state');
+        if ($pay != 1) {
+            return false;
+        }
+        Db::startTrans();
+        try {
+            $courier                        =           [];
+            $courier['courier']             =           $param['courier'];
+            $courier['courier_num']         =           $param['courier_num'];
+            $courier['shipment_state']      =           1;
+            $courier['drive_type']          =           $param['courier_num'];
+            self::where('order_id', $param['order_id'])->update($courier);
+            $save                           =           [];
+            $save['order_id']               =           $param['order_id'];
+            $save['type_name']              =           '录入快递单号';
+            $save['content']                =           $param['courier'] . '，' . $param['courier_num'];
+            $save['create_time']            =           $param['courier_time'];
+            OrderLogModel::create($save);
+            Db::commit();
+            return true;
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            Db::rollback();// 回滚事务
+            return false;
+        }
+    }
+
+    /**
      * 添加订单备注信息
      * @param $param
      * @return mixed
