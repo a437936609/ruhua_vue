@@ -102,6 +102,8 @@
 											</el-button>
 											<el-button type="primary" size="mini" @click="jump_export_list">导出历史
 											</el-button>
+											<el-button type="primary" size="mini" @click="import_dialog = true">批量发货
+											</el-button>
 										</div>
 
 										<!-- 条件搜索结束 -->
@@ -275,6 +277,19 @@
 			<span slot="footer" class="dialog-footer">
 				<el-button @click="cancel">取 消</el-button>
 				<el-button @click="upload(checkedCities)" type="primary">确 定</el-button>
+			</span>
+		</el-dialog>
+		<el-dialog title="批量发货" :visible.sync="import_dialog" width="80%" style="text-align: center;"
+			v-loading="loading">
+			<el-upload ref="uploader" class="upload-demo" drag name="file" :limit="1" accept="xlsx"
+				:action="file_upload_url" :show-file-list="false" :on-success="onExcelUploaded" :data="upfile_head"
+				:before-upload="beforeExcelUpload" :on-error="onExcelUploadErr" :multiple="false">
+				<i class="el-icon-upload"></i>
+				<div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+				<div class="el-upload__tip" slot="tip">只能上传xlsx文件，且不超过1M</div>
+			</el-upload>
+			<span slot="footer" class="dialog-footer">
+				<el-button @click="import_dialog = false">关 闭</el-button>
 			</span>
 		</el-dialog>
 	</div>
@@ -616,7 +631,10 @@
 				range_end: '',
 				quanbu: '',
 				addShow: false,
-				show_date_range: []
+				show_date_range: [],
+				// 是否显示导入弹窗
+				import_dialog: false,
+				loading: false,
 			}
 		},
 		components: {
@@ -646,6 +664,36 @@
 			this.show_default = true
 		},
 		methods: {
+			beforeExcelUpload() {
+				this.loading = true;
+			},
+			onExcelUploadErr() {
+				this.loading = false;
+				this.$refs['uploader'].clearFiles();
+				this.$message({
+					showClose: true,
+					message: '导入失败,请重试',
+					type: 'error'
+				});
+			},
+			onExcelUploaded(response) {
+				this.loading = false;
+				this.$refs['uploader'].clearFiles();
+				console.log('文件上传')
+				if (response.status != 200) {
+					this.$message({
+						showClose: true,
+						message: '导入失败,请重试',
+						type: 'error'
+					});
+					return;
+				}
+				this.$message({
+					showClose: true,
+					message: '导入成功,合计修改了【' + response.data + '】条记录',
+					type: 'success'
+				});
+			},
 			upload() {
 				console.log("xxx", this.checkedCities)
 				this.get_excel();
@@ -1191,9 +1239,14 @@
 					format = format.replace(formatArr[i], newArr[i])
 				}
 				return format;
-			}
+			},
 		},
+		computed: {
 
+			file_upload_url() {
+				return Api_url + 'index/upload_excel';
+			}
+		}
 
 
 	}
