@@ -39,12 +39,36 @@ class UserAddress extends BaseModel
             try {
                 $post['user_id'] = $uid;
                 $post['is_default'] = 1;
-                $region=Db::name('region')->where('name',$post['county'])->where('level',3)->find();
+
+
+//                $region=Db::name('region')->where('name',$post['county'])->where('level',3)->find();
+//                if(!$region){
+//                    $region=Db::name('region')->where('name',$post['city'])->where('level',2)->find();
+//                    if(!$region){
+//                    return app('json')->fail('地区不存在');}
+//                }
+
+                if($post['city'] == "市辖区")
+                {
+                    $where[] = ['merger_name', 'like', '%' . trim($post['province']) . '%'];
+                }else{
+                    $where[] = ['merger_name', 'like', '%' . trim($post['city']) . '%'];
+                }
+
+                //$where[] = ['merger_name', 'like', '%' . trim($post['city']) . '%'];
+                $where[] = ['name','=',$post['county']];
+                $region=Db::name('region')->where($where)->where('level',3)->find();
+
                 if(!$region){
+                    unset($where);
+                    //$where[] = ['merger_name', 'like', '%' . trim($post['province']) . '%'];
+                    //$where[] = ['name','=',$post['city']];
+                    //$region=Db::name('region')->where($where)->where('level',2)->find();
                     $region=Db::name('region')->where('name',$post['city'])->where('level',2)->find();
                     if(!$region){
-                    return app('json')->fail('地区不存在');}
+                        return app('json')->fail('地区不存在');}
                 }
+
                 $post['region_id']=$region['pid'];
                 Log::error(json_encode($post));
                 $AddressModel->save($post); //直接通过关联模型来新增
