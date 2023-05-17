@@ -54,20 +54,19 @@ class CommonServices
         }
 
         $courier_map                =               array(
-            'JTSD'                  =>              "极兔速递",
-            'SF'                    =>              "顺丰速运",
-            'SF'                    =>              "顺丰快递",
-            'HTKY'                  =>              "百世快递",
-            'ZTO'                   =>              "中通快递",
-            'STO'                   =>              "申通快递",
-            'YTO'                   =>              "圆通快递",
-            'YD'                    =>              "韵达快递",
-            'YZPY'                  =>              "邮政快递",
+            'JTSD'                  =>              "极兔",
+            'SF'                    =>              "顺丰",
+            'HTKY'                  =>              "百世",
+            'ZTO'                   =>              "中通",
+            'STO'                   =>              "申通",
+            'YTO'                   =>              "圆通",
+            'YD'                    =>              "韵达",
+            'YZPY'                  =>              "邮政",
             'EMS'                   =>              "EMS",
-            'HHTT'                  =>              "天天快递",
-            'JD'                    =>              "京东快递",
-            'UC'                    =>              "优速快递",
-            'DBL'                   =>              "德邦快递",
+            'HHTT'                  =>              "天天",
+            'JD'                    =>              "京东",
+            'UC'                    =>              "优速",
+            'DBL'                   =>              "德邦",
             'ZJS'                   =>              "宅急送",
             'UPS'                   =>              "UPS",
             '0'                     =>              "其他",
@@ -112,6 +111,7 @@ class CommonServices
                     $courier_code = $key;
                 }
             }
+
             $import_data[]          =               array(
                 'prepay_id'             =>              $prepay_id,
                 'courier_time'          =>              $courier_time,
