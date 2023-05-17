@@ -208,8 +208,13 @@
 									:filter-method="filter_status" filter-placement="bottom-end" :column-key="'dd'">
 									<template slot-scope="scope">
 										<p v-if="scope.row.state == -2">已退款</p>
-										<p v-if="scope.row.state == -1">退款中</p>
-										<p v-if="scope.row.state == 0">未完成</p>
+										<p v-if="scope.row.state == -1" style="color: #E6A23C;">退款中</p>
+										<p v-if="scope.row.state == 0">
+											
+											<del v-if="scope.row.prepay_id == null" style="color: #d0d0d0;">未付款</del>
+											<span style="color:#E6A23C" v-else>未完成</span>
+
+										</p>
 										<p v-if="scope.row.state == 1">已完成</p>
 										<p v-if="scope.row.state == 2">已评价</p>
 										<p v-if="scope.row.state == -3">已关闭</p>
@@ -220,8 +225,21 @@
 								<el-table-column label="运输状态" width="100"
 									:filters="[{ text: '待发货', value: 0 }, { text: '已发货', value: 1 },{ text: '已收货', value: 2 }]"
 									:filter-method="filter_send" filter-placement="bottom-end">
+
 									<template slot-scope="scope">
-										<p style="color:#E6A23C" v-if="scope.row.shipment_state == 0">待发货</p>
+										
+										<p v-if="scope.row.shipment_state == 0">
+											<span v-if="scope.row.prepay_id == null" style="color: #d0d0d0;">未付款</span>
+											<span v-else>
+												
+												<span v-if="scope.row.state == -2">退款完成</span>
+												<span v-else style="color:#E6A23C">
+													待发货
+												</span>
+												
+											</span>
+										</p>
+										
 										<p style="color:#909399" v-if="scope.row.shipment_state == 1">已发货</p>
 										<p style="color:#909399" v-if="scope.row.shipment_state == 2">已收货</p>
 										<!-- <p style="color:#67C23A" v-else-if="scope.row.drive_status == 1 && scope.row.receive_status == 0">已发货</p>

@@ -220,8 +220,11 @@ class Order extends BaseModel
             if($data['goods_id']==0){
                 $order->save(['state' => -1]);
             }else{
+                $order->save(['state' => -1]);
                 $goodsWhere['goods_id']= $data['goods_id'];
             }
+
+            $goodsWhere['goods_id']= $data['goods_id'];
             $goodsWhere['order_id']=$post['order_id'];
             $goodsWhere['user_id']=$uid;
             OrderGoods::where($goodsWhere)->update(['state' => -1]);
@@ -351,7 +354,7 @@ class Order extends BaseModel
             $courier['courier']             =           $param['courier'];
             $courier['courier_num']         =           $param['courier_num'];
             $courier['shipment_state']      =           1;
-            $courier['drive_type']          =           $param['courier_num'];
+            $courier['drive_type']          =           "快递";
             self::where('order_id', $param['order_id'])->update($courier);
             $save                           =           [];
             $save['order_id']               =           $param['order_id'];
