@@ -105,10 +105,14 @@
 			</view> -->
 		</view>
 
-		<div class="contact-us">
-			<span>工作时间：9:00-17:00</span>
+		<view class="contact-us">
+			<view>工作时间：9:00-17:00</view>
 			<a href="tel:4000211182">免费热线：4000211182</a>
-		</div>
+		</view>
+
+		<view class="prizze" @tap="detail(72)">
+			<image class="btnImg" src="../../static/images/img-prize.png"></image>
+		</view>
 
 		<!-- 	 <view class="tui-product-box tui-pb-20 tui-bg-white">
 			<view class="tui-group-name" @tap="more">
@@ -1166,7 +1170,7 @@
 		align-items: center;
 		padding: 0px 11px;
 		height: 42px;
-		border-radius: 6px;
+		// border-radius: 6px;
 		background-color: #fff;
 		color: #666;
 		a
@@ -1174,6 +1178,16 @@
 			color: $base-color;
 			text-decoration: none;
 			font-weight: bold;
+		}
+	}
+	.prizze
+	{
+		margin-top: 10px;
+		display: block;	
+		image
+		{
+			width: 750rpx;
+			height: 160rpx;
 		}
 	}
 </style>

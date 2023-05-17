@@ -1158,7 +1158,13 @@
 
 			},
 			back: function() {
-				uni.navigateBack()
+				// uni.navigateBack()
+				const pages = getCurrentPages()
+				if (pages.length > 1) {
+					uni.navigateBack()
+				} else {
+					history.back()
+				}
 			},
 			openMenu: function() {
 				this.menuShow = true
