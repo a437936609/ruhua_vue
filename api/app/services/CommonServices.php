@@ -114,7 +114,7 @@ class CommonServices
             $import_data[]          =               array(
                 'prepay_id'             =>              $prepay_id,
                 'courier_time'          =>              $courier_time,
-                'courier'               =>              $courier,
+                'courier'               =>              $courier_code,
                 'courier_num'           =>              $courier_num
             );
         }
