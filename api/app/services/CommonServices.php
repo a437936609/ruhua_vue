@@ -53,6 +53,25 @@ class CommonServices
             throw new TokenException(['msg' => '尝试获取的变量并不存在']);
         }
 
+        $courier_map                =               array(
+            'JTSD'                  =>              "极兔速递",
+            'SF'                    =>              "顺丰速运",
+            'HTKY'                  =>              "百世快递",
+            'ZTO'                   =>              "中通快递",
+            'STO'                   =>              "申通快递",
+            'YTO'                   =>              "圆通速递",
+            'YD'                    =>              "韵达速递",
+            'YZPY'                  =>              "邮政快递包裹",
+            'EMS'                   =>              "EMS",
+            'HHTT'                  =>              "天天快递",
+            'JD'                    =>              "京东快递",
+            'UC'                    =>              "优速快递",
+            'DBL'                   =>              "德邦快递",
+            'ZJS'                   =>              "宅急送",
+            'UPS'                   =>              "UPS",
+            '0'                     =>              "其他",
+        );
+
         $file = request()->file('file');
         // 上传到本地服务器
         $savename = \think\facade\Filesystem::disk('public')->putFile('import_excel', $file);
@@ -84,6 +103,14 @@ class CommonServices
                 // 物流单号为空，跳过
                 continue;
             }
+            // 默认为其他
+            $courier_code           =           '0';
+            // 对物流公司转码，从名称转为代码
+            foreach ($courier_map as $key => $value) {
+                if($value  ==  $courier){
+                    $courier_code = $key;
+                }
+            }
             $import_data[]          =               array(
                 'prepay_id'             =>              $prepay_id,
                 'courier_time'          =>              $courier_time,
@@ -96,7 +123,6 @@ class CommonServices
         // 进行发货操作
         foreach ($import_data as $key => $value) {
             if(OrderModel::editCourierByPrepayId($value)){
-                echo 1;
                 $update_count       +=                  1;
             }
         }
