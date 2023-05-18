@@ -80,13 +80,22 @@ class StatisticService
 
 
         //未发货
+        unset($where);
+        $where[] = ['state','=',0];
+        $where[] = ['payment_state','=',1];
         $where[] = ['shipment_state','=',0];
+        $where[]=[['create_time','>=', $stat_time],['create_time','<=', $end_time]];
+
         $row = OrderModel::where($where)->field('count(order_id) as all_num')->find();
         $data['wei_num']    = $row['all_num'] ? $row['all_num'] : 0;
 
-        unset($where[3]);
         //已发货
+        unset($where);
+        $where[] = ['state','=',0];
+        $where[] = ['payment_state','=',1];
         $where[] = ['shipment_state','=',1];
+        $where[]=[['create_time','>=', $stat_time],['create_time','<=', $end_time]];
+
         $row = OrderModel::where($where)->field('count(order_id) as all_num')->find();
         $data['yi_num']     = $row['all_num'] ? $row['all_num'] : 0;
 
