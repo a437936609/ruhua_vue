@@ -76,7 +76,7 @@ class StatisticService
         $where[]=[['create_time','>=', $stat_time],['create_time','<=', $end_time]];
 
         $row = $order->where($where)->field('count(order_id) as all_num')->find();
-        $data['all_num']    = $row['all_num'] ? $row['all_num'] : 0;
+        $data['today_num']    = $row['all_num'] ? $row['all_num'] : 0;
 
 
         //未发货
@@ -89,6 +89,17 @@ class StatisticService
         $where[] = ['shipment_state','=',1];
         $row = OrderModel::where($where)->field('count(order_id) as all_num')->find();
         $data['yi_num']     = $row['all_num'] ? $row['all_num'] : 0;
+
+
+        //所有未发货
+        unset($where);
+        $where[] = ['state','=',0];
+        $where[] = ['payment_state','=',1];
+        $where[] = ['shipment_state','=',0];
+        $where[] = ['state','=',0];
+        $row = OrderModel::where($where)->whereNull('courier_num')->field('count(order_id) as all_num')->find();
+        $data['all_wei_num']    = $row['all_num'] ? $row['all_num'] : 0;
+
 
         //今日收录
         unset($where);

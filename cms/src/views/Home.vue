@@ -81,11 +81,11 @@
 						"fudu": 0
 					},
 					{
-						"types": '今日未发货',
+						"types": '未发货',
 						"num": 0,
 						"mess": "",
 						"state": 0,
-						"wen": "今",
+						"wen": "待",
 						"duibi": 0,
 						"fudu": 0
 					},
@@ -128,8 +128,8 @@
 		methods: {
 			get_home_data(){
 				this.http.get('statistic/admin/get_index_data').then(res=>{
-					this.message[0].num = res.data.all_num
-					this.message[1].num = res.data.wei_num
+					this.message[0].num = res.data.today_num
+					this.message[1].num = res.data.wei_num + ' / '+ res.data.all_wei_num
 					this.message[2].num = res.data.yi_num
 					this.message[3].num = parseFloat(res.data.money).toFixed(2)
 				})
