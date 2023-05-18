@@ -68,6 +68,8 @@ class IcbcApi
                         "remark2" => null,
                         "remark3" => null,
                         "isSupportCoupon"=>'1',
+                        "pcOrderUrl"=>$order_info['orderDetailUrl'],
+                        "mobOrderUrl"=>$order_info['orderDetailUrl'],
                         "orderMerchantMemo"=> $order_info['orderMerchantMemo'],
                         "outUserId"=> $order_info['outUserId'],
                         "thirdPartyOrderId"=> $order_info['thirdPartyOrderId'],

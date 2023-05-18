@@ -357,7 +357,6 @@ class PayService
         $icbc_config['prod_name']                   =   SysConfig::get('icbc_prod_name');
         $icbc_config['sku_id']                      =   SysConfig::get('icbc_sku_id');
 
-
         $order_info                                 =   [];
         $order_info['orderMerchantMemo']            =   '商品购买';
         $order_info['outUserId']                    =   $user['icbc_user_id'];
@@ -366,6 +365,7 @@ class PayService
         $order_info['orderPayAmout']                =   $money;
         $order_info['orderInvalidTime']             =   '15';
         $order_info['noticeUrl']                    =   $notify_url;
+        $order_info['orderDetailUrl']               =   $api_url . '#/pages/user/myorder/myorder?id=' . $order_id;
         $order_info['payBackUrl']                   =   $api_url . '#/pages/user/myorder/myorder?id=' . $order_id;
         $order_info['payFailUrl']                   =   $api_url . '#/pages/user/myorder/myorder?id=' . $order_id;
         $order_info['mercId']                       =   $icbc_config['merc_id'];
@@ -374,7 +374,6 @@ class PayService
         $order_info['prodId']                       =   $icbc_config['prod_id'];
         $order_info['prodName']                     =   $icbc_config['prod_name'];
         $order_info['skuId']                        =   $icbc_config['sku_id'];
-
         return IcbcApi::createOrder($icbc_config, $order_info);
     }
 
