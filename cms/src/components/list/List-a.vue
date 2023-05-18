@@ -29,18 +29,13 @@
 			<el-row v-if="!addShow">
 				<template>
 					<el-table :data="product" border style="width: 100%" :default-sort="{prop: 'sort', order: 'ascending'}">
-						<el-table-column prop="sort" label="排序" width="100" sortable>
+						
+						<el-table-column prop="sort" label="排序" width="60" sortable>
 							<template slot-scope="scope">
 								<el-input v-model="scope.row.sort"></el-input>
 							</template>
 						</el-table-column>
-						
-						<el-table-column label="商品编码" width="150">
-							<template slot-scope="scope">
-								<div>{{scope.row.goods_code}}</div>
-							</template>
-						</el-table-column>
-						
+
 						<el-table-column label="商品名称" width="550">
 							<template slot-scope="scope">
 								<div style="display: flex;">
@@ -53,6 +48,19 @@
 								</div>
 							</template>
 						</el-table-column>
+
+						<el-table-column label="商品编码" width="150">
+							<template slot-scope="scope">
+								<div>{{scope.row.goods_code}}</div>
+							</template>
+						</el-table-column>
+						
+						<el-table-column label="内控编码" width="110">
+							<template slot-scope="scope">
+								<div>{{scope.row.ic_code}}</div>
+							</template>
+						</el-table-column>
+						
 						<!-- <el-table-column label="类型"  width="120">
 								<template slot-scope="scope">
 								<p>{{scope.row.style?'普通商品':'拼团商品'}}</p>
