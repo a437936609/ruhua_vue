@@ -353,14 +353,16 @@ class Order extends BaseModel
             $courier                        =           [];
             $courier['courier']             =           $param['courier'];
             $courier['courier_num']         =           $param['courier_num'];
+            $courier['courier_time']        =           strtotime($param['courier_time']);
             $courier['shipment_state']      =           1;
             $courier['drive_type']          =           "快递";
             self::where('order_id', $param['order_id'])->update($courier);
+
             $save                           =           [];
             $save['order_id']               =           $param['order_id'];
             $save['type_name']              =           '录入快递单号';
             $save['content']                =           $param['courier'] . '，' . $param['courier_num'];
-            $save['create_time']            =           $param['courier_time'];
+            $save['create_time']            =           strtotime($param['courier_time']);
             OrderLogModel::create($save);
             Db::commit();
             return true;
