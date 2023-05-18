@@ -126,7 +126,7 @@
 		</view>
 
 		<!-- 优惠明细  &&!buy_data[0]['pt']-->
-		<view class="yt-list" v-if="!buy_data[0]['discount']&&!buy_data[0]['pt']">
+		<!-- <view class="yt-list" v-if="!buy_data[0]['discount']&&!buy_data[0]['pt']">
 			<view class="yt-list-cell b-b" @click="toggleMask('show')">
 				<view class="cell-icon">
 					券
@@ -137,14 +137,7 @@
 				</text>
 				<text class="cell-more wanjia wanjia-gengduo-d"></text>
 			</view>
-			<!-- <view class="yt-list-cell b-b">
-				<view class="cell-icon hb">
-					减
-				</view>
-				<text class="cell-tit clamp">商家促销</text>
-				<text class="cell-tip disabled">暂无可用优惠</text>
-			</view> -->
-		</view>
+		</view> -->
 
 
 		<!-- 金额明细 -->
