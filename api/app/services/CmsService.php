@@ -72,7 +72,7 @@ class CmsService implements RoleInterface
         }
         //收货人手机
         if(isset($post['mobile']) && !empty($post['mobile'])) {
-            $mobile=base64_encode(trim($post['mobile']));
+            $mobile=trim($post['mobile']);
             $where[] = ['receiver_mobile','=',$mobile];
         }
 
@@ -112,13 +112,14 @@ class CmsService implements RoleInterface
             $where[]=['item_id','>','0'];
             $os="is_captain,item_id,";
         }
+        //去除时间戳小数点后面的值
         if(isset($post['stat_time'])&&!empty($post['stat_time'])&&isset($post['end_time'])&&!empty($post['end_time'])){
-            $where[]=[['create_time','>=',$post['stat_time']],['create_time','<=',$post['end_time']]];
-        }
-        //不选日期的话，默认一个月
-        else{
-            $post['stat_time']=strtotime(date("Y-m-d H:i:s", strtotime("-1 month")));
-            $post['end_time']=time();
+            $where[]=[['create_time','>=',intval($post['stat_time'])],['create_time','<=',intval($post['end_time'])]];
+        }else{
+            //不选日期的话，默认一个月
+            //$post['stat_time']=strtotime(date("Y-m-d H:i:s", strtotime("-1 month")));
+            $post['stat_time']  =   strtotime("-1 month");
+            $post['end_time']   =   time();
             $where[]=[['create_time','>=',$post['stat_time']],['create_time','<=',$post['end_time']]];
         }
         if($page<0) {
