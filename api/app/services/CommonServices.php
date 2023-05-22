@@ -443,7 +443,7 @@ class CommonServices
                     // 省市
                     $cell_data[]        =           $value['receiver_city'];
                     // 地址
-                    $cell_data[]        =           $value['receiver_address'];
+                    $cell_data[]        =           $value['receiver_city'].$value['receiver_address'];
                     // 省
                     $cell_data[]        =           '';
                     // 市
@@ -479,7 +479,8 @@ class CommonServices
                     // 纳税人识别号
                     $cell_data[]        =           '—';
                     // 订单总件数
-                    $cell_data[]        =           $value['goods_num'];
+                    //$cell_data[]        =           $value['goods_num'];
+                    $cell_data[]        =           $goods['num'];
                     // 商品类型
                     $cell_data[]        =           '普通商品';
                     // 内控编码
@@ -527,11 +528,11 @@ class CommonServices
         }
 
         // 最后先合并行
-        foreach($merge_list as $key => $merge_data){
-            for($i = $merge_data['col_start']; $i <= $merge_data['col_end']; $i++){
-                $sheet->mergeCellsByColumnAndRow($i, $merge_data['row_start'], $i, $merge_data['row_end']);
-            }
-        }
+//        foreach($merge_list as $key => $merge_data){
+//            for($i = $merge_data['col_start']; $i <= $merge_data['col_end']; $i++){
+//                $sheet->mergeCellsByColumnAndRow($i, $merge_data['row_start'], $i, $merge_data['row_end']);
+//            }
+//        }
         $file_name = date("Y年m月d日h时i分s秒", time()) . ".xlsx";
 
         // Redirect output to a client’s web browser (Xlsx)
