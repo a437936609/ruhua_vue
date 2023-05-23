@@ -139,7 +139,7 @@ class UserService implements RoleInterface
         if (!$data) {
             return app('json')->fail('获取订单数据失败');
         }
-        $tui_data = TuiModel::where('order_id', $id)->select();
+        $tui_data = TuiModel::where('order_id', $id)->order('id desc')->select();
 //        $data['rate'] = RateModel::where('order_id', $id)->find();
         if ($data['yz_code']) {
             $data['qrcode'] = (new QrcodeServer())->get_qrcode($data['yz_code']);
