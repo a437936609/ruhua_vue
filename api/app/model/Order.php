@@ -625,4 +625,46 @@ class Order extends BaseModel
     {
         return $this->hasMany('OrderLog', 'order_id', 'order_id');
     }
+
+    /**
+     * @param $payment_state    支付状态 0未付款  1已付款
+     * @param $shipment_state   运输（验证）状态  0待发货 1已发货 2已收货
+     * @param $state            0未完成 1已完成 2已评价 -1退款中 -2已退款-3关闭订单
+     */
+    public function export_excel_status($payment_state, $shipment_state, $state)
+    {
+        //未付款》关闭订单
+        if($payment_state == 0)
+        {
+            $stateName = '未付款';
+
+            if($state == -3)
+            {
+                $stateName = '订单关闭';
+            }
+            return $stateName;
+        }
+        //已付款
+        if($payment_state == 1)
+        {
+            $stateName = '已付款';
+
+            if($state == -2)
+            {
+                $stateName = '已退款';
+                return $stateName;
+            }
+
+            if($shipment_state == 1)
+            {
+                $stateName = '已发货';
+                return $stateName;
+            }
+
+            return $stateName;
+        }
+        switch ($state){}
+    }
+
+
 }
