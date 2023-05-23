@@ -123,6 +123,24 @@
 		<view class="action-box b-t" v-if="my_order.payment_state == 0 && my_order.state >= 0">
 			<button class="action-btn recom" style="margin-top: 50px;" @click="pay_again(order_id)">立即支付</button>
 		</view>
+
+		<!-- 消息 -->
+		<view class="remark" v-if="my_order && my_order.tui && my_order.tui.length > 0">
+			<view class="title">协商详情</view>
+			<view class="item" v-for="(item, index) in my_order.tui" :key="index">
+				<view class="user-attr">
+					<text class="name">买家：</text>
+					<text class="date">{{ item.create_time }}</text>
+				</view>
+				<view class="user-content">{{ item.message }}</view>
+				<view class="store-attr">
+					<text class="name">平台：</text>
+					<text class="date"></text>
+				</view>
+				<view class="store-content">{{ item.remark || '暂未回复' }}</view>
+			</view>
+		</view>
+
 	</view>
 </template>
 
@@ -961,6 +979,76 @@
 			&.r {
 				left: auto;
 				right: -6upx;
+			}
+		}
+	}
+	.remark
+	{
+		margin: 12px 0px;
+		padding: 8px 22px;
+		background-color: #fff;
+		.title
+		{
+			margin-bottom: 12px;
+			font-size: 14px;
+			color: #333;
+			font-weight: bold;
+		}
+		.item
+		{
+			color: #444;
+			font-size: 13px;
+			.user-attr,
+			.store-attr
+			{
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				align-items: center;
+				.date
+				{
+					color: #777;
+				}
+			}
+			.store-attr
+			{
+				position: relative;
+				padding-top: 12px;
+				margin-top: 12px;
+				&::before
+				{
+					content: '';
+					position: absolute;
+					top: 0px;
+					left: -6px;
+					right: -6px;
+					height: 1px;
+					background-color:#E4E7ED;
+					transform: scaleY(0.5);
+				}
+			}
+			.user-content,
+			.store-content
+			{
+				margin-top: 12px;
+				color: #666;
+			}
+		}
+		.item + .item
+		{
+			position: relative;
+			padding-top: 12px;
+			margin-top: 12px;
+			&::before
+			{
+				content: '';
+				position: absolute;
+				top: 0px;
+				left: -6px;
+				right: -6px;
+				height: 1px;
+				background-color:#aeaeae;
+				transform: scaleY(0.5);
 			}
 		}
 	}

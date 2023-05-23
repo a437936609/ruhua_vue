@@ -145,7 +145,6 @@
 						v.stateTipColor = obj.stateTipColor
 					}
 					this.order_list = res.data
-					console.log(this.order_list)
 				})
 			},
 			jump_detail(id) {

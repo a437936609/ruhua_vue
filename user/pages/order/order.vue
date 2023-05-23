@@ -6,7 +6,6 @@
 				{{item.text}}
 			</view>
 		</view>
-
 		<swiper :current="tabCurrentIndex" class="swiper-box" duration="300" @change="changeTab">
 			<swiper-item class="tab-content" v-for="(tabItem,tabIndex) in navList" :key="tabIndex">
 				<scroll-view class="list-scroll-content" scroll-y>
@@ -131,7 +130,8 @@
 			 * 修复app端点击除全部订单外的按钮进入时不加载数据的问题
 			 * 替换onLoad下代码即可
 			 */
-			this.tabCurrentIndex = +options.state;
+			// this.tabCurrentIndex = +options.state;
+			this.tabClick(+options.state)
 			// #ifndef MP
 			// this.loadData()
 			// #endif
