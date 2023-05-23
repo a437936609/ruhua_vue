@@ -9,7 +9,7 @@
 						<text class="name">{{my_order.receiver_name}}</text>
 						<text class="mobile">{{my_order.receiver_mobile}}</text>
 					</view>
-					<text class="address">{{my_order.receiver_city}}</text>
+					<text class="address">{{my_order.receiver_city}} {{ my_order.receiver_address }}</text>
 				</view>
 				<!-- <text class="yticon icon-you"></text> -->
 			</view>
@@ -76,7 +76,7 @@
 		<view class="yt-list">
 			<view class="yt-list-cell b-b">
 				<text class="cell-tit clamp">订单编号</text>
-				<text class="cell-tip">{{my_order.order_num}}</text>
+				<text class="cell-tip">{{my_order.prepay_id}}</text>
 			</view>
 			<view class="yt-list-cell b-b">
 				<text class="cell-tit clamp">商品金额</text>

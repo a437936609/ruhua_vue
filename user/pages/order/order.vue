@@ -18,7 +18,7 @@
 						<template v-for="(item,index) in order_list">
 							<view  :key="index" class="order-item" v-if="check_state(item)">
 								<view class="i-top b-b">
-									<text class="time">{{item.order_num}}</text>
+									<text class="time">{{item.prepay_id}}</text>
 									<text class="state" :style="{color: item.stateTipColor}"
 										style="margin-right: 20px;">{{item.stateTip}}</text>
 									<text class="state">{{item.create_time}}</text>
