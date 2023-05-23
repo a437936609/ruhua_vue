@@ -112,17 +112,41 @@ class CommonServices
                 }
             }
 
-            $import_data[]          =               array(
+            $import_data[$prepay_id][]  =               array(
                 'prepay_id'             =>              $prepay_id,
                 'courier_time'          =>              $courier_time,
                 'courier'               =>              $courier_code,
                 'courier_num'           =>              $courier_num
             );
         }
+
+        // 对数据二次处理
+        // 订单号相同的，拼接物流公司以及物流单号
+        $final_import_data          =                   [];
+        foreach ($import_data as $key => $value) {
+            // $key是prepay_id分组
+            $prepay_id              =                   $key;
+            $courier                =                   '';
+            $courier_num            =                   '';
+            $courier_time           =                   '';
+            foreach ($import_data[$prepay_id] as $value) {
+                $courier            .=                  $value['courier'] . '/';
+                $courier_num        .=                  $value['courier_num'] . '/';
+                if('' == $courier_time){
+                    $courier_time   =                   $value['courier_time'];
+                }
+            }
+            $final_import_data[]    =                   array(
+                'prepay_id'             =>              trim($prepay_id, '/'),
+                'courier_time'          =>              trim($courier_time, '/'),
+                'courier'               =>              trim($courier, '/'),
+                'courier_num'           =>              trim($courier_num, '/')
+            );
+        }
         // 修改成功数量，默认0
         $update_count               =                   0;
         // 进行发货操作
-        foreach ($import_data as $key => $value) {
+        foreach ($final_import_data as $key => $value) {
             if(OrderModel::editCourierByPrepayId($value)){
                 $update_count       +=                  1;
             }

@@ -18,7 +18,7 @@
 										<el-table :data="list" border style="width: 100%">
 											<el-table-column type="index" label="序号" width="50px"></el-table-column>
 											<el-table-column prop="order.prepay_id" label="订单号"></el-table-column>
-											<el-table-column prop="order.receiver_name" label="昵称"></el-table-column>
+											<el-table-column prop="order.receiver_name" label="昵称"  width="160px"></el-table-column>
 											
 											<el-table-column prop="because" label="退款原因">
 												<template slot-scope="scope">
@@ -31,11 +31,15 @@
 
 											
 											<el-table-column prop="message" label="客户留言"></el-table-column>
-											<el-table-column prop="money" label="退款金额"></el-table-column>
+											<el-table-column prop="money" label="退款金额"  width="100px"></el-table-column>
 											<el-table-column prop="status" label="状态">
 												<template slot-scope="scope">
 													<template v-if="scope.row.status == 0">待审核</template>
-													<template v-if="scope.row.status == -1">已驳回</template>
+													
+													<template v-if="scope.row.status == -1">
+														<b>已驳回：</b>{{scope.row.remark}}
+													</template>
+													
 													<template v-if="scope.row.status == 1">退款成功</template>
 												</template>
 											</el-table-column>
@@ -47,13 +51,22 @@
 												<template slot-scope="scope">
 													<el-button type="primary" size="small"
 														@click="detail(scope.row)">查看订单详情</el-button>
+														
 													<template v-if="scope.row.status != 1">
-														<el-button type="success" size="small"
-															@click="agree(scope.row.id)">同意</el-button>
-														<el-button style="margin-left: 10px" type="danger" size="small"
-															slot="reference"
-															@click="refuse(scope.row.id)">驳回</el-button>
+
+														<span v-if="scope.row.status == -1">
+															 <el-button style="margin-left: 10px" disabled size="small" slot="reference" @click="refuse(scope.row.id)">已驳回</el-button>
+														</span>
+														<span v-else>
+															<el-button style="margin-left: 10px" type="success" size="small" @click="agree(scope.row.id)">同意</el-button>
+															<el-button style="margin-left: 10px" type="danger" size="small" slot="reference" @click="refuse(scope.row.id)">驳回</el-button>
+														</span>
+													
 													</template>
+													
+
+													
+													
 												</template>
 											</el-table-column><strong></strong>
 										</el-table>
@@ -107,11 +120,8 @@
 													<el-button type="primary" size="small"
 														@click="detail(scope.row)">查看订单详情</el-button>
 													<template v-if="scope.row.status != 1">
-														<el-button type="success" size="small"
-															@click="agree(scope.row.id)">同意</el-button>
-														<el-button style="margin-left: 10px" type="danger" size="small"
-															slot="reference"
-															@click="refuse(scope.row.id)">驳回</el-button>
+														<el-button type="success" size="small" @click="agree(scope.row.id)">同意</el-button>
+														<el-button style="margin-left: 10px" type="danger" size="small"	slot="reference" @click="refuse(scope.row.id)">驳回</el-button>
 													</template>
 
 												</template>
@@ -193,9 +203,12 @@
 					let crr = []
 					for (let k in res.data) {
 						let v = res.data[k]
-						if (v.status != -1) {
-							arr.push(v)
-						}
+						// if (v.status != -1) {
+						// 	arr.push(v)
+						// }
+						
+						arr.push(v)
+						
 						if (v.status != -1 && v.status == 1) {
 							brr.push(v)
 						}
