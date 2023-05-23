@@ -917,17 +917,43 @@ class CommonServices
         }
         $code = SysConfigModel::where(['key' => 'appcode'])->value('value');
         $mobile=substr($order['receiver_mobile'],-4,4);
-        $kd = new Kd($code, '', $order['courier_num'],$mobile);
-        $data=json_decode($kd->get(),true);
-        Log::error($data);
-        if($data==null){
-            Log::channel('msgLog')->write($order['courier_num']." 快递单号获取失败,原因：快递code不对");
-        }else{
-            if($data['status']!=0){
-                Log::channel('msgLog')->write($order['courier_num']." 快递单号获取失败,原因：".$data['msg']);
+
+        //转化多少快递单号
+        if(!empty($order['courier_num'])){
+            $courierArray = [];
+            //433200798387676/433200798387676/JT3031074245539
+            //转化成数组
+            $courier_num    = explode('/', $order['courier_num']);
+            //YD/YD/JTSD
+            $courier        = explode('/', $order['courier']);
+            foreach ($courier_num as $key=>$val)
+            {
+                $courierArray[$key]  = [
+                    'courier_num'   => $val,
+                    'courier'       => $courier[$key],
+                    'courier_time'  => $order['courier_time'],
+                ];
             }
+            //$courierlist = $courierArray;
+            //兼容之前的类型获取快递数组第一个数据
+            //$order['courier_num'] = $courier_num[0];
+            //$order['courier'] = $courier[0];
+            foreach($courierArray as $k=>$v)
+            {
+                $kd = new Kd($code, '', $v['courier_num'],$mobile);
+                $data[$k]=json_decode($kd->get(),true);
+
+                Log::error($data[$k]);
+                if($data[$k]==null){
+                    Log::channel('msgLog')->write($order['courier_num']." 快递单号获取失败,原因：快递code不对");
+                }else{
+                    if($data[$k]['status']!=0){
+                        Log::channel('msgLog')->write($order['courier_num']." 快递单号获取失败,原因：".$data[$k]['msg']);
+                    }
+                }
+            }
+            return json($data);
         }
-        return json($data);
     }
 
     /**
