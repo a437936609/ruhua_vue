@@ -194,9 +194,9 @@ class Order extends BaseModel
     public function tuikuan_approve($uid, $post)
     {
         $money=$this->getTuiMoney($uid,$post['order_id'],$post['goods_id']); 
-        if($money<=0){
-            throw new OrderException(['msg' => '请勿重复提交']);
-        }
+        //if($money<=0){
+        //    throw new OrderException(['msg' => '请勿重复提交']);
+        //}
         if(!is_numeric($money)){
             return app('json')->fail($money);
         }
