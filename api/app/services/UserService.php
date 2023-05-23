@@ -136,6 +136,29 @@ class UserService implements RoleInterface
             $where['user_id'] = $uid;
         }
         $data = OrderModel::with(['rate', 'ordergoods.imgs'])->where($where)->find(); //常规查询自动不包含软删除的数据
+
+        if(!empty($data['courier_num'])){
+            $courier = [];
+            //433200798387676/433200798387676/JT3031074245539
+            //转化成数组
+            $courier_num    = explode('/', $data['courier_num']);
+            //YD/YD/JTSD
+            $courier        = explode('/', $data['courier']);
+            foreach ($courier_num as $key=>$val)
+            {
+                $courier[$key]  = [
+                    'courier_num'   => $val,
+                    'courier'       => $courier[$key],
+                    'courier_time'  => $data['courier_time'],
+                ];
+            }
+            $data['courierList'] = $courier;
+
+            //兼容之前的类型获取快递数组第一个数据
+            $data['courier_num'] = $courier_num[0];
+            $data['courier'] = $courier[0];
+        }
+
         if (!$data) {
             return app('json')->fail('获取订单数据失败');
         }
