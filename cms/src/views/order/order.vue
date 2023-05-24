@@ -141,7 +141,6 @@
 						<!-- 订单列表 -->
 						<div v-if="!addShow" style="padding: 15px;background-color: #fff">
 							<el-table :data="list" border style="width: 100%" @filter-change="xxx">
-								<el-table-column type="index" label="序号" width="50"></el-table-column>
 								<el-table-column label="订单号" width="170">
 									<template slot-scope="scope">
 										<del v-if="scope.row.prepay_id == null" style="color: #d0d0d0;">未完成付款</del>
@@ -151,8 +150,9 @@
 								<el-table-column label="商品名称" prop="goods_id" width="280" :filters="goods_list"
 									:filter-method="filterHandler">
 									<template slot-scope="scope">
-										<div v-for="(item, key) of scope.row.ordergoods" :key="key">
+										<div v-for="(item, key) of scope.row.ordergoods" :key="key" style="border-bottom:1px dotted #CCC;padding-bottom:10px">
 											{{item.goods_name | ellipsis}}
+											<div style="font-size:10px;color:#999">{{item.sku_name}} × {{item.num}}</div>
 										</div>
 									</template>
 								</el-table-column>
@@ -182,7 +182,7 @@
 										</div>
 									</template>
 								</el-table-column>
-								<el-table-column label="姓名/手机号" width="120">
+								<el-table-column label="姓名/手机号/地址">
 									<template slot-scope="scope">
 										<div>{{scope.row.receiver_name}}</div>
 										<div>{{scope.row.receiver_mobile}}</div>
@@ -204,7 +204,7 @@
 									</template>
 								</el-table-column> -->
 								<el-table-column label="订单状态" width="100"
-									:filters="[{ text: '已退款', value: -2 }, { text: '退款中', value: -1 },{ text: '未完成', value: 0 },{ text: '已完成', value: 1 },{ text: '已评价', value: 2 },]"
+									:filters="[{ text: '已退款', value: -2 }, { text: '退款中', value: -1 },{ text: '未完成', value: 0 },{ text: '已完成', value: 1 },{ text: '已评价', value: 2 },{ text: '已关闭', value: -3 }]"
 									:filter-method="filter_status" filter-placement="bottom-end" :column-key="'dd'">
 									<template slot-scope="scope">
 										<p v-if="scope.row.state == -2">已退款</p>
@@ -443,21 +443,24 @@
 				orderzt: [{
 					"value": "",
 					"label": "请选择",
-				}, {
-					"value": "-2",
-					"label": "已退款",
-				}, {
-					"value": "-1",
-					"label": "退款中",
-				}, {
+				},{
 					"value": "0",
 					"label": "未完成",
-				}, {
+				},{
 					"value": "1",
 					"label": "已完成",
-				}, {
+				},{
 					"value": "2",
 					"label": "已评价",
+				},{
+					"value": "-1",
+					"label": "退款中",
+				},{
+					"value": "-2",
+					"label": "已退款",
+				},{
+					"value": "-3",
+					"label": "已关闭",
 				}],
 				payzt: [{
 					"value": "",
@@ -1274,7 +1277,12 @@
 	.order {
 
 		margin-top: 0;
-
+		
+		.order-spec-item:not(:last-child) {
+			border-bottom: 1rpx solid #EEEEEE;
+		}
+		
+		
 		.el-collapse-item__content {
 			padding-bottom: 0px;
 		}

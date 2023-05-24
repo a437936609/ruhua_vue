@@ -103,13 +103,13 @@ class UserService implements RoleInterface
             $data = OrderModel::with(['OrderGoods.imgs'=>function($q){
             return $q->field('id,order_id,goods_id,goods_name,sku_name,price,num,total_price as goods_money,pic_id');
         }, 'Imgs'])->where(['user_id' => $uid])
-            ->field('order_id,order_num,user_id,type,state,payment_state,shipping_money,shipment_state,order_money,activity_type,create_time')
+            ->field('order_id,order_num,prepay_id,user_id,type,state,payment_state,shipping_money,shipment_state,order_money,activity_type,create_time')
             ->order('order_id desc')->select()->toArray();
         else
             $data = OrderModel::with(['OrderGoods.imgs'=>function($q){
                 return $q->field('id,order_id,goods_id,goods_name,sku_name,price,num,total_price as goods_money,pic_id');
             }, 'Imgs'])->where(['user_id' => $uid])
-                ->field('order_id,order_num,user_id,type,state,payment_state,shipping_money,shipment_state,order_money,activity_type,create_time')
+                ->field('order_id,order_num,prepay_id,user_id,type,state,payment_state,shipping_money,shipment_state,order_money,activity_type,create_time')
                 ->order('order_id desc')->limit($page*$num,$num)->select()->toArray();
         foreach ($data as $key => $value)
         {

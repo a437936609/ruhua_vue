@@ -153,4 +153,22 @@ class OrderManage extends BaseController
         $uid=TokenService::getCurrentUid();
         return OrderModel::hexiao($number,$uid);
     }
+
+    /**
+     * 后面修改订单地址
+     * @return mixed
+     * @throws \ruhua\exceptions\OrderException
+     */
+    public function edit_address(){
+        $rule = [
+            'fullname'  => 'require',
+            'order_id'  => 'require|number',
+            'mobile'    => 'require',
+            'city'      => 'require',
+            'address'   => 'require',
+        ];
+        $param = Request::param();
+        $this->validate($param, $rule);
+        return OrderModel::edit_price_model($param);
+    }
 }

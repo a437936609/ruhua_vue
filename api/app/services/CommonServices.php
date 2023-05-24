@@ -331,8 +331,11 @@ class CommonServices
             {
                 $filter_status      =       $post['filter_status'];
                 $where[]            =       ['state','=',$filter_status];
+            }else{
+                $where[]            =       ['state','<>',-3];
             }
         }
+
         if(isset($post['filter_pay'])){
             //支付状态 值里有空和负数
             if(strlen($post['filter_pay']) > 0)
@@ -364,7 +367,7 @@ class CommonServices
         }
 
         //默认过滤关闭订单
-        $where[]                    =       ['state','<>',-3];
+        //$where[]                    =       ['state','<>',-3];
 
         $list = OrderModel::with(['ordergoods'=>['iccode'], 'users','orderlog'])
         ->withSum(['ordergoods'=>'goods_num'], 'num')
@@ -380,7 +383,9 @@ class CommonServices
         $row_index                      =           0;
         // row_num为当前真实行数，表头占用2行，真实起始数为2
         $row_num                        =           2;
+
         foreach($list as $index => $value){
+
             if(isset($value['ordergoods']) && count($value['ordergoods']) > 0){
                 $row_index              +=          1;
 
@@ -403,12 +408,13 @@ class CommonServices
                     // 订单编号
                     $cell_data[]        =           empty($value['prepay_id']) ? '' : $value['prepay_id'];
                     // 订单状态  //已支付/已取消/已发货/已退款
-                    $cell_data[]        =           $value['a'];
+                    $cell_data[]        =           (new OrderModel)->export_excel_status($value['payment_state'], $value['shipment_state'], $value['state']);
                     // 下单时间
                     $cell_data[]        =           $value['create_time'];
                     // 支付时间
                     $cell_data[]        =           empty($value['prepay_id']) ? '' : $value['pay_time'];
                     $courier_time       =           '';
+
                     if(isset($value['orderlog']) && count($value['orderlog']) > 0){
                         foreach($value['orderlog'] as $log){
                             if($log['type_name'] == '录入快递单号'){
@@ -416,6 +422,7 @@ class CommonServices
                             }
                         }
                     }
+
                     // 发货时间
                     $cell_data[]        =           $courier_time;
                     // 买家备注
@@ -536,7 +543,6 @@ class CommonServices
                 }
             }
         }
-
         $data_type_string_index = [27,35];
         // 起始行为2
         $row_num = 2;
@@ -917,17 +923,43 @@ class CommonServices
         }
         $code = SysConfigModel::where(['key' => 'appcode'])->value('value');
         $mobile=substr($order['receiver_mobile'],-4,4);
-        $kd = new Kd($code, '', $order['courier_num'],$mobile);
-        $data=json_decode($kd->get(),true);
-        Log::error($data);
-        if($data==null){
-            Log::channel('msgLog')->write($order['courier_num']." 快递单号获取失败,原因：快递code不对");
-        }else{
-            if($data['status']!=0){
-                Log::channel('msgLog')->write($order['courier_num']." 快递单号获取失败,原因：".$data['msg']);
+
+        //转化多少快递单号
+        if(!empty($order['courier_num'])){
+            $courierArray = [];
+            //433200798387676/433200798387676/JT3031074245539
+            //转化成数组
+            $courier_num    = explode('/', $order['courier_num']);
+            //YD/YD/JTSD
+            $courier        = explode('/', $order['courier']);
+            foreach ($courier_num as $key=>$val)
+            {
+                $courierArray[$key]  = [
+                    'courier_num'   => $val,
+                    'courier'       => $courier[$key],
+                    'courier_time'  => $order['courier_time'],
+                ];
             }
+            //$courierlist = $courierArray;
+            //兼容之前的类型获取快递数组第一个数据
+            //$order['courier_num'] = $courier_num[0];
+            //$order['courier'] = $courier[0];
+            foreach($courierArray as $k=>$v)
+            {
+                $kd = new Kd($code, '', $v['courier_num'],$mobile);
+                $data[$k]=json_decode($kd->get(),true);
+
+                Log::error($data[$k]);
+                if($data[$k]==null){
+                    Log::channel('msgLog')->write($order['courier_num']." 快递单号获取失败,原因：快递code不对");
+                }else{
+                    if($data[$k]['status']!=0){
+                        Log::channel('msgLog')->write($order['courier_num']." 快递单号获取失败,原因：".$data[$k]['msg']);
+                    }
+                }
+            }
+            return json($data);
         }
-        return json($data);
     }
 
     /**

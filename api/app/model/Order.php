@@ -637,9 +637,7 @@ class Order extends BaseModel
         if($payment_state == 0)
         {
             $stateName = '未付款';
-
-            if($state == -3)
-            {
+            if($state == -3){
                 $stateName = '订单关闭';
             }
             return $stateName;
@@ -648,23 +646,46 @@ class Order extends BaseModel
         if($payment_state == 1)
         {
             $stateName = '已付款';
-
-            if($state == -2)
-            {
+            if($state == -2){
                 $stateName = '已退款';
                 return $stateName;
             }
-
-            if($shipment_state == 1)
-            {
+            if($shipment_state == 1){
                 $stateName = '已发货';
                 return $stateName;
             }
-
             return $stateName;
         }
         switch ($state){}
     }
 
+    /**
+     * 修改订单地址
+     * @param $param
+     * @return mixed
+     * @throws
+     */
+    public static function edit_address_model($param)
+    {
+        Db::startTrans();
+        try {
+            $order = self::where('order_id', $param['order_id'])->find();
 
+            $order['receiver_name']     = $param['fullname'];
+            $order['receiver_mobile']   = $param['mobile'];
+            $order['receiver_city']     = $param['city'];
+            $order['receiver_address']  = $param['address'];
+            $order->save();
+
+            $save['order_id'] = $param['order_id'];
+            $save['type_name'] = '修改订单地址';
+            $save['content'] = $param['fullname'].$param['mobile'].$param['city'].$param['address'];
+            OrderLog::create($save);
+            Db::commit();
+            return app('json')->success();
+        } catch (\Exception $e) {
+            Db::rollback();// 回滚事务
+            throw new OrderException(['msg' => $e->getMessage()]);
+        }
+    }
 }

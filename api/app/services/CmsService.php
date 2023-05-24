@@ -82,6 +82,8 @@ class CmsService implements RoleInterface
             {
                 $filter_status=$post['filter_status'];
                 $where[] = ['state','=',$filter_status];
+            }else{
+                $where[] = ['state','<>',-3];
             }
         }
 
@@ -125,7 +127,7 @@ class CmsService implements RoleInterface
         if($page<0) {
 
             //原始代码 不用获取用户信息
-            $data = OrderModel::with('ordergoods.imgs')->where($where)->where('state', '<>', -3)
+            $data = OrderModel::with('ordergoods.imgs')->where($where)
                 ->order('create_time desc')->field("$os order_id,order_num,prepay_id,user_id,item_id,pt_state,state,payment_state,shipment_state,
             delete_time,update_time,pay_time,shipping_money,order_money,receiver_name,receiver_mobile,user_ip,message,create_time", true)
                 ->limit(1000)->select();
