@@ -204,7 +204,7 @@
 									</template>
 								</el-table-column> -->
 								<el-table-column label="订单状态" width="100"
-									:filters="[{ text: '已退款', value: -2 }, { text: '退款中', value: -1 },{ text: '未完成', value: 0 },{ text: '已完成', value: 1 },{ text: '已评价', value: 2 },]"
+									:filters="[{ text: '已退款', value: -2 }, { text: '退款中', value: -1 },{ text: '未完成', value: 0 },{ text: '已完成', value: 1 },{ text: '已评价', value: 2 },{ text: '已关闭', value: -3 }]"
 									:filter-method="filter_status" filter-placement="bottom-end" :column-key="'dd'">
 									<template slot-scope="scope">
 										<p v-if="scope.row.state == -2">已退款</p>
@@ -443,21 +443,24 @@
 				orderzt: [{
 					"value": "",
 					"label": "请选择",
-				}, {
-					"value": "-2",
-					"label": "已退款",
-				}, {
-					"value": "-1",
-					"label": "退款中",
-				}, {
+				},{
 					"value": "0",
 					"label": "未完成",
-				}, {
+				},{
 					"value": "1",
 					"label": "已完成",
-				}, {
+				},{
 					"value": "2",
 					"label": "已评价",
+				},{
+					"value": "-1",
+					"label": "退款中",
+				},{
+					"value": "-2",
+					"label": "已退款",
+				},{
+					"value": "-3",
+					"label": "已关闭",
 				}],
 				payzt: [{
 					"value": "",
