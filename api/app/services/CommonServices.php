@@ -414,6 +414,7 @@ class CommonServices
                     // 支付时间
                     $cell_data[]        =           empty($value['prepay_id']) ? '' : $value['pay_time'];
                     $courier_time       =           '';
+
                     if(isset($value['orderlog']) && count($value['orderlog']) > 0){
                         foreach($value['orderlog'] as $log){
                             if($log['type_name'] == '录入快递单号'){
@@ -421,6 +422,7 @@ class CommonServices
                             }
                         }
                     }
+
                     // 发货时间
                     $cell_data[]        =           $courier_time;
                     // 买家备注

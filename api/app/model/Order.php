@@ -637,9 +637,7 @@ class Order extends BaseModel
         if($payment_state == 0)
         {
             $stateName = '未付款';
-
-            if($state == -3)
-            {
+            if($state == -3){
                 $stateName = '订单关闭';
             }
             return $stateName;
@@ -648,23 +646,16 @@ class Order extends BaseModel
         if($payment_state == 1)
         {
             $stateName = '已付款';
-
-            if($state == -2)
-            {
+            if($state == -2){
                 $stateName = '已退款';
                 return $stateName;
             }
-
-            if($shipment_state == 1)
-            {
+            if($shipment_state == 1){
                 $stateName = '已发货';
                 return $stateName;
             }
-
             return $stateName;
         }
         switch ($state){}
     }
-
-
 }
