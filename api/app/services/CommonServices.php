@@ -331,8 +331,11 @@ class CommonServices
             {
                 $filter_status      =       $post['filter_status'];
                 $where[]            =       ['state','=',$filter_status];
+            }else{
+                $where[]            =       ['state','<>',-3];
             }
         }
+
         if(isset($post['filter_pay'])){
             //支付状态 值里有空和负数
             if(strlen($post['filter_pay']) > 0)
@@ -364,7 +367,7 @@ class CommonServices
         }
 
         //默认过滤关闭订单
-        $where[]                    =       ['state','<>',-3];
+        //$where[]                    =       ['state','<>',-3];
 
         $list = OrderModel::with(['ordergoods'=>['iccode'], 'users','orderlog'])
         ->withSum(['ordergoods'=>'goods_num'], 'num')
@@ -380,7 +383,9 @@ class CommonServices
         $row_index                      =           0;
         // row_num为当前真实行数，表头占用2行，真实起始数为2
         $row_num                        =           2;
+
         foreach($list as $index => $value){
+
             if(isset($value['ordergoods']) && count($value['ordergoods']) > 0){
                 $row_index              +=          1;
 
@@ -403,7 +408,7 @@ class CommonServices
                     // 订单编号
                     $cell_data[]        =           empty($value['prepay_id']) ? '' : $value['prepay_id'];
                     // 订单状态  //已支付/已取消/已发货/已退款
-                    $cell_data[]        =           $value['a'];
+                    $cell_data[]        =           (new OrderModel)->export_excel_status($value['payment_state'], $value['shipment_state'], $value['state']);
                     // 下单时间
                     $cell_data[]        =           $value['create_time'];
                     // 支付时间
@@ -536,7 +541,6 @@ class CommonServices
                 }
             }
         }
-
         $data_type_string_index = [27,35];
         // 起始行为2
         $row_num = 2;
