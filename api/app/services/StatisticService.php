@@ -237,9 +237,9 @@ class StatisticService
         $month = input('post.month');
         $time = self::getTime($month);
         $order = OrderModel::where('payment_state', 1)
-            ->where('state', '>=', '1')
+            ->where('state', '>=', '0')
             ->whereMonth('pay_time', $time['time'])
-            ->select();
+            ->select()->toArray();
 
         for ($i = 0; strtotime($time['time']) < strtotime($time['last_time']); $i++) {
             $data[$i]['day'] = $time['time'];
@@ -248,8 +248,10 @@ class StatisticService
             $data[$i]['profit'] = 0;
             $time['time'] = date('Y-m-d', strtotime('+1 day', strtotime($time['time'])));
         }
+
         foreach ($order as $k => $v) {
-            $day = strtotime(date('Y-m-d', $v['pay_time']));
+            $day = strtotime(date('Y-m-d', strtotime($v['pay_time'])));
+
             foreach ($data as $key => $value) {
                 if (strtotime($value['day']) == $day) {
                     $data[$key]['total_price'] += $v['goods_money'];
