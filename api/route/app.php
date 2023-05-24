@@ -16,7 +16,7 @@ Route::get('', function () {
     // 只接跳转h5
     // $url = "http://www.ruhuashop.com";
     // echo '<script>window.location.href="'.$url.'"</script>';
-    echo '如花商城系统'.VAE_VERSION.'(商业版)';
+    //echo '如花商城系统'.VAE_VERSION.'(商业版)';
 });
 
 
@@ -25,18 +25,16 @@ Route::group('player', function () {
     Route::post('list', 'common.Live/index');
 });
 
-Route::get('test', 'common.Common/sms');
-
-
-Route::get('api_check', 'install.Check/index');
+//Route::get('test', 'common.Common/sms');
+//Route::get('api_check', 'install.Check/index');
 
 
 //系统安装
 Route::group('install', function () {
-    Route::get('', 'install.Index/step1');
-    Route::get('step2', 'install.Index/step2');
-    Route::get('step3', 'install.Index/step3');
-    Route::post('create_data', 'install.Index/createData');
+//    Route::get('', 'install.Index/step1');
+//    Route::get('step2', 'install.Index/step2');
+//    Route::get('step3', 'install.Index/step3');
+//    Route::post('create_data', 'install.Index/createData');
 });
 Route::get('test_s', 'install.UpDate/test');//验证权限
 
@@ -125,7 +123,6 @@ Route::group('index', function () {
 
 
     Route::group('', function () {
-
 
         Route::post('/get_code_img', 'common.Common/gitCodeImg');   //生成二维码
         Route::get('get_poster', 'cms.SaasServe/createPoster');   //生成海报
@@ -536,10 +533,8 @@ Route::group('address', function () {
 
 //搜索
 Route::group('search', function () {
-
     Route::group('', function () {
         Route::get('record', 'common.Search/getSearchRecord');//搜索记录 user
-
         Route::get('recordcms', 'common.Search/getSearchRecordCms');//搜索记录 cms
 
     });
@@ -613,6 +608,7 @@ Route::group('order', function () {
         Route::post('/edit_courier', 'cms.OrderManage/editCourier'); //更新订单配送信息
         Route::post('/edit_remark', 'cms.OrderManage/editRemark'); //添加订单备注信息
         Route::post('/edit_price', 'cms.OrderManage/edit_price'); //修改订单价格
+        Route::post('/edit_address', 'cms.OrderManage/edit_address'); //修改订单地址
         Route::get('/get_tui_all', 'cms.TuiManage/getTuiAll'); //cms 获取所有退款信息
         Route::post('/tui_money', 'cms.TuiManage/TuiMoney'); //微信退款
 
