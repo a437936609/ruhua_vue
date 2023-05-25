@@ -155,10 +155,10 @@ class OrderManage extends BaseController
     }
 
     /**
+     * 获取单条订单详情
      * @return mixed
      * @throws \ruhua\exceptions\OrderException
      */
-
     public function info_order(){
         $rule = [
             'order_id'  => 'require|number',
@@ -187,6 +187,6 @@ class OrderManage extends BaseController
         ];
         $param = Request::param();
         $this->validate($param, $rule);
-        return OrderModel::edit_price_model($param);
+        return OrderModel::edit_address_model($param);
     }
 }
