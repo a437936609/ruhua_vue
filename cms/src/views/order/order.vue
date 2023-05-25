@@ -246,7 +246,7 @@
 										<p style="color:#E6A23C" v-else>未发货</p> -->
 									</template>
 								</el-table-column>
-								<el-table-column prop="operation" label="操作" width="150px">
+								<el-table-column prop="operation" label="操作" width="180px">
 									<template slot-scope="scope">
 										<el-button @click="show_order(scope.row.order_id)" type="primary" size="small">
 											<!-- <a href="#top" style="text-decoration:none;color: #FFFFFF;">查看</a> -->
@@ -255,9 +255,10 @@
 
 										<!-- <el-button style="margin-left: 10px" type="danger" size="small" slot="reference"
 											@click="del(scope.row.order_id,scope.$index)">删除</el-button> -->
-
 										<el-button style="margin-left: 10px" type="success" size="small"
-											@click="print_order(scope.row.order_id)">打印</el-button>
+											@click="edit_order_address(scope.row)">修改地址</el-button>
+										<!-- <el-button style="margin-left: 10px" type="success" size="small"
+											@click="print_order(scope.row.order_id)">打印</el-button> -->
 									</template>
 								</el-table-column>
 							</el-table>
@@ -309,6 +310,26 @@
 			<span slot="footer" class="dialog-footer">
 				<el-button @click="import_dialog = false">关 闭</el-button>
 			</span>
+		</el-dialog>
+		<el-dialog title="修改地址" :visible.sync="dialogEditAddress.show" width="700px" @close="handleDialogEditAddressClose">
+			<el-form ref="form" :model="dialogEditAddress.form" :rules="dialogEditAddress.rules" label-width="80px">
+				<el-form-item label="名称" prop="fullname">
+					<el-input v-model.trim="dialogEditAddress.form.fullname"></el-input>
+				</el-form-item>
+				<el-form-item label="手机号码" prop="mobile">
+					<el-input v-model.trim="dialogEditAddress.form.mobile"></el-input>
+				</el-form-item>
+				<el-form-item label="省市区" prop="city">
+					<el-input v-model.trim="dialogEditAddress.form.city"></el-input>
+				</el-form-item>
+				<el-form-item label="详细地址" prop="address">
+					<el-input v-model.trim="dialogEditAddress.form.address" type="textarea"></el-input>
+				</el-form-item>
+			</el-form>
+  		<div slot="footer" class="dialog-footer">
+    		<el-button @click="handleDialogEditAddressClose">取 消</el-button>
+    		<el-button type="primary" @click="handleDialogEditAddressSave">确 定</el-button>
+			</div>
 		</el-dialog>
 	</div>
 </template>
@@ -656,6 +677,30 @@
 				// 是否显示导入弹窗
 				import_dialog: false,
 				loading: false,
+				dialogEditAddress: {
+					show: false,
+					form: {
+						order_id: '',
+						fullname: '',
+						mobile: '',
+						city: '',
+						address: ''
+					},
+					rules: {
+						fullname: [
+							{ required: true, message: '请输入名称', trigger: 'blur' },
+						],
+						mobile: [
+							{ required: true, message: '请输入手机号码', trigger: 'blur' },
+						],
+						city: [
+							{ required: true, message: '请输入省市区', trigger: 'blur' },
+						],
+						address: [
+							{ required: true, message: '请输入详细地址', trigger: 'blur' },
+						]
+					}
+				}
 			}
 		},
 		components: {
@@ -1261,6 +1306,52 @@
 				}
 				return format;
 			},
+			edit_order_address (row) {
+				this.http.post_show('order/admin/info_order', {
+					order_id: row.order_id
+				}).then((res) => {
+					if (res && res.data && res.data.order) {
+						this.dialogEditAddress.show = true
+						this.dialogEditAddress.form.order_id = row.order_id
+						this.dialogEditAddress.form.fullname = res.data.order.receiver_name || ''
+						this.dialogEditAddress.form.mobile = res.data.order.receiver_mobile || ''
+						this.dialogEditAddress.form.city = res.data.order.receiver_city || ''
+						this.dialogEditAddress.form.address = res.data.order.receiver_address || ''
+					} else {
+						that.$message({
+						showClose: true,
+						message: '获取订单信息失败',
+						type: 'error'
+					});
+					}
+				})
+			},
+			handleDialogEditAddressClose () {
+				this.dialogEditAddress.form.fullname = ''
+				this.dialogEditAddress.form.mobile = ''
+				this.dialogEditAddress.form.city = ''
+				this.dialogEditAddress.form.address = ''
+				this.dialogEditAddress.show = false
+			},
+			handleDialogEditAddressSave () {
+				this.$refs.form.validate((valid) => {
+          if (!valid) {
+            return
+          }
+					// 
+					this.http.post_show('order/admin/edit_address', {
+						...this.dialogEditAddress.form
+					}).then(res => {
+						that.$message({
+							showClose: true,
+							message: '修改成功',
+							type: 'success'
+						});
+						this.handleDialogEditAddressClose()
+					})
+					// console.log(this.dialogEditAddress.form)
+        })
+			}
 		},
 		computed: {
 
