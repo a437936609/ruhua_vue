@@ -159,26 +159,49 @@ class CmsService implements RoleInterface
         }
         return $data;
     }
+
     //订单详情
     public function get_order_detail($id)
     {
         Log::error('123456');
         //'ordergoods.imgs','imgs',
         $tes = OrderModel::where(['order_id' => $id])->find();
+
         if(isset($tes['goods_picture'])){
             $data['order'] = OrderModel::with(['ordergoods.imgs','imgs','users' => function ($query) {
-                    $query->field('id,nickname,headpic');
-                }])->where(['order_id' => $id])->find();
+                $query->field('id,nickname,headpic');
+            }])->where(['order_id' => $id])->find()->toArray();
         }
         else{
             $data['order'] = OrderModel::with(['ordergoods.imgs','users' => function ($query) {
-                    $query->field('id,nickname,headpic');
-                }])->where(['order_id' => $id])->find();
+                $query->field('id,nickname,headpic');
+            }])->where(['order_id' => $id])->find()->toArray();
         }
 
+
+        //转化多少快递单号
+        if(!empty($data['order']['courier_num'])) {
+            $courierArray = [];
+            //433200798387676/433200798387676/JT3031074245539
+            //转化成数组
+            $courier_num = explode('/', $data['order']['courier_num']);
+            //YD/YD/JTSD
+            $courier = explode('/', $data['order']['courier']);
+
+            foreach ($courier_num as $key => $val) {
+                $courierArray[$key] = [
+                    'courier_num' => $val,
+                    'courier' => $courier[$key],
+                    'courier_time' => $data['order']['courier_time'],
+                ];
+            }
+            //兼容之前的类型获取快递数组第一个数据
+            $data['order']['courier_num'] = $courier_num[0];
+            $data['order']['courier'] = $courier[0];
+            $data['order']['courierlist'] = $courierArray;
+        }
         Log::error('654321');
         $data['log'] = OrderLog::where(['order_id' => $id])->order('create_time desc')->select();
         return $data;
     }
-
 }
