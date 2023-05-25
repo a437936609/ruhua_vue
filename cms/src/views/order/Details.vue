@@ -98,7 +98,11 @@
 					<hr style=" height:2px;border:none;border-top:2px dotted #f0f0f0;">
 
 					<el-row :gutter="20" style="font-size:14px;">
-						<el-col :span="6" :offset="1">快递: {{kd_cmp[details.courier]}} {{details.courier_num}}</el-col>
+						<el-col :span="6" :offset="1">快递:
+						
+							<div v-for="item,key of details.courierlist">{{kd_cmp[item.courier]}}{{item.courier_num}}</div>
+						
+						</el-col>
 
 						<el-col :span="6" :offset="8">运费：{{details.shipping_money}}&emsp;订单总金额：¥{{details.order_money}}</el-col>
 					</el-row>
