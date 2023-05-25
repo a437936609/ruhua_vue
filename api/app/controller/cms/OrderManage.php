@@ -155,6 +155,24 @@ class OrderManage extends BaseController
     }
 
     /**
+     * @return mixed
+     * @throws \ruhua\exceptions\OrderException
+     */
+
+    public function info_order(){
+        $rule = [
+            'order_id'  => 'require|number',
+        ];
+        $param = Request::param();
+        $this->validate($param, $rule);
+
+        $order = (new QyFactory())->instance('CmsService');
+        $data = $order->get_order_detail($param['order_id']);
+        return app('json')->success($data);
+
+    }
+
+    /**
      * 后面修改订单地址
      * @return mixed
      * @throws \ruhua\exceptions\OrderException
