@@ -98,9 +98,9 @@
 					<hr style=" height:2px;border:none;border-top:2px dotted #f0f0f0;">
 
 					<el-row :gutter="20" style="font-size:14px;">
-						<el-col :span="6" :offset="1">快递:
+						<el-col :span="6" :offset="1">快递信息
 						
-							<div v-for="item,key of details.courierlist">{{kd_cmp[item.courier]}}{{item.courier_num}}</div>
+							<div v-for="item,key of details.courierlist">{{kd_cmp[item.courier]}}：{{item.courier_num}}</div>
 						
 						</el-col>
 
