@@ -1318,7 +1318,7 @@
 						this.dialogEditAddress.form.city = res.data.order.receiver_city || ''
 						this.dialogEditAddress.form.address = res.data.order.receiver_address || ''
 					} else {
-						that.$message({
+						this.$message({
 						showClose: true,
 						message: '获取订单信息失败',
 						type: 'error'
@@ -1335,14 +1335,14 @@
 			},
 			handleDialogEditAddressSave () {
 				this.$refs.form.validate((valid) => {
-          if (!valid) {
-            return
-          }
+			if (!valid) {
+				return
+			}
 					// 
 					this.http.post_show('order/admin/edit_address', {
 						...this.dialogEditAddress.form
 					}).then(res => {
-						that.$message({
+						this.$message({
 							showClose: true,
 							message: '修改成功',
 							type: 'success'
