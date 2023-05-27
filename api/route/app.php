@@ -609,6 +609,7 @@ Route::group('order', function () {
         Route::post('/edit_remark', 'cms.OrderManage/editRemark'); //添加订单备注信息
         Route::post('/edit_price', 'cms.OrderManage/edit_price'); //修改订单价格
         Route::post('/edit_address', 'cms.OrderManage/edit_address'); //修改订单地址
+        Route::post('/info_order', 'cms.OrderManage/info_order'); //获取单条订单信息
         Route::get('/get_tui_all', 'cms.TuiManage/getTuiAll'); //cms 获取所有退款信息
         Route::post('/tui_money', 'cms.TuiManage/TuiMoney'); //微信退款
 
