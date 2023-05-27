@@ -146,6 +146,10 @@
 				<text class="cell-tit clamp">商品金额</text>
 				<text class="cell-tip">￥{{goods_money | count_price(goods_money)}}</text>
 			</view>
+			<view class="yt-list-cell b-b">
+				<text class="cell-tit clamp integral"></text>
+				<text class="cell-tip">支付时，可用 <text class="integral-bold">{{toIntegral}}</text> 积分0元兑换</text>
+			</view>
 			<view class="yt-list-cell b-b" v-if="coupon_money>0">
 				<text class="cell-tit clamp">优惠金额</text>
 				<text class="cell-tip red">-￥{{coupon_money}}</text>
@@ -424,6 +428,12 @@
 			},
 			isYt () {
 				return this.buy_data[0] && !this.buy_data[0]['discount'] && !this.buy_data[0]['pt']
+			},
+			toIntegral () {
+				if (!this.goods_money) {
+					return 0
+				}
+				return Math.ceil( this.goods_money / 0.0015)
 			}
 
 		},
@@ -1698,5 +1708,16 @@
 			}
 		}
 
+	}
+	.integral
+	{
+		font-size: 14px;
+	}
+	.integral-bold
+	{
+		margin: 0px 4px;
+		font-weight: bold;
+		font-size: 18px;
+		color: #fa436a;
 	}
 </style>
