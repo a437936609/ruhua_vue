@@ -178,7 +178,6 @@ class CmsService implements RoleInterface
             }])->where(['order_id' => $id])->find()->toArray();
         }
 
-
         //转化多少快递单号
         if(!empty($data['order']['courier_num'])) {
             $courierArray = [];
@@ -188,13 +187,25 @@ class CmsService implements RoleInterface
             //YD/YD/JTSD
             $courier = explode('/', $data['order']['courier']);
 
-            foreach ($courier_num as $key => $val) {
-                $courierArray[$key] = [
-                    'courier_num' => $val,
-                    'courier' => $courier[$key],
-                    'courier_time' => $data['order']['courier_time'],
-                ];
+            //判断快递包裹是否为多个
+            if(count($courier_num) > 1)
+            {
+                foreach ($courier_num as $key => $val) {
+
+                    if(count($courier) > 1){
+                        $courier_ = $courier[$key];
+                    }else{
+                        $courier_ = $courier[0]; //默认 手动发货 快递编码字段只有一个，快递编号是多个。
+                    }
+
+                    $courierArray[$key] = [
+                        'courier_num' => $val,
+                        'courier' => $courier_,
+                        'courier_time' => $data['order']['courier_time'],
+                    ];
+                }
             }
+
             //兼容之前的类型获取快递数组第一个数据
             $data['order']['courier_num'] = $courier_num[0];
             $data['order']['courier'] = $courier[0];

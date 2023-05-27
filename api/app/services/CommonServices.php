@@ -932,14 +932,26 @@ class CommonServices
             $courier_num    = explode('/', $order['courier_num']);
             //YD/YD/JTSD
             $courier        = explode('/', $order['courier']);
-            foreach ($courier_num as $key=>$val)
+
+            //判断快递包裹是否为多个
+            if(count($courier_num) > 1)
             {
-                $courierArray[$key]  = [
-                    'courier_num'   => $val,
-                    'courier'       => $courier[$key],
-                    'courier_time'  => $order['courier_time'],
-                ];
+                foreach ($courier_num as $key => $val) {
+
+                    if(count($courier) > 1){
+                        $courier_ = $courier[$key];
+                    }else{
+                        $courier_ = $courier[0]; //默认 手动发货 快递编码字段只有一个，快递编号是多个。
+                    }
+
+                    $courierArray[$key] = [
+                        'courier_num' => $val,
+                        'courier' => $courier_,
+                        'courier_time'  => $order['courier_time'],
+                    ];
+                }
             }
+
             //$courierlist = $courierArray;
             //兼容之前的类型获取快递数组第一个数据
             //$order['courier_num'] = $courier_num[0];
