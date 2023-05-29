@@ -12,7 +12,7 @@
 			<text class="tit">地区</text>
 			<view class="result" @click="toggleTab">{{resultInfo.result}}</view>
 			<!-- <input class="input" type="text" v-model="form.city" placeholder="楼号、门牌" placeholder-class="placeholder" @tap="choose_region" /> -->
-			<w-picker mode="region" :defaultVal="['北京市','市辖区','东城区']" @confirm="onConfirm" ref="region"></w-picker>
+			<w-picker mode="region" :defaultVal="['北京','北京市','东城区']" @confirm="onConfirm" ref="region"></w-picker>
 
 		</view>
 		<view class="row b-b">

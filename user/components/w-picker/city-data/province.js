@@ -1,10 +1,10 @@
 /* eslint-disable */
 var provinceData = [{
-    "label": "北京市",
+    "label": "北京",
     "value": "11"
   },
   {
-    "label": "天津市",
+    "label": "天津",
     "value": "12"
   },
   {
@@ -32,7 +32,7 @@ var provinceData = [{
     "value": "23"
   },
   {
-    "label": "上海市",
+    "label": "上海",
     "value": "31"
   },
   {
@@ -84,7 +84,7 @@ var provinceData = [{
     "value": "46"
   },
   {
-    "label": "重庆市",
+    "label": "重庆",
     "value": "50"
   },
   {
