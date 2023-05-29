@@ -48,15 +48,9 @@ class UserAddress extends BaseModel
 //                    return app('json')->fail('地区不存在');}
 //                }
 
-                if($post['city'] == "市辖区")
-                {
-                    $where[] = ['merger_name', 'like', '%' . trim($post['province']) . '%'];
-                }else{
-                    $where[] = ['merger_name', 'like', '%' . trim($post['city']) . '%'];
-                }
-
-                //$where[] = ['merger_name', 'like', '%' . trim($post['city']) . '%'];
+                $where[] = ['merger_name', 'like', '%' . trim($post['city']) . '%'];
                 $where[] = ['name','=',$post['county']];
+
                 $region=Db::name('region')->where($where)->where('level',3)->find();
 
                 if(!$region){
