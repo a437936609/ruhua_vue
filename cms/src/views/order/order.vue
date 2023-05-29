@@ -503,7 +503,7 @@
 					"value": "1",
 					"label": "已发货",
 				}, {
-					"value": "1",
+					"value": "2",
 					"label": "已收货",
 				}],
 				type: [{

@@ -187,30 +187,30 @@ class CmsService implements RoleInterface
             //YD/YD/JTSD
             $courier = explode('/', $data['order']['courier']);
 
+
             //判断快递包裹是否为多个
-            if(count($courier_num) > 1)
-            {
-                foreach ($courier_num as $key => $val) {
+            foreach ($courier_num as $key => $val) {
 
-                    if(count($courier) > 1){
-                        $courier_ = $courier[$key];
-                    }else{
-                        $courier_ = $courier[0]; //默认 手动发货 快递编码字段只有一个，快递编号是多个。
-                    }
-
-                    $courierArray[$key] = [
-                        'courier_num' => $val,
-                        'courier' => $courier_,
-                        'courier_time' => $data['order']['courier_time'],
-                    ];
+                if(count($courier) > 1){
+                    $courier_ = $courier[$key];
+                }else{
+                    $courier_ = $courier[0]; //默认 手动发货 快递编码字段只有一个，快递编号是多个。
                 }
+
+                $courierArray[$key] = [
+                    'courier_num' => $val,
+                    'courier' => $courier_,
+                    'courier_time' => $data['order']['courier_time'],
+                ];
             }
 
             //兼容之前的类型获取快递数组第一个数据
-            $data['order']['courier_num'] = $courier_num[0];
-            $data['order']['courier'] = $courier[0];
-            $data['order']['courierlist'] = $courierArray;
+            $data['order']['courier_num']   = $courierArray[0]['courier_num'];
+            $data['order']['courier']       = $courierArray[0]['courier'];
+            $data['order']['courierlist']   = $courierArray?$courierArray:[];
         }
+
+
         Log::error('654321');
         $data['log'] = OrderLog::where(['order_id' => $id])->order('create_time desc')->select();
         return $data;

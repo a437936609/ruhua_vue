@@ -934,22 +934,20 @@ class CommonServices
             $courier        = explode('/', $order['courier']);
 
             //判断快递包裹是否为多个
-            if(count($courier_num) > 1)
-            {
-                foreach ($courier_num as $key => $val) {
+            //判断快递包裹是否为多个
+            foreach ($courier_num as $key => $val) {
 
-                    if(count($courier) > 1){
-                        $courier_ = $courier[$key];
-                    }else{
-                        $courier_ = $courier[0]; //默认 手动发货 快递编码字段只有一个，快递编号是多个。
-                    }
-
-                    $courierArray[$key] = [
-                        'courier_num' => $val,
-                        'courier' => $courier_,
-                        'courier_time'  => $order['courier_time'],
-                    ];
+                if(count($courier) > 1){
+                    $courier_ = $courier[$key];
+                }else{
+                    $courier_ = $courier[0]; //默认 手动发货 快递编码字段只有一个，快递编号是多个。
                 }
+
+                $courierArray[$key] = [
+                    'courier_num' => $val,
+                    'courier' => $courier_,
+                    'courier_time' => $order['courier_time'],
+                ];
             }
 
             //$courierlist = $courierArray;
