@@ -17,6 +17,14 @@ use Icbc\lib\IcbcConstants;
 
 class IcbcApi
 {
+
+    /***
+     * 获取工行用户信息
+     * @param $icbc_config
+     * @param $userInfoKey
+     * @return mixed
+     * @throws BaseException
+     */
     public static function getUserInfo($icbc_config, $userInfoKey){
         $request = array(
             "serviceUrl" => $icbc_config['icbc_server_url'] . '/api/mall/b2C/order/custmer/info/V1',
@@ -53,6 +61,13 @@ class IcbcApi
         }
     }
 
+    /***
+     * 工行创建订单
+     * @param $icbc_config
+     * @param $order_info
+     * @return string
+     * @throws BaseException
+     */
     public static function createOrder($icbc_config, $order_info){
         $request = array(
             "serviceUrl" => $icbc_config['icbc_server_url'] . '/ui/mall/b2C/page/order/create/V1',
@@ -117,6 +132,7 @@ class IcbcApi
         }
     }
 
+
     public static function replyNotify($icbc_config, $order_num){
         $request = array(
             "serviceUrl" => '/order/pay/notify',
@@ -143,7 +159,15 @@ class IcbcApi
             throw new BaseException(['msg' => $e->getMessage()]);
         }
      }
-     
+
+    /***
+     * 支付结果查询接口
+     * @param $icbc_config
+     * @param $userId
+     * @param $thirdOrderId
+     * @return mixed
+     * @throws BaseException
+     */
     public static function queryOrderInfo($icbc_config, $userId, $thirdOrderId){
         $request = array(
             "serviceUrl" => $icbc_config['icbc_server_url'] . '/api/mall/b2C/order/payment/query/V1',
@@ -180,6 +204,13 @@ class IcbcApi
         }
     }
 
+    /***
+     * 退款接口
+     * @param $icbc_config
+     * @param $refund_info
+     * @return mixed
+     * @throws BaseException
+     */
     public static function refundPay($icbc_config, $refund_info){
         $request = array(
             "serviceUrl" => $icbc_config['icbc_server_url'] . '/api/mall/b2C/order/refund/V1',
