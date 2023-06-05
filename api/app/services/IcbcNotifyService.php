@@ -27,18 +27,14 @@ class IcbcNotifyService
     //异步接收微信回调，更新订单状态
     public function NotifyEditOrder($orderNo)
     {
-
-
         $str = substr($orderNo, 0, 1);
 
         Log::error('支付回调' . $str);
         if ($str == 'V') {
             return $this->updatevip($orderNo);
         } else {
-
             return $this->upOrder($orderNo);
         }
-
     }
     
     public function updatevip($orderNo)
@@ -122,15 +118,11 @@ class IcbcNotifyService
                     ];
                     PointsRecordModel::create($dt);
 
-
-
                 }
                 Log::error('支付调用事件');
               //  event('PayOrder', $order);//扣除库存  修改至创建订单里扣库存
                 event('InvoiceLog', $order);//检查是否需要开发票
                 //event('SendGzhDeliveryMessage', [$order, 1, '']);//公众号发送模板消息通知管理员
-            
-
 
                 if ($order['payment_type'] == 'wx') {
 
@@ -139,8 +131,12 @@ class IcbcNotifyService
                 } else if ($order['payment_type'] == 'xcx') {
                     //小程序发送模板消息
                 }
-              
             }
+
+            if ($order['state'] == -3) {
+                Log::error("订单关闭->付款成功：". $orderNo);
+            }
+
         } catch (\Exception  $ex) {
             Log::error('更新订单Notify:' . $ex->getMessage());
         }
