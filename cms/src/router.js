@@ -126,6 +126,14 @@ export default new Router({
 			name: 'editevents',
 			component: () => import('./views/extend/editevents.vue')
 		},{
+			path: '/extend/addevents_goods',
+			name: 'addevents_goods',
+			component: () => import('./views/extend/addevents_goods.vue')
+		},{
+			path: '/extend/editevents_goods',
+			name: 'editevents_goods',
+			component: () => import('./views/extend/editevents_goods.vue')
+		},{
 			path: '/extend/jgglist',
 			name: 'jgglist',
 			component: () => import('./views/extend/jgg/list.vue')

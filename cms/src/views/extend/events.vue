@@ -13,12 +13,12 @@
 					<el-main>
 						<div class="article">
 							<el-button  @click="jumpback">返回</el-button> &emsp;
-							<el-button type="primary" @click="add_user">添加折扣</el-button>
+							<el-button type="primary" @click="add_user">添加专题</el-button>
 							<div style="height:20px;">&nbsp;</div>
 							<template>
 								<el-table :data="list" border style="width: 100%">
 									<el-table-column type="index" label="序号" width="50px"></el-table-column>
-									<el-table-column prop="name" label="活动名称"></el-table-column>
+									<el-table-column prop="name" label="专题名称"></el-table-column>
 
 									<el-table-column prop="content" label="有效时间">
 										<template slot-scope="scope">
@@ -167,13 +167,13 @@
 			},
 			add_user() {
 				this.$router.push({
-					path: '/extend/adddiscount'
+					path: '/extend/addevents'
 				})
 			},
 			edit(item) {
 				localStorage.setItem("edit_data",JSON.stringify(item));
 				this.$router.push({
-					path: '/extend/editdiscount'
+					path: '/extend/editevents'
 				})
 			},
 			sub_edit() {
@@ -227,7 +227,7 @@
 					cancelButtonText: '取消',
 					type: 'warning'
 				}).then(() => {
-					this.http.put_show('discount/admin/del_discount', {
+					this.http.put_show('events/admin/del_events', {
 						id: id
 					}).then(() => {
 						that.$message({
