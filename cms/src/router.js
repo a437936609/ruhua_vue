@@ -113,9 +113,19 @@ export default new Router({
 			path: '/extend/editdiscount',
 			name: 'editdiscount',
 			component: () => import('./views/extend/editdiscount.vue')
-		},
-
-		{
+		},{
+			path: '/extend/events',
+			name: 'events',
+			component: () => import('./views/extend/events.vue')
+		},{
+			path: '/extend/addevents',
+			name: 'addevents',
+			component: () => import('./views/extend/addevents.vue')
+		},{
+			path: '/extend/editevents',
+			name: 'editevents',
+			component: () => import('./views/extend/editevents.vue')
+		},{
 			path: '/extend/jgglist',
 			name: 'jgglist',
 			component: () => import('./views/extend/jgg/list.vue')

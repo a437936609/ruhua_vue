@@ -144,6 +144,25 @@
 											</div>
 										</div>
 									</div>
+									
+									<div class="gong-01">
+										<div class="gong-01-bor">
+											<div class="gong-01-l color5">
+												<img src="../../img/ceshi.png" />
+											</div>
+											<div class="gong-01-r">
+												活动专题
+												<br />
+												<span>活动专题</span>
+											</div>
+											<div class="gong-01-btn">
+												<el-button size="mini" @click="jump_events">进入</el-button>
+												<el-button size="mini" @click="jump_explain(13)">说明</el-button>
+											</div>
+										</div>
+									</div>
+									
+									
 									<div class="gong-01">
 										<div class="gong-01-bor">
 											<div class="gong-01-l color7">
@@ -371,6 +390,9 @@
 				if (e == 12) {
 					localStorage.setItem("explain", "http://read.ruhuashop.com/#/jifen");
 				}
+				if (e == 13) {
+					localStorage.setItem("explain", "http://read.ruhuashop.com/#/discount");
+				}
 				this.$router.push({
 					path: "/extend/explain",
 				});
@@ -398,6 +420,11 @@
 			jump_todiscount() {
 				this.$router.push({
 					path: "/extend/discount",
+				});
+			},
+			jump_events() {
+				this.$router.push({
+					path: "/extend/events",
 				});
 			},
 			jump_template() {
