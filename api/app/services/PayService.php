@@ -330,6 +330,10 @@ class PayService
         if(!$order_inf){
             throw new BaseException(['msg'=>'订单不存在']);
         }
+        if($order_inf['state'] == -3)
+        {
+            throw new BaseException(['msg'=>'当前订单已超时，请重新购买！']);
+        }
         $user = UserModel::where('id', $order_inf['user_id'])->find();
         if(!$user){
             throw new BaseException(['msg'=>'用户不存在']);
