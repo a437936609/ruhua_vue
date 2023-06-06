@@ -14,122 +14,32 @@
 							<div class="add_btn">
 								<el-button type="primary" @click="jumpback">返回</el-button>
 							</div>
-							<div class="xiao">活动信息</div>
+							<div class="xiao">专题活动</div>
 							<el-form ref="form" :model="form" label-width="120px" class="demo-dynamic">
-								<el-form-item label="活动名称">
-									<el-input v-model="form.name" hide-required-asterisk style="width:500px"></el-input>
+								<el-form-item label="专题名称">
+									<el-input v-model="form.name" hide-required-asterisk style="width:200px"></el-input>
 								</el-form-item>
-								<el-form-item label="生效时间">
-									<el-date-picker type="date" placeholder="选择日期" v-model="form.start_time" style="width: 200px;"></el-date-picker>
-									&emsp;至&emsp;
-									<el-date-picker type="date" placeholder="选择日期" v-model="form.end_time" style="width: 200px;"></el-date-picker>
+								<el-form-item label="专题描述">
+									<el-input v-model="form.label" hide-required-asterisk style="width:400px"></el-input>
 								</el-form-item>
-								<el-form-item label="活动标签">
-									<el-input v-model="form.label" hide-required-asterisk style="width:300px"></el-input>
-								</el-form-item>
-								<el-form-item label="限购设置" prop="resource">
-									<el-radio-group v-model="form.buy_rule">
-										<el-radio :label="0">不限购</el-radio>
-										<el-radio :label="1">每人每种商品限购&emsp;<el-input v-if="form.buy_rule == 1" v-model="form.buy_num" style="width:100px"></el-input>&emsp;件</el-radio>
-										<el-radio :label="2">每人每种商品前&emsp;<el-input v-if="form.buy_rule == 2" v-model="form.buy_num" style="width:100px"></el-input>&emsp;件享受折扣</el-radio>
-									</el-radio-group>
-								</el-form-item>
+								
 							</el-form>
-							<div class="xiao">选择活动商品</div>
+							<div class="xiao">选择专题商品</div>
 							<el-tabs type="border-card" style="margin-bottom: 20px" v-model="active_name">
-								<el-tab-pane label="第一步：选择商品" name="one">
+								<el-tab-pane label="专题楼层" name="one">
 									<div class="choose">
 										<div class="search">
-											<el-select v-model="value" placeholder="所有分组">
-												<el-option label="一" value="shanghai"></el-option>
-												<el-option label="二" value="beijing"></el-option>
-											</el-select>&emsp;
-											<el-button type="primary">搜索</el-button>
+											<el-button type="primary">添加楼层</el-button>
+											
 										</div>
-										<el-table :data="tableData" style="width: 100%;" :row-class-name="tableRowClassName">
-											<el-table-column prop="" label="商品信息">
-												<template slot-scope="scope">
-													<div class="pro">
-
-														<div class="pro_02"><img :src="getimg +scope.row.imgs" /></div>
-														<div class="pro_03">
-															<div class="pro_03_1">{{scope.row.goods_name}}</div>
-															<div class="pro_03_2">¥{{scope.row.price}}分销:¥{{scope.row.fx}}</div>
-														</div>
-													</div>
-												</template>
-
-											</el-table-column>
-											<el-table-column prop="stock" label="库存">
-											</el-table-column>
-											<el-table-column prop="operation" label="操作" width="300px">
-												<template slot-scope="scope">
-													<el-button v-if="scope.row.is_discount == 1" type="primary" size="small" @click="add_discout(scope.row.goods_id,scope.$index,scope.row)">参加折扣</el-button>
-
-													<el-button v-if="scope.row.is_discount == 2" type="danger" size="small" slot="reference" @click="del(scope.$index)">取消参加</el-button>
-												</template>
-											</el-table-column>
-										</el-table>
-									</div>
-									<div class="quan">
-										<!-- <div class="quan_l">
-											<el-checkbox v-model="checked"></el-checkbox>&nbsp;全选
-										</div> -->
-										<div class="quan_r">共5条，每页30条</div>
 									</div>
 								</el-tab-pane>
-								<el-tab-pane label="第二步：设置折扣" name="two" v-if="is_two == 1">
-									<div class="choose">
-										<el-table :data="discount_list" style="width: 100%;" :row-class-name="tableRowClassName">
-											<el-table-column prop="" label="">
-												<template slot-scope="scope">
-													<div class="pro">
-														<div class="pro_02"><img :src="getimg + scope.row.imgs" /></div>
-														<div class="pro_03">
-															<div class="pro_03_1">{{scope.row.goods.goods_name}}</div>
-															<div class="pro_03_2">¥{{scope.row.goods.price}}分销¥{{scope.row.fx}}</div>
-														</div>
-													</div>
-												</template>
-											</el-table-column>
-											<el-table-column prop="" label="">
-												<template slot-scope="scope">
-													<div class="">
-														减价：<el-input v-model="scope.row.reduce_price" hide-required-asterisk style="width:100px"></el-input>
-													</div>
-												</template>
-
-											</el-table-column>
-											<el-table-column prop="" label="">
-												<template slot-scope="scope" v-if="scope.row.reduce_price">
-													减价后：{{parseFloat(scope.row.goods.price-scope.row.reduce_price).toFixed(2)}}元
-												</template>
-
-											</el-table-column>
-											<el-table-column prop="operation" label="" width="300px">
-												<template slot-scope="scope">
-													<el-button type="primary" size="small" @click="del_disgoods(scope.$index)">取消</el-button>
-												</template>
-											</el-table-column>
-										</el-table>
-									</div>
-									<div class="quan">
-										<!-- <div class="quan_l">
-											<el-checkbox v-model="checked"></el-checkbox>&nbsp;全选
-										</div> -->
-										<div class="quan_r">共5条，每页30条</div>
-									</div>
-								</el-tab-pane>
-								<el-pagination background layout="prev, pager, next" :total="total"  @current-change="jump_page">
-								</el-pagination>
 
 							</el-tabs>
-
+							
 							<span slot="footer" class="dialog-footer ">
 								<el-button @click="jumpback">取 消</el-button>
-								<el-button @click="next" v-if="is_two == 0">下一步</el-button>
-								<el-button @click="back" v-if="is_two == 1">上一步</el-button>
-								<el-button type="primary" @click="onSubmit" v-if="is_two == 1">确 定</el-button>
+								<el-button type="primary" @click="onSubmit">提交</el-button>
 							</span>
 						</div>
 					</el-main>
@@ -154,18 +64,19 @@
 	export default {
 		data() {
 			return {
-				active_name: 'two',
-				is_two: 1,
+				x: 0,
+				tableRowClassName: '',
+				choosed: [],
+				active_name: 'one',
+				is_two: 0,
 				discount_list: [],
 				getimg: this.$getimg,
 				choose: true,
 				tableData: [],
-				tab_nav: false,
 				dialogVisibleadd: false,
-				dialogFormVisible: false,
 				oid: 0,
 				form: {
-					id: '',
+					buy_num: '',
 					name: '',
 					buy_rule: '',
 					goods_json: [],
@@ -173,13 +84,13 @@
 					start_time: '',
 					end_time: '',
 					day_json: [],
-					time_rule: 0,
-					buy_num: '',
+					time_rule: 0
 				},
+
 				list: [],
 				all: '',
-				size: 10,
-				total: '',
+				size: 8,
+				total:0,
 				value: '',
 			}
 		},
@@ -198,20 +109,7 @@
 			NavTo
 		},
 		mounted() {
-			const site = JSON.parse(localStorage.getItem("edit_data"));
-			if (site) {
-				console.log(site)
-				this.form.id = site.id
-				this.form.name = site.name
-				this.form.start_time = site.start_time
-				this.form.end_time = site.end_time
-				this.form.label = site.label
-				this.discount_list = site.discount_goods
-				this.form.buy_rule = site.buy_rule
-				this.form.buy_num = site.buy_num
-			}
 			this._load()
-			// this.goods_json();
 		},
 		methods: {
 			_load() {
@@ -240,36 +138,34 @@
 				let obj = {
 					goods_id: id,
 					discount_type: 1,
-					reduce_price: '',
-					discount_price: 0
-				}
-				let obj_2 = {
-					imgs: item.imgs,
-					goods_id: item.goods_id,
-					goods: {
-						goods_name: item.goods_name,
-						price: item.price
-					},
-					reduce_price: '',
-					discount_type: 1,
+					reduce_price: 0,
 					discount_price: 0
 				}
 				this.tableData[index].is_discount = 2
 				this.form.goods_json.push(obj)
-				this.discount_list.push(obj_2)
+				this.discount_list.push(index)
+				// this.choosed.push(index)
 				console.log(this.form)
 				console.log(this.discount_list)
+				this.x++
 			},
 			//取消折扣
 			del(index) {
+				for (var i = 0; i < this.discount_list.length; i++) {
+					if (this.discount_list[i] == index) {
+						this.discount_list.splice(i, 1)
+					}
+				}
 				this.tableData[index].is_discount = 1
 				this.form.goods_json.splice(index, 1)
-				this.discount_list.splice(index, 1)
+				// this.discount_list.splice(index, 1)
 				console.log(this.form)
+				console.log(this.discount_list)
 			},
 			//删除已选中折扣商品列表中商品
-			del_disgoods(index) {
+			del_disgoods(item, index) {
 				this.discount_list.splice(index, 1)
+				this.tableData[item].is_discount = 1
 			},
 			get_goods(e) {
 				console.log(e)
@@ -283,49 +179,39 @@
 				this.active_name = 'one'
 			},
 			onSubmit() {
-				console.log(this.discount_list)
-				const that = this
-				let arr = []
-				let obj = {
-					goods_id: '',
-					discount_type: '',
-					reduce_price: '',
-					discount_price: ''
-				}
-				// this.form.goods_json = this.discount_list
-				for (let k in this.discount_list) {
-					let v = this.discount_list[k]
-					obj.goods_id = v.goods_id
-					obj.discount_type = v.discount_type
-					obj.reduce_price = v.reduce_price
-					obj.discount_price = v.discount_price
-					arr.push(obj)
-					obj = {
-						goods_id: '',
-						discount_type: '',
-						reduce_price: '',
-						discount_price: ''
-					}
-				}
-				this.form.goods_json = arr
 				console.log(this.form)
-				this.http.post_show('discount/admin/edit_discount', this.form).then(res => {
-					if (res.status == 400) {
-						that.$message({
-							showClose: true,
-							message: res.msg,
-							type: 'success'
-						});
-					} else {
-						that.$message({
-							showClose: true,
-							message: '修改成功',
-							type: 'success'
-						});
-					}
-
+				this.http.post_show('discount/admin/add_discount', this.form).then((res) => {
+					this.$message({
+						type: 'success',
+						message: '添加成功!'
+					}); 
+					this.form = {
+							time_rule: 0,
+							name: '',
+							buy_rule: '',
+							goods_json: [],
+							day_json: [],
+							label: '',
+							start_time: '',
+							end_time: '',
+							buy_num: '',
+						},
+						this.dialogVisibleadd = false
 					this.jumpback()
 				})
+
+			},
+			res_banner_imgs(res) {
+
+				console.log('res:', res)
+				this.form_pro.img_id.push(res);
+				// if (this.form_pro.img_id.length < 1) {
+				// 	this.form_pro.img_id = res;
+				// } else {
+				// 	this.form_pro.img_id = this.form_pro.img_id + "," + res;
+				// }
+				console.log('xx:', this.form_pro.img_id)
+
 			},
 			add_user() {
 				this.dialogVisibleadd = true
@@ -340,14 +226,20 @@
 				this.form.points = points
 				console.log(this.form)
 			},
+			
 			jumpback() {
 				this.$router.push({
-					path: './discount'
+					path: './events'
 				})
 			},
-			//获取商品列表
-			goods_json() {},
+			close_fun(done) {
+				this.clear_data()
+				done(); //官方实例用法
+			},
 
+			clear_data() {
+				this.dialogFormVisible = false
+			},
 		},
 
 	}

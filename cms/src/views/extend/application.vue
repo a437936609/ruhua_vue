@@ -96,6 +96,24 @@
 											</div>
 										</div>
 									</div>
+									
+									<div class="gong-01">
+										<div class="gong-01-bor">
+											<div class="gong-01-l color5">
+												<img src="../../img/ceshi.png" />
+											</div>
+											<div class="gong-01-r">
+												活动专题
+												<br />
+												<span>活动专题</span>
+											</div>
+											<div class="gong-01-btn">
+												<el-button size="mini" @click="jump_events">进入</el-button>
+												<el-button size="mini" @click="jump_explain(12)">说明</el-button>
+											</div>
+										</div>
+									</div>
+									
 									<div class="gong-01">
 										<div class="gong-01-bor">
 											<div class="gong-01-l">
@@ -128,42 +146,9 @@
 											</div>
 										</div>
 									</div>
-									<div class="gong-01">
-										<div class="gong-01-bor">
-											<div class="gong-01-l color7">
-												<img src="../../img/qd.png" />
-											</div>
-											<div class="gong-01-r">
-												签到
-												<br />
-												<span>签到</span>
-											</div>
-											<div class="gong-01-btn">
-												<el-button size="mini" @click="jump_grade">进入</el-button>
-												<el-button size="mini" @click="jump_explain(12)">说明</el-button>
-											</div>
-										</div>
-									</div>
+								
 									
-									<div class="gong-01">
-										<div class="gong-01-bor">
-											<div class="gong-01-l color5">
-												<img src="../../img/ceshi.png" />
-											</div>
-											<div class="gong-01-r">
-												活动专题
-												<br />
-												<span>活动专题</span>
-											</div>
-											<div class="gong-01-btn">
-												<el-button size="mini" @click="jump_events">进入</el-button>
-												<el-button size="mini" @click="jump_explain(13)">说明</el-button>
-											</div>
-										</div>
-									</div>
-									
-									
-									<div class="gong-01">
+<!-- 									<div class="gong-01">
 										<div class="gong-01-bor">
 											<div class="gong-01-l color7">
 												<img src="../../img/zhibo.png" />
@@ -178,130 +163,12 @@
 												<el-button size="mini" @click="jump_explain(12)">说明</el-button>
 											</div>
 										</div>
-									</div>
+									</div> -->
+									
 									<div class="kong"></div>
 									<div class="kong"></div>
 								</div>
 								<div class="line"></div>
-								<div class="biao">saas 应用</div>
-								<div class="gong">
-									<div class="gong-01">
-										<div class="gong-01-bor">
-											<div class="gong-01-l color2">
-												<img src="../../img/ceshi.png" />
-											</div>
-											<div class="gong-01-r">
-												测试数据
-												<br />
-												<span>新站点适用</span>
-											</div>
-											<div class="gong-01-btn">
-												<el-button size="mini" @click="jump_toapply">进入</el-button>
-												<el-button size="mini" @click="jump_explain(8)">说明</el-button>
-											</div>
-										</div>
-									</div>
-									<div class="gong-01">
-										<div class="gong-01-bor">
-											<div class="gong-01-l color7">
-												<img src="../../img/pingjia.png" />
-											</div>
-											<div class="gong-01-r">
-												虚拟评价
-												<br />
-												<span>虚拟评价</span>
-											</div>
-											<div class="gong-01-btn">
-												<el-button size="mini" @click="jump_toestimate">进入</el-button>
-												<el-button size="mini" @click="jump_explain(9)">说明</el-button>
-											</div>
-										</div>
-									</div>
-									<!-- <div class="gong-01">
-                    <div class="gong-01-bor">
-                      <div class="gong-01-l color2">
-                        <img src="../../img/haibao.png" />
-                      </div>
-                      <div class="gong-01-r">
-                        海报生成
-                        <br />
-                        <span>生成海报</span>
-                      </div>
-                      <div class="gong-01-btn">
-                        <el-button size="mini" @click="jump_tobill">进入</el-button>
-                        <el-button size="mini" @click="jump_explain(10)">说明</el-button>
-                      </div>
-                    </div>
-                  </div> -->
-									<div class="gong-01">
-										<div class="gong-01-bor">
-											<div class="gong-01-l color8">
-												<img src="../../img/fapiao.png" />
-											</div>
-											<div class="gong-01-r">
-												飞鹅小票机
-												<br />
-												<span>飞鹅小票机</span>
-											</div>
-											<div class="gong-01-btn">
-												<el-button size="mini" @click="jump_feie">进入</el-button>
-												<el-button size="mini" @click="jump_explain(11)">说明</el-button>
-											</div>
-										</div>
-									</div>
-
-									<div class="gong-01">
-										<div class="gong-01-bor">
-											<div class="gong-01-l color9">
-												<img src="../../img/jgg.png" />
-											</div>
-											<div class="gong-01-r">
-												九宫格
-												<br />
-												<span>九宫格</span>
-											</div>
-											<div class="gong-01-btn">
-												<el-button size="mini" @click="jump_jgg">进入</el-button>
-												<el-button size="mini" @click="jump_explain(11)">说明</el-button>
-											</div>
-										</div>
-									</div>
-
-									<div class="gong-01">
-										<div class="gong-01-bor">
-											<div class="gong-01-l color10">
-												<img src="../../img/dzp.png" />
-											</div>
-											<div class="gong-01-r">
-												大转盘
-												<br />
-												<span>大转盘</span>
-											</div>
-											<div class="gong-01-btn">
-												<el-button size="mini" @click="jump_dzp">进入</el-button>
-												<el-button size="mini" @click="jump_explain(11)">说明</el-button>
-											</div>
-										</div>
-									</div>
-									<div class="gong-01">
-										<div class="gong-01-bor">
-											<div class="gong-01-l color11">
-												<img src="../../img/tree.png" />
-											</div>
-											<div class="gong-01-r">
-												种树
-												<br />
-												<span>种树</span>
-											</div>
-											<div class="gong-01-btn">
-												<el-button size="mini" @click="jump_tree">进入</el-button>
-												<el-button size="mini" @click="jump_explain(11)">说明</el-button>
-											</div>
-										</div>
-									</div>
-									<div class="kong"></div>
-									<div class="kong"></div>
-								</div>
 							</div>
 						</div>
 					</el-main>
@@ -321,9 +188,7 @@
 		data() {
 			return {
 				list: [
-					"免费版无营销应用",
-					"部分营销应用为saas版",
-					"更多营销应用开发中，敬请期待",
+					"营销应用",
 				],
 				type: "default",
 				fenxiao: false,
@@ -388,9 +253,6 @@
 					localStorage.setItem("explain", "http://read.ruhuashop.com/#/fapiao");
 				}
 				if (e == 12) {
-					localStorage.setItem("explain", "http://read.ruhuashop.com/#/jifen");
-				}
-				if (e == 13) {
 					localStorage.setItem("explain", "http://read.ruhuashop.com/#/discount");
 				}
 				this.$router.push({

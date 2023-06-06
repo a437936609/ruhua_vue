@@ -16,23 +16,11 @@
 							</div>
 							<div class="xiao">活动信息</div>
 							<el-form ref="form" :model="form" label-width="120px" class="demo-dynamic">
-								<el-form-item label="活动名称">
-									<el-input v-model="form.name" hide-required-asterisk style="width:500px"></el-input>
+								<el-form-item label="专题名称">
+									<el-input v-model="form.name" hide-required-asterisk style="width:200px"></el-input>
 								</el-form-item>
-								<el-form-item label="生效时间">
-									<el-date-picker type="date" placeholder="选择日期" v-model="form.start_time" style="width: 200px;"></el-date-picker>
-									&emsp;至&emsp;
-									<el-date-picker type="date" placeholder="选择日期" v-model="form.end_time" style="width: 200px;"></el-date-picker>
-								</el-form-item>
-								<el-form-item label="活动标签">
-									<el-input v-model="form.label" hide-required-asterisk style="width:300px"></el-input>
-								</el-form-item>
-								<el-form-item label="限购设置" prop="resource">
-									<el-radio-group v-model="form.buy_rule">
-										<el-radio :label="0">不限购</el-radio>
-										<el-radio :label="1">每人每种商品限购&emsp;<el-input v-if="form.buy_rule == 1" v-model="form.buy_num" style="width:100px"></el-input>&emsp;件</el-radio>
-										<el-radio :label="2">每人每种商品前&emsp;<el-input v-if="form.buy_rule == 2" v-model="form.buy_num" style="width:100px"></el-input>&emsp;件享受折扣</el-radio>
-									</el-radio-group>
+								<el-form-item label="专题描述">
+									<el-input v-model="form.label" hide-required-asterisk style="width:400px"></el-input>
 								</el-form-item>
 							</el-form>
 							<div class="xiao">选择活动商品</div>

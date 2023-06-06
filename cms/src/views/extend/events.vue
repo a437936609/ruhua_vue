@@ -18,20 +18,13 @@
 							<template>
 								<el-table :data="list" border style="width: 100%">
 									<el-table-column type="index" label="序号" width="50px"></el-table-column>
-									<el-table-column prop="name" label="专题名称"></el-table-column>
+									<el-table-column prop="name" label="专题名称"  width="300px"></el-table-column>
 
-									<el-table-column prop="content" label="有效时间">
+									<el-table-column prop="label" label="专题描述">
 										<template slot-scope="scope">
-											{{scope.row.start_time}}至{{scope.row.end_time}}
+											{{scope.row.label}}
 										</template>
 									</el-table-column>
-									<el-table-column prop="label" label="活动标签">
-										<template slot-scope="scope">
-											<el-tag type="danger" effect="dark" >{{scope.row.label}}</el-tag>
-										</template>
-										
-									</el-table-column>
-
 									<el-table-column prop="operation" label="操作" width="300px">
 										<template slot-scope="scope">
 											<el-button @click="edit(scope.row)" type="success" size="small">修改</el-button>
