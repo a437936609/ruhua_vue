@@ -477,6 +477,30 @@ Route::group('discount', function () {
     })->middleware('CheckCms');
 });
 
+//专题活动
+Route::group('events', function () {
+
+    Route::group('', function () {
+        Route::get('get_events_goods', 'cms.EventsManage/getEventsGoods');//获取专题商品
+    });
+
+    //用户
+    Route::group('user', function () {
+    });
+
+    //管理员
+    Route::group('admin', function () {
+        Route::post('add_events', 'cms.EventsManage/addEvents');//添加专题
+        Route::post('add_events_goods', 'cms.EventsManage/addEventsGoods');//添加专题商品
+
+        Route::post('edit_events', 'cms.EventsManage/editEvents');//修改专题
+        Route::post('edit_events_goods', 'cms.EventsManage/editEventsGoods');//修改专题商品
+
+        Route::put('del_events', 'cms.EventsManage/deleteEvents');//删除专题商品
+        Route::get('get_events', 'cms.EventsManage/getEvents');//获取专题活动
+    })->middleware('CheckCms');
+});
+
 //拼团
 Route::group('pt', function () {
 
