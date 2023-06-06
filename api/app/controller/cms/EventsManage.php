@@ -8,17 +8,34 @@
 
 namespace app\controller\cms;
 
-
-use app\model\DiscountGoods as DiscountGoodsModel;
+USE app\model\EventsGoods as EventsGoodsModel;
 use app\model\Goods;
 use app\validate\DiscountValidate;
-use app\model\Discount as DiscountModel;
+use app\model\Events as EventsModel;
 use app\validate\IDPostiveInt;
 use ruhua\bases\BaseController;
 use think\facade\Log;
 
 class EventsManage extends BaseController
 {
+
+    /**
+     * 获取所有专题
+     * @return mixed
+     */
+    public function getEvents()
+    {
+        $res = EventsModel::with('eventsGoods.goods')->select();
+        $res=(new Goods())->get_es_img($res);
+        foreach ($res as $k=>$v){
+            foreach ($v['events_goods'] as $kk=>$vv){
+                if(!$vv['goods']){
+                    unset($res[$k]['events_goods'][$kk]);
+                }
+            }
+        }
+        return app('json')->success($res);
+    }
 
     /**
      * 添加专题
@@ -51,23 +68,6 @@ class EventsManage extends BaseController
         return DiscountModel::deleteDiscount($id);
     }
 
-    /**
-     * 获取所有优惠活动
-     * @return mixed
-     */
-    public function getDiscount()
-    {
-        $res = DiscountModel::with('discountGoods.goods')->select();
-        $res=(new Goods())->get_ds_img($res);
-        foreach ($res as $k=>$v){
-            foreach ($v['discount_goods'] as $kk=>$vv){
-                if(!$vv['goods']){
-                    unset($res[$k]['discount_goods'][$kk]);
-                }
-            }
-        }
-        return app('json')->success($res);
-    }
 
     /**
      * 获取限时优惠商品

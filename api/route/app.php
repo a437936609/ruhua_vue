@@ -490,6 +490,8 @@ Route::group('events', function () {
 
     //管理员
     Route::group('admin', function () {
+        Route::get('get_events', 'cms.EventsManage/getEvents');//获取专题活动
+
         Route::post('add_events', 'cms.EventsManage/addEvents');//添加专题
         Route::post('add_events_goods', 'cms.EventsManage/addEventsGoods');//添加专题商品
 
@@ -497,7 +499,7 @@ Route::group('events', function () {
         Route::post('edit_events_goods', 'cms.EventsManage/editEventsGoods');//修改专题商品
 
         Route::put('del_events', 'cms.EventsManage/deleteEvents');//删除专题商品
-        Route::get('get_events', 'cms.EventsManage/getEvents');//获取专题活动
+
     })->middleware('CheckCms');
 });
 

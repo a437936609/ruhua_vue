@@ -114,7 +114,7 @@
 				})
 			},
 			_load() {
-				this.http.get('discount/admin/get_discount').then(res => {
+				this.http.get('events/admin/get_events').then(res => {
 					this.list = res.data
 					this.total = this.list.length
 				})

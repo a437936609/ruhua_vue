@@ -273,6 +273,40 @@ class Goods extends BaseModel
             throw new ProductException(['msg' => '获取失败' . $e->getMessage()]);
         }
     }
+
+    /**获取限时专题产品图片
+     * @param $res
+     * @return mixed
+     * @throws ProductException
+     */
+    public function get_es_img($res)
+    {
+        Db::startTrans();// 启动事务
+        try {
+            foreach ($res as $k => $v) {
+                foreach ($v['events_goods'] as $kk => $vv) {
+
+                    $img_id=self::where('goods_id',$vv['goods_id'])->value('img_id');
+                    $imgs=ImageModel::where('id',$img_id)->value('url');
+                    $x= substr( $imgs, 0, 1 );
+                    $url='';
+                    if($x!="h"){
+                        $url=Request::domain();
+                    }
+                    $fx = FxGoods::selectIsFx($res[$k]['events_goods'][$kk]['goods_id']);
+                    $res[$k]['events_goods'][$kk]['fx']=$fx;
+                    $res[$k]['events_goods'][$kk]['imgs']=$url.$imgs;
+                }
+            }
+            Db::commit();
+            return $res;
+        } catch (Exception $e) {
+            // 回滚事务
+            Db::rollback();
+            throw new ProductException(['msg' => '获取失败' . $e->getMessage()]);
+        }
+    }
+
     /**
      * 手机修改商品
      * @param $post
