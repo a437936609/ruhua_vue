@@ -22,7 +22,7 @@
 
 									<el-table-column prop="label" label="专题描述">
 										<template slot-scope="scope">
-											{{scope.row.label}}
+											{{scope.row.content}}
 										</template>
 									</el-table-column>
 									<el-table-column prop="operation" label="操作" width="300px">

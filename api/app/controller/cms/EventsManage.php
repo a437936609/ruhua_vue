@@ -8,6 +8,7 @@
 
 namespace app\controller\cms;
 
+use app\model\Events;
 USE app\model\EventsGoods as EventsGoodsModel;
 use app\model\Goods;
 use app\validate\DiscountValidate;
@@ -43,9 +44,13 @@ class EventsManage extends BaseController
      */
     public function addEvents()
     {
-        (new DiscountValidate())->goCheck();
+        $rule = [
+            'name' => 'require|max:60',
+        ];
         $post = input('post.');
-        return DiscountModel::addDiscount($post);
+        $this->validate($post, $rule,[],true);
+
+        return EventsModel::addEvents($post);
     }
 
     /**
