@@ -8,11 +8,10 @@
 
 namespace app\controller\cms;
 
-use app\model\Events;
+use app\model\Events as EventsModel;
 USE app\model\EventsGoods as EventsGoodsModel;
 use app\model\Goods;
 use app\validate\DiscountValidate;
-use app\model\Events as EventsModel;
 use app\validate\IDPostiveInt;
 use ruhua\bases\BaseController;
 use think\facade\Log;
@@ -54,13 +53,40 @@ class EventsManage extends BaseController
     }
 
     /**
+     * 添加专题内楼层商品
+     * @return mixed
+     */
+    public function addEventsGoods()
+    {
+        $rule = [
+            'name' => 'require|max:60',
+        ];
+        $post = input('post.');
+        $this->validate($post, $rule,[],true);
+
+        return EventsModel::addEventsGoods($post);
+    }
+
+
+
+
+    /**
      * 修改优惠活动
+     * @return mixed
      */
     public function editDiscount()
     {
+        $rule = [
+            'name' => 'require|max:60',
+        ];
         $post = input('post.');
-        return DiscountModel::editDiscount($post);
+
+        return EventsModel::editEvents($post);
     }
+
+
+
+
 
     /**
      * 删除优惠活动

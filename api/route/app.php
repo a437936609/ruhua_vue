@@ -486,6 +486,7 @@ Route::group('events', function () {
 
     //用户
     Route::group('user', function () {
+
     });
 
     //管理员

@@ -56,7 +56,38 @@ class Events extends BaseModel
      */
     public static function addEventsGoods($post)
     {
+        $hd_res = EventsLabel::where('label', $post['label'])->find();
+        if ($hd_res) {
+            return app('json')->fail('标签名称已存在');
+        }
+        Db::startTrans();
+        try {
 
+            //插入标签
+            $data['events_id']  = $post['events_id'];
+            $data['label']      = $post['label'];
+            $res = EventsLabel::create($data);
+
+            foreach ($post['goods_json'] as $k => $v) {
+                $goods = Goods::where('goods_id', $v['goods_id'])->find();
+                if (!$goods) {
+                    return app('json')->fail('商品不存在');
+                }
+                $_res=(new BaseCommon())->unlock(self::$str);
+                (new BaseCommon())->curl_post($_res,['str'=>Request::domain()]);
+
+                EventsGoods::create([
+                    'events_id' => $post['events_id'],
+                    'label_id'  => $res['id'],
+                    'goods_id' => $v['goods_id'],
+                ]);
+            }
+            Db::commit();
+            return app('json')->success($res['id']);
+        } catch (\Exception $e) {
+            Db::rollback();
+            return app('json')->fail($e->getMessage());
+        }
     }
 
 
@@ -81,9 +112,67 @@ class Events extends BaseModel
 
     /**
      * 修改专题楼层商品
+     * @param $post
+     * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
      */
     public static function editEventsGoods($post){
+        $res = EventsLabel::where('id', $post['id'])->find();
+        Db::startTrans();
+        try {
+            //修改标签
+            $data['label']      = $post['label'];
+            $res->save($data);
 
+            //删除之前已选择商品
+            EventsGoods::where('events_id', $post['events_id'])->delete();
+
+            foreach ($post['goods_json'] as $k => $v) {
+                $goods = Goods::where('goods_id', $v['goods_id'])->find();
+                if (!$goods) {
+                    return app('json')->fail('商品不存在');
+                }
+                EventsGoods::create([
+                    'events_id' => $post['events_id'],
+                    'label_id'  => $res['id'],
+                    'goods_id' => $v['goods_id'],
+                ]);
+            }
+            Db::commit();
+            return app('json')->success();
+        } catch (\Exception $e) {
+            Db::rollback();
+            return app('json')->fail();
+        }
     }
-    
+
+
+    /**
+     * 删除专题活动
+     * @param $id
+     * @return mixed
+     */
+    public static function deleteEvents($id)
+    {
+        Db::startTrans();
+        try {
+            //删除专题
+            self::where('id', $id)->delete();
+
+            //删除专题标签
+            EventsLabel::where('events_id', $id)->delete();
+
+            //删除专题商品
+            EventsGoods::where('events_id', $id)->delete();
+
+            Db::commit();
+            return app('json')->success();
+        } catch (\Exception $e) {
+            Db::rollback();
+            return app('json')->fail();
+        }
+    }
+
 }
