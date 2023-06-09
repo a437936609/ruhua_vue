@@ -11,7 +11,7 @@ namespace app\controller\cms;
 use app\model\Events as EventsModel;
 USE app\model\EventsGoods as EventsGoodsModel;
 use app\model\Goods;
-use app\validate\DiscountValidate;
+use think\facade\Request;
 use app\validate\IDPostiveInt;
 use ruhua\bases\BaseController;
 use think\facade\Log;
@@ -59,12 +59,12 @@ class EventsManage extends BaseController
     public function addEventsGoods()
     {
         $rule = [
-            'name' => 'require|max:60',
+            'id' => 'require',
         ];
-        $post = input('post.');
-        $this->validate($post, $rule,[],true);
+        $get = input('get.');
 
-        return EventsModel::addEventsGoods($post);
+        $this->validate($get, $rule,[],true);
+        return EventsModel::addEventsGoods($get);
     }
 
 
@@ -74,7 +74,7 @@ class EventsManage extends BaseController
      * 修改优惠活动
      * @return mixed
      */
-    public function editDiscount()
+    public function editEvents()
     {
         $rule = [
             'name' => 'require|max:60',
@@ -84,16 +84,29 @@ class EventsManage extends BaseController
         return EventsModel::editEvents($post);
     }
 
+    /**
+     * 修改专题内楼层商品
+     * @return mixed
+     */
+    public function editEventsGoods()
+    {
+        $rule = [
+            'name' => 'require|max:60',
+        ];
+        $post = input('post.');
+        $this->validate($post, $rule,[],true);
 
+        return EventsModel::editEventsGoods($post);
+    }
 
 
 
     /**
-     * 删除优惠活动
+     * 删除专题
      * @param $id
      * @return mixed
      */
-    public function deleteDiscount($id)
+    public function deleteEvents($id)
     {
         (new IDPostiveInt)->goCheck();
         return DiscountModel::deleteDiscount($id);
@@ -101,13 +114,21 @@ class EventsManage extends BaseController
 
 
     /**
-     * 获取限时优惠商品
+     * 获取专题商品
      * @return mixed
      */
-    public function getDiscountGoods()
+    public function getEventsGoods()
     {
-        $res = DiscountGoodsModeL::getAllDiscountGoods();
-        Log::error('限时优惠');
+
+        $rule = [
+            'id' => 'require',
+        ];
+        $param = Request::param();
+        $this->validate($param, $rule);
+
+        $res = $this->Events($param);
+
+        Log::error('专题活动');
         Log::error($res);
         if ($res) {
             return app('json')->success($res);
@@ -115,4 +136,15 @@ class EventsManage extends BaseController
         return app('json')->fail();
     }
 
+    /**
+     * 整合专题数据
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     */
+    public function Events($param)
+    {
+        $res = EventsGoodsModeL::getEventsGoods($param);
+        return $res;
+    }
 }
