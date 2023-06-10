@@ -554,6 +554,11 @@
 		}, {
 			"path": "pages/user/member/payways",
 			"style": {}
+		}, {
+			"path": "pages/topic/index",
+			"style": {
+				"navigationBarTitleText": "专题"
+			}
 		}
 	],
 	"subPackages": [{
