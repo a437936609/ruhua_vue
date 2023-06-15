@@ -646,7 +646,7 @@
 				formLabelWidth: '120px',
 				list: [],
 				all: '',
-				size: 10,
+				size: 50,
 				total: 0,
 				options: [],
 				value: '',

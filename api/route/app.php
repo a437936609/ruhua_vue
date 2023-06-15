@@ -121,7 +121,6 @@ Route::group('wntable', function () {
 //公共
 Route::group('index', function () {
 
-
     Route::group('', function () {
 
         Route::post('/get_code_img', 'common.Common/gitCodeImg');   //生成二维码
@@ -216,6 +215,27 @@ Route::group('category', function () {
         Route::post('set_sort', 'cms.CategoryManage/setSort');//更新分类排序
     })->middleware('CheckCms');
 });
+
+
+//品牌brands
+Route::group('brands', function () {
+    //公共
+    Route::group('', function () {
+//        Route::get('get_category', 'common.Category/getCateLevel');//获取X级品牌信息
+        Route::get('all_brands', 'common.Brands/getAllBrands');//获取所有品牌信息
+//        Route::get('getAllCategoryGoods', 'common.Category/getAllCategoryGoods');//获取品牌页-产品，所有产品数据
+    });
+
+    //管理员
+    Route::group('admin', function () {
+        Route::post('add_brands', 'cms.BrandsManage/addBrands');//添加品牌
+//        Route::post('edit_category', 'cms.CategoryManage/editCategory');//修改品牌
+//        Route::put('del_category', 'cms.CategoryManage/deleteCategory');//删除品牌
+//        Route::get('all_category', 'cms.CategoryManage/getCateSort');//cms 获取所有品牌并排好序，包括隐藏
+//        Route::post('set_sort', 'cms.CategoryManage/setSort');//更新品牌排序
+    })->middleware('CheckCms');
+});
+
 
 //导航
 Route::group('nav', function () {
@@ -437,7 +457,7 @@ Route::group('fx', function () {
         Route::post('edit_goods', 'cms.FxManage/editFxGoods');//修改分销商品
         Route::put('del_goods', 'cms.FxManage/delFxGoods');//删除分销商品
         Route::get('get_record', 'cms.FxManage/getFxRecord');//获取分销记录
-        Route::post('count_fx', 'cms.FxManage/countFx');//统计分销记录
+        Route::post('count_statisticfx', 'cms.FxManage/countFx');//统计分销记录
         // Route::post('edit_fx_record', 'cms.FxManage/editTxApply');//手动提现完成修改记录
         Route::post('agreeFxApply', 'cms.FxManual/agreeFxApply');//手动提现完成修改记录
         //  Route::post('refuse_fx_record', 'cms.FxManage/refuseTxApply');//手动提现拒绝
@@ -457,7 +477,8 @@ Route::group('fx', function () {
     })->middleware('CheckCms');
 });
 
-//限时优惠
+
+//限时优惠get_recent
 Route::group('discount', function () {
 
     Route::group('', function () {

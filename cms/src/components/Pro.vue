@@ -10,6 +10,18 @@
 				<!-- <el-button type="primary" size="small" @click="caiji">采集商品</el-button> -->
 				<el-form ref="forms" :model="forms" label-width="120px">
 					<template v-if="show_input">
+						
+						<el-form-item label="品牌">
+							
+							<el-select v-model="forms.brand_id" placeholder="请选择商品品牌">
+								<template v-for="item in brands">
+									<el-option :value="item.brand_id" :label="item.brand_name" :key="item.brand_id"></el-option>
+								</template>
+							</el-select>
+							
+							
+						</el-form-item>
+						
 						<el-form-item label="商品名称">
 							<el-input v-model="forms.goods_name" style="width:60%"></el-input>
 						</el-form-item>
@@ -220,9 +232,11 @@
 					// ]
 				},
 				category: [],
+				brands:[],
 				forms: {
 					goods_name: "",
 					category_id: "",
+					brand_id:"",
 					people: "",
 					shipping_fee: "",
 					market_price: "",
@@ -273,6 +287,7 @@
 		},
 		mounted() {
 			// this.get_all_img()
+			this.getBrands();//获取品牌
 			this.getCategory(); //获取分类
 			this.get_delivery()
 			if (this.eid*1 > 0) {
@@ -461,6 +476,12 @@
 					this.forms['stock'] = this.forms['sku'][0]['stock_num']
 				}
 				this.forms.video_id = this.video_id
+				
+				console.log(this.forms);
+				console.log(that.forms);
+				return false;
+				
+				
 				this.http.post_show("product/admin/add_product", that.forms).then(res => {
 					var res_code = res.status.toString(); //返回结果状态码转字符串取第一位数
 					if (res_code.charAt(0) == 2) {
@@ -512,6 +533,25 @@
 						this.$message({
 							showClose: true,
 							message: "请先创建商品分类",
+							type: "warning"
+						});
+					}
+				});
+			},
+			
+			//获取品牌
+			getBrands() {
+				var that = this;
+				// var arr = [];
+				//获取所有分类
+				this.http.get("brands/all_brands").then(res => {
+					that.brands = res.data;
+					if (this.brands.length > 0) {
+						this.show_input = true
+					}else{
+						this.$message({
+							showClose: true,
+							message: "请先创建品牌",
 							type: "warning"
 						});
 					}

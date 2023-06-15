@@ -25,17 +25,28 @@ class StatisticService
     public static function remind()
     {
 
-        //state未完成成功  //payment_state已付款   //shipment_state待发货的
+        //state未完成成功
+        //payment_state已付款
+        //shipment_state待发货的
         $shipment = OrderModel::where(['state' => 0, 'payment_state' => 1, 'shipment_state' => 0])->field('count(order_id) as all_num')->find();
-        $refund = OrderModel::where(['state' => -1, 'payment_state' => 1])->field('count(order_id) as all_num')->find();
-        $goods_stock = GoodsModel::getGoodsStock();
         $data['shipment'] = $shipment['all_num'] ? $shipment['all_num'] : 0;
+
+        //退款申请
+        $refund = OrderModel::where(['state' => -1, 'payment_state' => 1])->field('count(order_id) as all_num')->find();
         $data['tui'] = $refund['all_num'] ? $refund['all_num'] : 0;
-        $data['goods_stock'] = $goods_stock ? $goods_stock : 0;
+
+        //获取库存信息
+        $goods_stock = GoodsModel::getGoodsStock();
+        //$data['goods_stock'] = $goods_stock;
+
+        //统计如果大于1就会显示头部提醒消息
         $data['total'] = 0;
         foreach ($data as $v) {
             $data['total'] += $v;
         }
+        $data['total'] = $data['total'] + $goods_stock['goods_stock'];
+
+        $data['goods_stock']    =   $goods_stock;
         return app('json')->success($data);
     }
 
@@ -74,7 +85,6 @@ class StatisticService
         $where[] = ['state','=',0];
         $where[] = ['payment_state','=',1];
         $where[]=[['create_time','>=', $stat_time],['create_time','<=', $end_time]];
-
         $row = $order->where($where)->field('count(order_id) as all_num')->find();
         $data['today_num']    = $row['all_num'] ? $row['all_num'] : 0;
 
@@ -85,7 +95,6 @@ class StatisticService
         $where[] = ['payment_state','=',1];
         $where[] = ['shipment_state','=',0];
         $where[]=[['create_time','>=', $stat_time],['create_time','<=', $end_time]];
-
         $row = OrderModel::where($where)->field('count(order_id) as all_num')->find();
         $data['wei_num']    = $row['all_num'] ? $row['all_num'] : 0;
 
@@ -95,7 +104,6 @@ class StatisticService
         $where[] = ['payment_state','=',1];
         $where[] = ['shipment_state','=',1];
         $where[]=[['create_time','>=', $stat_time],['create_time','<=', $end_time]];
-
         $row = OrderModel::where($where)->field('count(order_id) as all_num')->find();
         $data['yi_num']     = $row['all_num'] ? $row['all_num'] : 0;
 
@@ -116,9 +124,16 @@ class StatisticService
         $where[] = ['state','=',0];
         $where[] = ['payment_state','=',1];
         $where[] = ['pay_time','>',0];
-
         $order = $order->where($where)->field('sum(order_money) as order_money')->find();
         $data['money'] = $order['order_money'] ? $order['order_money'] : 0;
+
+        //库存预警
+        $data['goods_stock'] = GoodsModel::getGoodsStock();
+
+        //退款订单
+        //退款申请
+        $refund = OrderModel::where(['state' => -1, 'payment_state' => 1])->field('count(order_id) as all_num')->find();
+        $data['tui'] = $refund['all_num'] ? $refund['all_num'] : 0;
 
         return app('json')->success($data);
     }

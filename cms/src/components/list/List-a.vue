@@ -20,6 +20,8 @@
 				<el-button type="success" size='small' @click='getProductList'>刷新</el-button>
 				<el-input placeholder="商品名称" style="width: 10%;margin:10px" size='small' v-model="search_form.name"
 					@keyup.enter.native="serach()"></el-input>
+				<el-input placeholder="内控编码" style="width: 10%;margin:10px" size='small' v-model="search_form.ic_code"
+					@keyup.enter.native="serach()"></el-input>
 				<el-select v-model="search_form.cate" placeholder="请选择分类" size="small" style="margin-right: 10px;">
 					<el-option v-for="item in cate_list" :key="item.value" :label="item.level == 1?item.category_name:'--'+item.category_name" :value="item.category_id">
 					</el-option>
@@ -169,6 +171,19 @@
 						let a = s.goods_name.indexOf(this.search_form.name)
 						if (a >= 0) {
 							arr.push(s)
+						}
+					}
+				}
+				
+				
+				
+				if(this.search_form.ic_code){
+					for (let s of this.allB) {
+						if (s.ic_code != null ){
+							let a = s.ic_code.indexOf(this.search_form.ic_code)
+							if (a >= 0) {
+								arr.push(s)
+							}
 						}
 					}
 				}

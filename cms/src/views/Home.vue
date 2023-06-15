@@ -18,10 +18,12 @@
 										<div :class="item.state?'ts_01_r':'ts_01_m'">{{item.wen}}</div>
 									</div>
 									<div class="ts_02">
+										
 										<div class="ts_02_l">
 											<span>{{item.num}}</span><br />
 											{{item.mess}}
 										</div>
+										
 										<!-- <div class="ts_02_r" v-if="item.duibi!=0">
 											0% <i :class="item.fudu?'el-icon-top':'el-icon-bottom'" style="font-size: 18px"></i>
 										</div> -->
@@ -107,6 +109,23 @@
 						"duibi": 0,
 						"fudu": 0
 					},
+					{
+						"types": '库存预警',
+						"num": 0,
+						"mess": "",
+						"state": 1,
+						"wen": "总",
+						"duibi": 0,
+						"fudu": 0
+					},{
+						"types": '退款订单',
+						"num": 0,
+						"mess": "",
+						"state": 1,
+						"wen": "总",
+						"duibi": 0,
+						"fudu": 0
+					}
 					
 				]
 			}
@@ -132,6 +151,9 @@
 					this.message[1].num = res.data.wei_num + ' / '+ res.data.all_wei_num
 					this.message[2].num = res.data.yi_num
 					this.message[3].num = parseFloat(res.data.money).toFixed(2)
+					this.message[4].num = res.data.goods_stock.goods_stock
+					this.message[5].num = res.data.tui
+					
 				})
 			},
 			get_data() {

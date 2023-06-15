@@ -45,7 +45,7 @@
 				<div class="wai" style="display: flex;">
 					<div class="name_dai">待发货：</div>
 					<div class="num">
-						<el-tag type="warning" @click="jump_order">{{event.shipment}}</el-tag>
+						<el-tag type="warning" @click="jump_order">{{event.shipment}} 订单</el-tag>
 					</div>
 				</div>
 			</div>
@@ -53,15 +53,15 @@
 				<div class="wai" style="display: flex;">
 					<div class="name_dai">退款申请：</div>
 					<div class="num">
-						<el-tag type="warning" @click="jump_money">{{event.tui}}</el-tag>
+						<el-tag type="warning" @click="jump_money">{{event.tui}} 订单</el-tag>
 					</div>
 				</div>
 			</div>
-			<div class="daiban_name" v-if="event.goods_stock != 0">
+			<div class="daiban_name" v-if="event.goods_stock.goods_stock != 0">
 				<div class="wai" style="display: flex;">
 					<div class="name_dai">库存提醒：</div>
 					<div class="num">
-						<el-tag type="warning" @click="jump_product">{{event.goods_stock}}</el-tag>
+						<el-tag type="warning" @click="jump_product">有{{event.goods_stock.goods_stock}}个产品库存过低，内控编码：{{event.goods_stock.ic_code}}</el-tag>
 					</div>
 				</div>
 			</div>
@@ -251,7 +251,7 @@
 
 		.num {
 			width: 20%;
-			margin-left: 40%;
+			margin-left: 10%;
 		}
 
 		.wai {

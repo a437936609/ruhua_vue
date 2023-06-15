@@ -664,28 +664,42 @@ class Goods extends BaseModel
     }
 
     /**
-     * 检查库存少于10的商品
+     * 检查库存少于20的商品
      * @return int
      */
     public static function getGoodsStock()
     {
-        $goods = self::with('goodsSku')->where('state', 1)->select();
+        //设置20库存报警
+        $stocknum = 20;
+        $goods = self::with('goodsSku')->where('state', 1)->field('state,stock,goods_id,ic_code,goods_name')->select();
+
         $goods_stock = 0;
+        $goodsids = "";
+        $ic_code  = "";
         foreach ($goods as $k => $v) {
-            if ($v['goods_sku']) {
-                foreach ($v['goods_sku']['json']['list'] as $key => $value) {
-                    if ($value['stock_num'] < 10) {
+            if ($v['goodsSku']) {
+                foreach ($v['goodsSku']['json']['list'] as $key => $value) {
+                    if ($value['stock_num'] < $stocknum) {
                         $goods_stock += 1;
+                        $goodsids.= $v['goods_id'].',';
+                        $ic_code.= $v['ic_code'].',';
                         break;
                     }
                 }
             } else {
-                if ($v['stock'] < 10) {
+                if ($v['stock'] < $stocknum) {
                     $goods_stock += 1;
+                    $goodsids.= $v['goods_id'].',';
+                    $ic_code.= $v['ic_code'].',';
                 }
             }
         }
-        return $goods_stock;
+        $res = [
+            'goods_stock'   => $goods_stock ? $goods_stock : 0,
+            'goods_id'      => trim($goodsids,','),
+            'ic_code'       => $ic_code
+        ];
+        return $res;
     }
 
     /**

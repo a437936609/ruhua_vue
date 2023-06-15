@@ -7,6 +7,7 @@ use app\model\UserCoupon as UserCouponModel;
 use app\model\Article as ArticleModel;
 use app\model\BannerItem as BannerItemModel;
 use app\model\Category as CategoryModel;
+use app\model\Brands as BrandsModel;
 use app\model\Coupon as CouponModel;
 use app\model\Order as OrderModel;
 use app\model\Tui as TuiModel;
@@ -30,6 +31,16 @@ class UserService implements RoleInterface
     public function get_banner_list()
     {
         $data = BannerItemModel::with(['imgs', 'banner'])->where('is_visible', 1)->order('sort asc')->select();
+        return $data;
+    }
+
+    //品牌列表
+    public function get_brands_list()
+    {
+        $data = BrandsModel::with('imgs')->where('is_visible', 1)->order('sort asc')->select();
+        if (!$data || count($data) < 1) {
+            return app('json')->fail('请至少添加一个商品品牌');
+        }
         return $data;
     }
 
