@@ -503,6 +503,8 @@ Route::group('events', function () {
 
     Route::group('', function () {
         Route::get('get_events_goods', 'cms.EventsManage/getEventsGoods');//获取专题商品
+        Route::get('get_all_events', 'cms.EventsManage/getAllEvents');//获取所有专题
+        Route::get('get_events_goods', 'cms.EventsManage/getEventsGoods');//获取指定专题商品
     });
 
     //用户

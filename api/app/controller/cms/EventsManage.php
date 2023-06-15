@@ -20,6 +20,20 @@ class EventsManage extends BaseController
 {
 
     /**
+     * 前端获取所有专题
+     * @return mixed
+     */
+    public function getAllEvents()
+    {
+        $where[] = ['state','=',1];//显示上架
+
+        $res = EventsModel::where($where)->select();
+        return app('json')->success($res);
+    }
+
+
+
+    /**
      * 获取所有专题
      * @return mixed
      */
@@ -113,20 +127,20 @@ class EventsManage extends BaseController
     }
 
 
+
     /**
      * 获取专题商品
      * @return mixed
      */
     public function getEventsGoods()
     {
-
         $rule = [
             'id' => 'require',
         ];
         $param = Request::param();
         $this->validate($param, $rule);
 
-        $res = $this->Events($param);
+        $res = EventsGoodsModeL::getEventsGoods($param);
 
         Log::error('专题活动');
         Log::error($res);
@@ -134,17 +148,5 @@ class EventsManage extends BaseController
             return app('json')->success($res);
         }
         return app('json')->fail();
-    }
-
-    /**
-     * 整合专题数据
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
-     */
-    public function Events($param)
-    {
-        $res = EventsGoodsModeL::getEventsGoods($param);
-        return $res;
     }
 }
