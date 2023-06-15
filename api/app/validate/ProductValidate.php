@@ -9,7 +9,8 @@ class ProductValidate extends BaseValidate
 {
     protected $rule = [
         'goods_name' => 'require|isNotEmpty',
-        'category_id' => 'require|isPositiveInteger',  //分类id
+        'category_id' => 'require|isPositiveInteger',  //品牌ID
+        'brand_id' => 'require|isPositiveInteger',  //分类id
         'description' => 'max:200', //描述
         'sales' => 'max:200',  //销量
         'img_id' => 'min:0',  //图片ID
@@ -23,6 +24,7 @@ class ProductValidate extends BaseValidate
         'banner_imgs'=> 'min:0',  //商品详情图
         'video_id'=> 'min:0',  //视频id
         'delivery_id'=>'require', //物流快递模板ID
+
 
     ];
 }

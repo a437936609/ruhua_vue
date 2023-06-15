@@ -26,13 +26,8 @@ class ProductManage extends BaseController
     {
         $validate = new ProductValidate();
         $validate->goCheck();
-        $post = $validate->getDataByRule(input('post.'));
-
-
-        dump($post);
-        exit;
-
-//        $post=input('post.');
+        //$post = $validate->getDataByRule(input('post.'));
+        $post = input('post.');
         return GoodsModel::addProduct($post);
     }
 

@@ -309,6 +309,10 @@ export default new Router({
 			path: '/product/category',
 			name: 'cate',
 			component: () => import('./views/product/category.vue')
+		},{
+			path: '/product/brands',
+			name: 'cate',
+			component: () => import('./views/product/brands.vue')
 		},
 		{
 			path: '/coupon',

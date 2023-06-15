@@ -479,8 +479,7 @@
 				
 				console.log(this.forms);
 				console.log(that.forms);
-				return false;
-				
+
 				
 				this.http.post_show("product/admin/add_product", that.forms).then(res => {
 					var res_code = res.status.toString(); //返回结果状态码转字符串取第一位数

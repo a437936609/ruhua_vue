@@ -19,7 +19,11 @@
 						<span slot="title" style="margin-left: 40px;">商品列表</span>
 					</el-menu-item>
 					<el-menu-item index="3-2" @click="jump_cate">
-						<span slot="title" style="margin-left: 40px;">商品分类</span>
+						<span slot="title" style="margin-left: 40px;">分类管理</span>
+					</el-menu-item>
+					
+					<el-menu-item index="3-3" @click="jump_brands">
+						<span slot="title" style="margin-left: 40px;">品牌管理</span>
 					</el-menu-item>
 					
 				</el-menu-item-group>
@@ -34,15 +38,15 @@
 					<el-menu-item index="4-1" @click="jump_toorder">
 						<span slot="title" style="margin-left: 40px;">商品订单</span>
 					</el-menu-item>
-					<el-menu-item index="4-2" @click="jump_vip_order">
+<!-- 					<el-menu-item index="4-2" @click="jump_vip_order">
 						<span slot="title" style="margin-left: 40px;">会员订单</span>
 					</el-menu-item>
 					<el-menu-item index="4-4" @click="jump_group_order">
 						<span slot="title" style="margin-left: 40px;">拼团订单</span>
-					</el-menu-item>
-					<el-menu-item index="4-3" @click="jump_reseller_order">
+					</el-menu-item> -->
+<!-- 					<el-menu-item index="4-3" @click="jump_reseller_order">
 						<span slot="title" style="margin-left: 40px;">分销记录</span>
-					</el-menu-item>
+					</el-menu-item> -->
 				</el-menu-item-group>
 			</el-submenu>
 			<!-- <el-menu-item index="9" @click="jump_touser">
@@ -61,9 +65,9 @@
 					<el-menu-item index="9-2" @click="jump_evaluate">
 						<span slot="title" style="margin-left: 40px;">评价</span>
 					</el-menu-item>
-					<el-menu-item index="9-3" @click="jump_topoint">
+					<!-- <el-menu-item index="9-3" @click="jump_topoint">
 						<span slot="title" style="margin-left: 40px;">积分</span>
-					</el-menu-item>
+					</el-menu-item> -->
 				</el-menu-item-group>
 			</el-submenu>
 			
@@ -353,6 +357,11 @@
 			jump_cate(){
 				this.$router.push({
 					path: '/product/category'
+				})
+			},
+			jump_brands(){
+				this.$router.push({
+					path: '/product/brands'
 				})
 			},
 			jump_mould_ys(){
