@@ -6,6 +6,7 @@ use app\model\Coupon as CouponModel;
 use app\model\Article as ArticleModel;
 use app\model\BannerItem as BannerItemModel;
 use app\model\Category as CategoryModel;
+use app\model\Brands as BrandsModel;
 use app\model\Order as OrderModel;
 use app\model\OrderGoods;
 use app\model\OrderLog;
@@ -42,6 +43,15 @@ class CmsService implements RoleInterface
         $data=CategoryModel::with('imgs')->order('sort asc')->select();
         return $data;
     }
+
+    //品牌列表
+    public function get_brands_list()
+    {
+        $data=BrandsModel::with('imgs')->order('sort asc')->select();
+        return $data;
+    }
+
+
 
     //优惠券列表
     public function get_coupon_list()

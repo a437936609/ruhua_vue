@@ -2,7 +2,6 @@
 
 namespace app\validate;
 
-
 use ruhua\bases\BaseValidate;
 
 class ProductValidate extends BaseValidate
