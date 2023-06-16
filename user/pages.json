@@ -555,9 +555,9 @@
 			"path": "pages/user/member/payways",
 			"style": {}
 		}, {
-			"path": "pages/topic/index",
+			"path": "pages/618/index",
 			"style": {
-				"navigationBarTitleText": "专题"
+				"navigationBarTitleText": "「悦」618省到底×维达"
 			}
 		}
 	],

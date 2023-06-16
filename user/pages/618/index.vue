@@ -3,6 +3,11 @@
     <view class="banner">
       <image src="./assets/banner.jpg" mode="widthFix"></image>
     </view>
+    <view class="recommend">
+      <a @click="handleRecommend">
+        <image src="./assets/img-recommend.png" mode="widthFix"></image>
+      </a>
+    </view>
     <view class="product-list">
       <view class="product-item" v-for="(item, index) in jsonData" :key="index" @click="navToPro(item.id)">
         <view class="picture">
@@ -17,6 +22,9 @@
           <view class="count">已售<text>{{item.sales}}+</text>件</view>
         </view>
       </view>
+    </view>
+    <view class="action">
+      <view class="btn" @click="handleBack">点击悦享更多优惠</view>
     </view>
 	</view>
 </template>
@@ -53,13 +61,13 @@
           "Price": "19.9",
           "sales": "332"
         },{
-          "id":"41",
-          "ic_code": "WD015",
-          "brand": "维达",
-          "title": "【特惠商品】维达纸巾抽纸20包家用实惠装纸抽餐巾纸卫生纸面巾纸擦手纸（新老包装随机发货）",
-          "image": "https://img.aku.pub/uploads/other/644b6b0fe0cea.jpg",
-          "Price": "49.9",
-          "sales": ""
+          "id":"13",
+          "ic_code": "DB002",
+          "brand": "得宝",
+          "title": "【限时折扣】Tempo得宝Mini软抽80抽10包一提（新老包装随机发货）",
+          "image": "https://img.aku.pub/uploads/other/645370d50b2da.png",
+          "Price": "35.9",
+          "sales": "124"
         },{
           "id":"67",
           "ic_code": "WD025",
@@ -135,6 +143,17 @@
         uni.navigateTo({
 					url:'../extend-view/productDetail/productDetail?id='+id
 				})
+      },
+      handleRecommend () {
+        uni.navigateTo({
+					url:'../extend-view/productDetail/productDetail?id=79'
+				})
+      },
+      handleBack () {
+        uni.switchTab({
+          url: '/pages/index/index'
+        })
+        // uni.navigateBack({})
       }
 		}
 	}
@@ -152,6 +171,15 @@ page
     width: 100%;
   }
 }
+.recommend
+{
+  margin: 20upx;
+  image
+  {
+    width: 100%;
+    vertical-align: top;
+  }
+}
 .product-list
 {
   display: flex;
@@ -166,7 +194,7 @@ page
     margin-bottom: 20upx;
     min-height: 386upx;
     background-color: #fff;
-    border-radius: 5px;
+    border-radius: 20upx;
     .picture
     {
       image
@@ -228,6 +256,27 @@ page
         }
       }
     }
+  }
+}
+.action
+{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 30upx 0px 60upx 0px;
+  .btn
+  {
+    padding: 0px 50upx;
+    min-width: 300upx;
+    height: 82upx;
+    line-height: 82upx;
+    background-color: #fff;
+    text-align: center;
+    font-size: 32upx;
+    border-radius: 82upx;
+    color: #555;
+    font-weight: bold;
   }
 }
 </style>
