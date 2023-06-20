@@ -705,6 +705,9 @@ class CommonServices
             case 'category':
                 $where['category_id'] = $id;
                 break;
+            case 'brands':
+                $where['brand_id'] = $id;
+                break;
             case 'user':
                 $where['id'] = $id;
                 break;

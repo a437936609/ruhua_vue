@@ -229,10 +229,10 @@ Route::group('brands', function () {
     //管理员
     Route::group('admin', function () {
         Route::post('add_brands', 'cms.BrandsManage/addBrands');//添加品牌
-//        Route::post('edit_category', 'cms.CategoryManage/editCategory');//修改品牌
-//        Route::put('del_category', 'cms.CategoryManage/deleteCategory');//删除品牌
-//        Route::get('all_category', 'cms.CategoryManage/getCateSort');//cms 获取所有品牌并排好序，包括隐藏
-//        Route::post('set_sort', 'cms.CategoryManage/setSort');//更新品牌排序
+        Route::post('edit_brands', 'cms.BrandsManage/editBrands');//修改品牌
+        Route::put('del_brands', 'cms.BrandsManage/deleteBrands');//删除品牌
+        Route::get('all_brands', 'cms.BrandsManage/getBrandsSort');//cms 获取所有品牌并排好序，包括隐藏
+        Route::post('set_sort', 'cms.BrandsManage/setSort');//更新品牌排序
     })->middleware('CheckCms');
 });
 

@@ -5,19 +5,13 @@
 		<div style="height:10px;"></div>
 		<el-dialog title="" :visible.sync="addbox" width="35%" center>
 			<el-form :model="addform">
-				<el-form-item label="商品分类名称" :label-width="formLabelWidth" style='width: 80%'>
-					<el-input v-model="addform.category_name" auto-complete="off"></el-input>
+				<el-form-item label="品牌名称" :label-width="formLabelWidth" style='width: 80%'>
+					<el-input v-model="addform.brand_name" auto-complete="off"></el-input>
 				</el-form-item>
-				<el-form-item label="商品分类简称" :label-width="formLabelWidth" style='width: 80%'>
+				<el-form-item label="品牌简称" :label-width="formLabelWidth" style='width: 80%'>
 					<el-input v-model="addform.short_name" auto-complete="off"></el-input>
 				</el-form-item>
-				<el-form-item label="上级分类" :label-width="formLabelWidth">
-					<el-select v-model="addform.pid" placeholder="请选择分类">
-						<el-option label="顶级分类" value="0"></el-option>
-						<el-option v-for="item in list" :value="item.category_id" :label="item.category_name"></el-option>
-					</el-select>
-				</el-form-item>
-				<el-form-item label="分类图片" :label-width="formLabelWidth">
+				<el-form-item label="品牌图片" :label-width="formLabelWidth">
 
 					<template v-if="img_list.length > 0">
 						<div style="display: flex; width:530px ; flex-wrap: wrap;">
@@ -51,9 +45,9 @@
 	import {
 		Api_url
 	} from '@/common/config.js'
-	import Pic from '../views/PicList.vue'
+	import Pic from '../views/brandsPicList.vue'
 	export default {
-		name: 'Category',
+		name: 'Brands',
 		props: ['list'],
 		data() {
 			return {
@@ -63,15 +57,15 @@
 				img_list: [],
 				addbox: false,
 				addform: {
-					category_name: '',
+					brand_name: '',
 					short_name: '',
 					pid: '',
-					category_pic: ''
+					brand_pic: ''
 				},
 				formLabelWidth: '120px',
 				upfile_url: Api_url + '/admin/upload/img',
 				upfile_data: {
-					use: 'category'
+					use: 'brands'
 				},
 				upfile_head: {
 					token: localStorage.getItem("token")
@@ -88,7 +82,7 @@
 				this.drawer = !this.drawer
 				this.length = 50
 			},
-			//新增分类
+			//新增品牌
 			onSubmit() {
 				var that = this;
 				this.http.post_show('brands/admin/add_brands', {

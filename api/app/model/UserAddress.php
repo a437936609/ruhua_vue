@@ -90,10 +90,20 @@ class UserAddress extends BaseModel
         if (!$res) {
             return app('json')->fail('地址不存在');
         }
-        $region=Db::name('region')->where('name',$data['county'])->where('level',3)->find();
+
+        $where[] = ['merger_name', 'like', '%' . trim($data['city']) . '%'];
+        $where[] = ['name','=',$data['county']];
+
+        $region=Db::name('region')->where($where)->where('level',3)->find();
+
         if(!$region){
-            return app('json')->fail('地区不存在');
+            unset($where);
+            $region=Db::name('region')->where('name',$data['city'])->where('level',2)->find();
+            if(!$region){
+                return app('json')->fail('地区不存在');
+            }
         }
+
         $data['region_id']=$region['pid'];
         $status = $res->save($data);
         if (!$status) {

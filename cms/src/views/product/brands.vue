@@ -24,12 +24,6 @@
 									<el-form-item label="品牌简称" :label-width="formLabelWidth" style='width: 80%'>
 										<el-input v-model="editform.short_name" auto-complete="off"></el-input>
 									</el-form-item>
-									<el-form-item label="上级品牌" :label-width="formLabelWidth">
-										<el-select v-model="editform.pid" placeholder="请选择品牌">
-											<el-option label="顶级品牌" value="0"></el-option>
-											<el-option v-for="item in brands_top" :value="item.brand_id" :label="item.brand_name"></el-option>
-										</el-select>
-									</el-form-item>
 									<el-form-item label="选择图片" :label-width="formLabelWidth">
 										<div style="display: flex; width:530px ; flex-wrap: wrap;" v-if="editform.imgs">
 											<i class="el-icon-circle-close" @click="delimg"></i>
@@ -49,23 +43,23 @@
 							</el-dialog>
 							<template>
 								<el-table :data="brands" border style="width: 100%" :default-sort="{prop: 'sort', order: 'descending'}">
-									<!-- <el-table-column prop="sort" label="排序" width="100" sortable>
-										<template slot-scope="scope">
-											<el-input v-model="scope.row.sort"></el-input>
-										</template>
-									</el-table-column> -->
 									<el-table-column type="index" label="序号" width="80">
 									</el-table-column>
 									<el-table-column prop="brand_name" label="品牌名字">
 										<template slot-scope="scope">
-											<span v-if="scope.row.line">&emsp;&emsp;|——</span>{{scope.row.brand_name}}
+											{{scope.row.brand_name}}
 										</template>
 									</el-table-column>
 									<el-table-column prop="short_name" label="品牌简称">
 									</el-table-column>
 									<el-table-column prop="imgs" label="缩略图">
 										<template slot-scope="scope">
-											<img :src="$getimg+scope.row.imgs" width="40" height="40" />
+											<div v-if="scope.row.imgs != null">
+												<img :src="$getimg+scope.row.imgs" width="40" height="40" />
+											</div>
+											<div v-else>
+												无
+											</div>
 										</template>
 									</el-table-column>
 									<el-table-column prop="brand_id" label="品牌id">
@@ -150,7 +144,6 @@
 			};
 		},
 		methods: {
-
 			getBrands() {
 				var that = this;
 				// 				let loadingInstance = Loading.service({
@@ -158,7 +151,7 @@
 				// 				}); //显示加载
 				var arr = [];
 				//获取所有分类	
-				this.http.get('brands/all_brands')
+				this.http.get('brands/admin/all_brands')
 					.then((res) => {
 						// loadingInstance.close(); //关闭加载 
 						console.log(that.brands);
@@ -237,12 +230,11 @@
 								type: 'warning'
 							});
 						}
-
-						this.getCategory()
+						this.getBrands()
 					})
 				})
 			},
-			//修改分类
+			//修改品牌
 			onedit(id) {
 				console.log(id)
 
@@ -290,7 +282,7 @@
 					// console.log(res.data);
 					that.editbox = false;
 					// this.category.splice(index, 1, res.data);
-					this.getCategory()
+					this.getBrands()
 				});
 			},
 			//是否隐藏
