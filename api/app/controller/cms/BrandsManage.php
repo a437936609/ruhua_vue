@@ -43,7 +43,6 @@ class BrandsManage extends BaseController
         return BrandsModel::editBrands($form);
     }
 
-
     /**
      * cms 删除品牌
      * @param $id
@@ -76,5 +75,4 @@ class BrandsManage extends BaseController
         $arr=input('post.');
         return BrandsModel::setSort($arr);
     }
-
 }
